@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Lattice : MonoBehaviour
 {
+    public const string eventPrefix = "lattice-";
+    public string id = "";
     public int length = 5;
     public int width = 5;
     public int height = 5;
@@ -90,11 +92,23 @@ private void Awake()
         latticeNode.SetCellMaterial(cellMaterialsByPosition[(nodeConfig.xCoordinate, nodeConfig.zCoordinate)]);
         latticeNode.SetLattice(this);
         ConfigureNodeAdjacency(obj, hasLeft, hasRight, hasTop, hasBottom, hasFront, hasBack);
-    }    
+    }
+
+
+
+}
+
+private void Start()
+{
+    if (SaveSystem.GetPersistentEventCompleted(eventPrefix + id))
+    {
+        OnLatticeCompleted?.Invoke(this);
+        StartCoroutine(CellCompleteCoroutine());
+    }
 }
 
 
-    private void ConfigureNodeAdjacency(GameObject instantiatedNode, bool left, bool right, bool top, bool bottom, bool front, bool back)
+private void ConfigureNodeAdjacency(GameObject instantiatedNode, bool left, bool right, bool top, bool bottom, bool front, bool back)
     {
         instantiatedNode.GetComponent<LatticeNode>().SetAdjacencies(left, right, top, bottom, front, back);
     }
@@ -113,6 +127,7 @@ private void Awake()
         if (_completedNodes == nodeConfigs.Count)
         {
             OnLatticeCompleted?.Invoke(this);
+            SaveSystem.WritePersistentEvent(eventPrefix + id);
             StartCoroutine(CellCompleteCoroutine());
         };
 
@@ -127,7 +142,7 @@ private void Awake()
     private IEnumerator CellCompleteCoroutine()
     {
         var t = 0f;
-        var d = 0.25f;
+        var d = 0.075f;
         while (t < d)
         {
             foreach (var material in _cellMaterials)

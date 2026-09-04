@@ -357,9 +357,14 @@ public partial class PlayerFsm
         if (_arrivedAtLedge && !Machine.IsInState(PlayerFsmState.Tinsica)) return true; // or, just return true to allow continued lerping without updating value
         
         var wallDistance = 5f;
-        if (Physics.Raycast(transform.position, transform.forward, out var forwardHit, 5f, GetEnvironmentalLayermask()))
+        var wallHitOrigin = transform.position + (Vector3.up * 0.25f);
+        if (Physics.Raycast(wallHitOrigin, transform.forward, out var forwardHit, 5f, GetEnvironmentalLayermask()))
         {
             wallDistance = forwardHit.distance;
+        }
+        else
+        {
+            Debug.DrawLine(wallHitOrigin, wallHitOrigin + transform.forward * 5f, Color.orange);
         }
         
         var forwardOffset = wallDistance + 0.1f;

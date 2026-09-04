@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using Code.TriggerParams;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -85,9 +86,26 @@ private void FollowPlayer()
     _previousTargetPosition = targetPosition;
 }
 
+    private void FollowPlayerRedux()
+    {
+        var targetPosition = PlayerFsm.Singleton.transform.position + (Vector3.up * 7f) +
+                             (PlayerFsm.Singleton.transform.forward * Mathf.Lerp(0f, 5f,
+                                 Mathf.InverseLerp(0, 10f, PlayerFsm.Singleton.GetMomentum())));
+
+        transform.position = Vector3.Slerp(transform.position, targetPosition, Time.deltaTime * 5f);
+        
+        Quaternion baseLookRotation = Quaternion.LookRotation(PlayerFsm.Singleton.transform.forward, Vector3.up);
+
+        // Multiply by an Euler rotation on the X axis to pitch it forward
+        Quaternion targetRotation = baseLookRotation * Quaternion.Euler(0f, 0f, 0f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+    }
+
     private Vector3 GetTargetFollowPosition()
     {
-        return PlayerFsm.Singleton.transform.position + (Vector3.up * 7f);
+        return PlayerFsm.Singleton.transform.position + (Vector3.up * 7f) +
+               (PlayerFsm.Singleton.transform.forward * Mathf.Lerp(0f, 3f,
+                   Mathf.InverseLerp(0, 10f, PlayerFsm.Singleton.GetMomentum())));
     }
 
     public void SetDroneStation(DroneStation station)

@@ -91,7 +91,7 @@ public class PlayerCinemachineFreeLook : MonoBehaviour
         
         HandleCollision();
         
-        var lookVector2 = _playerInput.actions["Look"].ReadValue<Vector2>() * (0.01f * Time.timeScale);
+        var lookVector2 = _playerInput.actions["Look"].ReadValue<Vector2>() * (4f * Time.timeScale * Time.deltaTime);
         _timeSincePlayerLookInput += Time.deltaTime;
 
         if (_timeSincePlayerLookInput >= 2.5f && !_preventYRecenter && DialogueCanvas.Singleton.TimeSinceDialogueClosed > 2.5f)

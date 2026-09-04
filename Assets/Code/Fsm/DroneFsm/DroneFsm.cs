@@ -56,6 +56,11 @@ public partial class DroneFsm : Fsm
         {
             ReturnToIdlePosition(Mathf.Lerp(0f, 7f, Mathf.InverseLerp(0, 0.5f, TimeInCurrentState())));
         }
+        
+        // if (Machine.IsInState(DroneFsmState.Ready) || Machine.IsInState(DroneFsmState.Deploying) || Machine.IsInState(DroneFsmState.Pulsing))
+        // {
+        //     FollowPlayerRedux();
+        // }
 
     }
 

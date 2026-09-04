@@ -31,6 +31,7 @@ public class LatticeNode : MonoBehaviour
         _onParticles = transform.Find("OnParticles").GetComponent<ParticleSystem>();
         _offParticles = transform.Find("OffParticles").GetComponent<ParticleSystem>();
         _offParticles.Play();
+        
     }
 
     private void OnEnable()
@@ -64,9 +65,15 @@ public class LatticeNode : MonoBehaviour
     private void OnLatticeCompleted(Lattice lattice)
     {
         if (lattice != _lattice) return;
-
+        
+        _onParticles.Play();
+        _offParticles.Clear();
+        _offParticles.Stop();
         _complete = true;
+        _collider.enabled = true;
+        _light.enabled = true;
         _light.Color = _completeLightColor;
+        _material.SetFloat("_SolidWeight", 1f);
         _material.SetFloat("_CompleteWeight", 1f);
         StartCoroutine(GlowCoroutine());
         
