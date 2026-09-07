@@ -49,10 +49,17 @@ public abstract partial class GravityFsm
             .OnEntry(@params =>
             {
                 if (@params is not RaycastHitParam p) return;
+                if (parentTransform != null)
+                {
+                    if (p.Hit.transform != parentTransform) OnParentTransformChanged(p.Hit.transform);
+                }
+                else
+                {
+                    OnParentTransformChanged(p.Hit.transform);                   
+                }
                 parentTransform = p.Hit.transform;
                 _previousParentTransformPosition = parentTransform.position;
                 _previousParentRotation = parentTransform.rotation;
-                OnParentTransformChanged(parentTransform);
             });
     }
 

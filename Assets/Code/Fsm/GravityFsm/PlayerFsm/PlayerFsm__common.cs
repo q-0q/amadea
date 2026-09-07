@@ -101,6 +101,7 @@ public partial class PlayerFsm
     public static event Action OnPlayerComboReset;
     public static event Action<Vector3, float, float> OnPlayerRippleGenerated;
     public static event Action<Vector3, float, float> OnPlayerWakeGenerated;
+    public static event Action OnPlayerFootstepEvent;
 
     private const float SwimSurfaceRippleTimer = 0.08f;
     private bool _swimSurfaceRippleQueued = false;
@@ -795,8 +796,13 @@ public partial class PlayerFsm
     protected override void OnParentTransformChanged(Transform t)
     {
 
-        t.TryGetComponent(out PlayerSlipperyIndicator tractionIndicator);
-        _isParentSlippery = tractionIndicator != null;
+        print("changed!");
+        
+        if (t != null)
+        {
+            t.TryGetComponent(out PlayerSlipperyIndicator tractionIndicator);
+            _isParentSlippery = tractionIndicator != null;
+        }
 
         OnPlayerParentTransformChanged?.Invoke(t, _momentum, YVelocity);
         base.OnParentTransformChanged(t);
@@ -817,6 +823,7 @@ public partial class PlayerFsm
 
     private void OnPlayerFootstep()
     {
+        OnPlayerFootstepEvent?.Invoke();
         StartCoroutine(QueueFootstep());
         _timeSinceLastFootstep = 0f;
 

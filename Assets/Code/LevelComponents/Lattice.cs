@@ -38,8 +38,12 @@ private void Awake()
     UpdateDialogue();
 
     var padding = 9f;
-    _base.localScale = new Vector3((length * CellSize) + padding, BaseHeight, (width * CellSize) + padding);
-    _base.localPosition = new Vector3(0, BaseHeight * 0.5f, 0);
+    if (_base != null)
+    {
+        _base.localScale = new Vector3((length * CellSize) + padding, BaseHeight, (width * CellSize) + padding);
+        _base.localPosition = new Vector3(0, BaseHeight * 0.5f, 0);
+        
+    }
     var cellPrefab = Resources.Load("Prefab/LatticeCell") as GameObject;  
     var posOffset = new Vector3(length * CellSize * -0.5f, (height * CellSize * 0.5f), width * CellSize * -0.5f);
 
@@ -105,7 +109,9 @@ private void Start()
     if (SaveSystem.GetPersistentEventCompleted(eventPrefix + id))
     {
         OnLatticeCompleted?.Invoke(this, false);
+        _completedNodes = nodeConfigs.Count;
         StartCoroutine(CellCompleteCoroutine());
+        UpdateDialogue();
     }
 }
 
@@ -147,6 +153,11 @@ private void ConfigureNodeAdjacency(GameObject instantiatedNode, bool left, bool
             }
             t += Time.deltaTime;
             yield return null;
+        }
+        
+        foreach (var material in _cellMaterials)
+        {
+            material.SetFloat("_CompleteWeight", 1f);
         }
     }
 }
