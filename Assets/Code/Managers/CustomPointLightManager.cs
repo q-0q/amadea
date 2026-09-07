@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CustomPointLightManager : MonoBehaviour
@@ -36,16 +37,22 @@ public class CustomPointLightManager : MonoBehaviour
     private static readonly int PositionsID = Shader.PropertyToID("_CustomPointLightPositions");
     private static readonly int LerpsID = Shader.PropertyToID("_CustomPointLightLerps");
     private static readonly int ColorsID = Shader.PropertyToID("_CustomPointLightColors");
+    private static readonly int CullDistanceID = Shader.PropertyToID("_CustomPointLightCullDistance");
+    private const float LightCullDistance = 80f;
     
     private void UpdateObserversVectorArray()
     {
-        int count = Mathf.Min(CustomPointLightRegistry.Count, 64);
+
+        var culledLights = Physics.OverlapSphere(Camera.main.transform.position, LightCullDistance,
+            LayerMask.GetMask("CustomPointLight"), QueryTriggerInteraction.Collide).ToList();
+        
+        int count = Mathf.Min(culledLights.Count, 64);
         
         for (int i = 0; i < 64; i++)
         {
             if (i < count)
             {
-                var l = CustomPointLightRegistry[i];
+                var l = culledLights[i].GetComponent<CustomPointLight>();
                 Vector3 pos = l.transform.position;
                 _lightPositions[i] = new Vector4(pos.x, pos.y, pos.z, 0f);
                 _lightLerps[i] = new Vector4(l.distanceLerpMin, l.distanceLerpMax, l.distanceLerpPower, 0f);
@@ -62,6 +69,7 @@ public class CustomPointLightManager : MonoBehaviour
         Shader.SetGlobalVectorArray(PositionsID, _lightPositions);
         Shader.SetGlobalVectorArray(LerpsID, _lightLerps);
         Shader.SetGlobalVectorArray(ColorsID, _lightColors);
+        Shader.SetGlobalFloat(CullDistanceID, LightCullDistance);
     }
     
 

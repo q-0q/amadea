@@ -71,6 +71,9 @@
         },
         {
             "m_Id": "2a08d68968ba460ca210f26a49606ab8"
+        },
+        {
+            "m_Id": "f2aec3cae32e4ca4acbef9f4ad7ad9e9"
         }
     ],
     "m_GroupDatas": [],
@@ -256,6 +259,20 @@
                     "m_Id": "854f9331e0724c0d9a259b60bdba1b3c"
                 },
                 "m_SlotId": 2
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "f2aec3cae32e4ca4acbef9f4ad7ad9e9"
+                },
+                "m_SlotId": 1
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "554dd446faa1465ead6c00dfa9eae2e2"
+                },
+                "m_SlotId": 4
             }
         },
         {
@@ -499,6 +516,22 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "1ba70ae893a74040aced7400e54402a6",
+    "m_Id": 4,
+    "m_DisplayName": "CameraDepth",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "CameraDepth",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": [],
+    "m_LiteralMode": false
 }
 
 {
@@ -851,6 +884,32 @@
 }
 
 {
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.ScreenPositionMaterialSlot",
+    "m_ObjectId": "51c5c0fbfa9e4947b8053f82448ba8a4",
+    "m_Id": 0,
+    "m_DisplayName": "UV",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "UV",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_Labels": [],
+    "m_ScreenSpaceType": 0
+}
+
+{
     "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.CustomFunctionNode",
     "m_ObjectId": "554dd446faa1465ead6c00dfa9eae2e2",
@@ -877,6 +936,9 @@
         },
         {
             "m_Id": "67412d08e4b64aa1bb04215f1d3c1de6"
+        },
+        {
+            "m_Id": "1ba70ae893a74040aced7400e54402a6"
         },
         {
             "m_Id": "3beb13a513744a539d9b5653c8a2da57"
@@ -1011,6 +1073,22 @@
         "z": 0.0,
         "w": 0.0
     },
+    "m_LiteralMode": false
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "7c0960d4d7884b9cb37d9b6e515e20d1",
+    "m_Id": 1,
+    "m_DisplayName": "Out",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 2,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": [],
     "m_LiteralMode": false
 }
 
@@ -1203,7 +1281,7 @@
     "m_SlotType": 0,
     "m_Hidden": false,
     "m_ShaderOutputName": "Color",
-    "m_StageCapability": 3,
+    "m_StageCapability": 2,
     "m_Value": {
         "x": 0.0,
         "y": 0.0,
@@ -1761,6 +1839,46 @@
         "w": 0.0
     },
     "m_LiteralMode": false
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.SceneDepthNode",
+    "m_ObjectId": "f2aec3cae32e4ca4acbef9f4ad7ad9e9",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Scene Depth",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -130.00001525878907,
+            "y": -373.0000305175781,
+            "width": 144.99998474121095,
+            "height": 111.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "51c5c0fbfa9e4947b8053f82448ba8a4"
+        },
+        {
+            "m_Id": "7c0960d4d7884b9cb37d9b6e515e20d1"
+        }
+    ],
+    "synonyms": [
+        "zbuffer",
+        "zdepth"
+    ],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_DepthSamplingMode": 2
 }
 
 {
