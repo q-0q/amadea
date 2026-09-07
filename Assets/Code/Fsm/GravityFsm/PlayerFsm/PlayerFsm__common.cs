@@ -541,10 +541,17 @@ public partial class PlayerFsm
     private Vector3 ComputeDesiredMoveWithoutTimescale()
     {
         var value = Mathf.Lerp(0f, MaximumMomentumSpeedMod, ComputeMomentumWeight());
+        var m = ComputeAllMovementMultipliers();
+        return transform.forward.normalized * (MoveSpeed * value * m);
+    }
+
+    public float ComputeAllMovementMultipliers()
+    {
         var comboMultiplier = GetCurrentSurgeSpeedMultiplier();
         var boostMultiplier = GetCurrentBoostSpeedMultiplier();
         var miscMultiplier = GetCurrentMiscSpeedMultiplier();
-        return transform.forward.normalized * (MoveSpeed * value * comboMultiplier * boostMultiplier * miscMultiplier);
+        var m = comboMultiplier * boostMultiplier * miscMultiplier;
+        return m;
     }
 
     private float GetCurrentMiscSpeedMultiplier()

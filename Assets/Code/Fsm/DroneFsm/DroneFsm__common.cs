@@ -23,6 +23,10 @@ public partial class DroneFsm
     public static event Action<Vector3> OnDronePulsed;
     public const float DronePulseRadius = 18f;
 
+    public static bool IsAnyDroneActive;
+
+    private float _bobClock;
+
     private void OnTriggerProxyStay(Collider obj)
     {
 
@@ -36,6 +40,10 @@ public partial class DroneFsm
 private void FollowPlayer()
 {
     if (GameMenu.Singleton.IsMenuOpen()) return;
+
+    _bobClock += Mathf.Lerp(1f, 5f,
+                     Mathf.InverseLerp(0, 10f, PlayerFsm.Singleton.GetMomentum())) * Time.deltaTime *
+                 PlayerFsm.Singleton.ComputeAllMovementMultipliers();
     
     var targetPosition = GetTargetFollowPosition();
     var predictionTime = 0.25f;
@@ -103,9 +111,9 @@ private void FollowPlayer()
 
     private Vector3 GetTargetFollowPosition()
     {
-        return PlayerFsm.Singleton.transform.position + (Vector3.up * 7f) +
-               (PlayerFsm.Singleton.transform.forward * Mathf.Lerp(0f, 3f,
-                   Mathf.InverseLerp(0, 10f, PlayerFsm.Singleton.GetMomentum())));
+        return PlayerFsm.Singleton.transform.position + (Vector3.up * 7f) + (Vector3.up * (Mathf.Sin(_bobClock) * 0.5f)) +
+               PlayerFsm.Singleton.transform.forward * (Mathf.Lerp(0f, 3f,
+                   Mathf.InverseLerp(0, 10f, PlayerFsm.Singleton.GetMomentum())) * PlayerFsm.Singleton.ComputeAllMovementMultipliers());
     }
 
     public void SetDroneStation(DroneStation station)

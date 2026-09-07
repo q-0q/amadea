@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomPointLight
   Color: {r: 0.29803923, g: 0.6509804, b: 1, a: 1}
-  distanceLerpMin: 0
-  distanceLerpMax: 40
+  distanceLerpMin: 25
+  distanceLerpMax: 35
   distanceLerpPower: 0.5
 --- !u!1 &2357901209773975049
 GameObject:
@@ -9899,5 +9899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15f6b4f2222bb4e4bbcb8e26d23daa53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _offLightColor: {r: 0.6431373, g: 0.18039216, b: 0.18039216, a: 1}
-  _completeLightColor: {r: 0.29803923, g: 1, b: 0.69803923, a: 1}
+  _offLightColor: {r: 0.26415092, g: 0.06603773, b: 0.06603773, a: 1}
+  _completeLightColor: {r: 0.122152, g: 0.4245283, b: 0.29242215, a: 1}
+  material: {fileID: 0}

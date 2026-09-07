@@ -27,6 +27,7 @@ public partial class DroneFsm : Fsm
     protected override void OnAwake()
     {
         base.OnAwake();
+        IsAnyDroneActive = false;
         _lights = transform.Find("Lights").gameObject;
         _lights.SetActive(false);
         _playerInput = GetComponent<PlayerInput>();

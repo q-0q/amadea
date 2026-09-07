@@ -10,6 +10,7 @@ public class LatticeCoreSlice : MonoBehaviour
     private Collider _collider;
 
     public Material material;
+    private Renderer _renderer;
     private CustomPointLight _light;
     private ParticleSystem _onParticles;
     private ParticleSystem _offParticles;
@@ -23,11 +24,15 @@ public class LatticeCoreSlice : MonoBehaviour
         _collider = GetComponentInChildren<Collider>();
         _light = GetComponentInChildren<CustomPointLight>();
         _light.Color = _offLightColor;
-        material = _collider.transform.GetComponent<Renderer>().material;
+        _light.enabled = false;
+
+        _renderer = _collider.transform.GetComponent<Renderer>();
+        material = _renderer.material;
         _collider.enabled = false;
+        _renderer.enabled = false;
         _onParticles = transform.Find("OnParticles").GetComponent<ParticleSystem>();
         _offParticles = transform.Find("OffParticles").GetComponent<ParticleSystem>();
-        _offParticles.Play();
+        // _offParticles.Play();
     }
 
     private void OnEnable()
@@ -42,6 +47,7 @@ public class LatticeCoreSlice : MonoBehaviour
 
     public void MakeSliceCompleted()
     {
+        _renderer.enabled = true;
         _onParticles.Play();
         _offParticles.Clear();
         _offParticles.Stop();

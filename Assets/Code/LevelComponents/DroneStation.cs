@@ -43,7 +43,7 @@ public class DroneStation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        interactable.SetEnabled(_drone.Machine.IsInState(DroneFsm.DroneFsmState.Idle) || _drone.Machine.IsInState(DroneFsm.DroneFsmState.Ready));
+        interactable.SetEnabled((_drone.Machine.IsInState(DroneFsm.DroneFsmState.Idle) && !DroneFsm.IsAnyDroneActive) || _drone.Machine.IsInState(DroneFsm.DroneFsmState.Ready));
         interactable.text = _drone.Machine.IsInState(DroneFsm.DroneFsmState.Idle) ? "Deploy" : "Store";
 
         var dialoguePrefix = "Calibration drone status: ";

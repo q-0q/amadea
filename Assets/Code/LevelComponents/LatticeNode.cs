@@ -62,10 +62,10 @@ public class LatticeNode : MonoBehaviour
         
     }
 
-    private void OnLatticeCompleted(Lattice lattice)
+    private void OnLatticeCompleted(Lattice lattice, bool _)
     {
         if (lattice != _lattice) return;
-        
+        _on = true;
         _onParticles.Play();
         _offParticles.Clear();
         _offParticles.Stop();

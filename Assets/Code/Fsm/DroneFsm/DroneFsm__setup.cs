@@ -11,7 +11,7 @@ public partial class DroneFsm
         base.SetupMachine();
 
         Machine.Configure(DroneFsmState.Idle)
-            .Permit(DroneFsmTrigger.StationInteract, DroneFsmState.Deploying)
+            .PermitIf(DroneFsmTrigger.StationInteract, DroneFsmState.Deploying, _ => !IsAnyDroneActive)
             .OnEntry(_ =>
             {
                 transform.position = _station.GetDronePosition().position;
@@ -23,6 +23,8 @@ public partial class DroneFsm
             .Permit(DroneFsmTrigger.Timeout, DroneFsmState.Ready)
             .OnEntry(_ =>
             {
+                _bobClock = 0f;
+                IsAnyDroneActive = true;
                 _previousTargetPosition = GetTargetFollowPosition();
             })
             .OnExit(_ =>
@@ -56,6 +58,7 @@ public partial class DroneFsm
             .Permit(DroneFsmTrigger.Timeout, DroneFsmState.Idle)
             .OnEntry(_ =>
             {
+                IsAnyDroneActive = false;
                 if(TutorialCanvas.Singleton.GetCurrentAction() == "Interact") TutorialCanvas.Singleton.HideTutorialText();
             });
 

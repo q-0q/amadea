@@ -18,7 +18,7 @@ public class Lattice : MonoBehaviour
 
     public List<LatticeNodeConfig> nodeConfigs;
     private int _completedNodes;
-    public static event Action<Lattice> OnLatticeCompleted;
+    public static event Action<Lattice, bool> OnLatticeCompleted;
 
     private List<Material> _cellMaterials;
 
@@ -54,6 +54,7 @@ private void Awake()
             var obj = Instantiate(cellPrefab, Vector3.zero, Quaternion.identity, transform);  
             var pos = new Vector3(CellSize * (i + 0.5f), 0f, CellSize * (j + 0.5f));  
             obj.transform.localPosition = pos + posOffset;  
+            obj.transform.localRotation = Quaternion.identity;  
             obj.transform.localScale = new Vector3(CellSize - cellPadding, (CellSize * height) - cellPadding, CellSize - 1f);
             var cellMaterial = obj.GetComponentInChildren<Renderer>().material;
             _cellMaterials.Add(cellMaterial);
@@ -77,6 +78,7 @@ private void Awake()
             CellSize * (nodeConfig.yCoordinate + 0.5f) + BaseHeight, CellSize * (nodeConfig.zCoordinate + 0.5f));  
         obj.transform.localPosition = pos + new Vector3(posOffset.x, 0, posOffset.z);  
         obj.transform.localScale = new Vector3(CellSize, CellSize, CellSize);  
+        obj.transform.localRotation = Quaternion.identity;  
         
         Vector3Int currentPos = new Vector3Int(nodeConfig.xCoordinate, nodeConfig.yCoordinate, nodeConfig.zCoordinate);
         
@@ -102,7 +104,7 @@ private void Start()
 {
     if (SaveSystem.GetPersistentEventCompleted(eventPrefix + id))
     {
-        OnLatticeCompleted?.Invoke(this);
+        OnLatticeCompleted?.Invoke(this, false);
         StartCoroutine(CellCompleteCoroutine());
     }
 }
@@ -114,20 +116,14 @@ private void ConfigureNodeAdjacency(GameObject instantiatedNode, bool left, bool
     }
 
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawCube(transform.position, new Vector3(length * CellSize, 10f, width * CellSize));
-        
-    }
 
     public void IncrementCompletedNodes()
     {
         _completedNodes++;
         if (_completedNodes == nodeConfigs.Count)
         {
-            OnLatticeCompleted?.Invoke(this);
             SaveSystem.WritePersistentEvent(eventPrefix + id);
+            OnLatticeCompleted?.Invoke(this, true);
             StartCoroutine(CellCompleteCoroutine());
         };
 
