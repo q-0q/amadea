@@ -447,9 +447,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomPointLight
   Color: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 0}
-  distanceLerpMin: 5
+  distanceLerpMin: 0
   distanceLerpMax: 15
   distanceLerpPower: 0.5
+  preventDistanceCulling: 0
 --- !u!1 &7198020148452730614
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,6 +497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 223088902efac4ffebe77bcaf8491f83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  id: 
   length: 5
   width: 5
   height: 5
@@ -530,6 +532,7 @@ MonoBehaviour:
   - xCoordinate: 4
     yCoordinate: 3
     zCoordinate: 0
+  ConsoleObject: {fileID: 6342863309695781641}
 --- !u!1 &8890063381933239456
 GameObject:
   m_ObjectHideFlags: 0

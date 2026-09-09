@@ -29,7 +29,7 @@ public partial class DroneFsm : Fsm
         base.OnAwake();
         IsAnyDroneActive = false;
         _lights = transform.Find("Lights").gameObject;
-        _lights.SetActive(false);
+        // _lights.SetActive(false);
         _playerInput = GetComponent<PlayerInput>();
         _vibrator = transform.Find("Vibrator");
         _pulseParticles = GetComponentInChildren<ParticleSystem>();

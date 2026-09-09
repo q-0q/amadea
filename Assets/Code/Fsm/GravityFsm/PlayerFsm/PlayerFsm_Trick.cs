@@ -69,6 +69,7 @@ public partial class PlayerFsm
             })
             .OnEntry(_ =>
             {
+                _currentLedgePosition = transform.position;
                 _inputBuffer.ConsumeBuffer("Trick");
                 StartCoroutine(TrickTintCoroutine(0.155f));
                 _playerTrickParticles.InvokeTinsica();

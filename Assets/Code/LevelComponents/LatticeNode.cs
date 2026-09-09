@@ -52,7 +52,7 @@ public class LatticeNode : MonoBehaviour
         if (d > DroneFsm.DronePulseRadius) return;
         StartCoroutine(GlowCoroutine());
         _collider.enabled = true;
-        _light.enabled = true;
+        _light.gameObject.SetActive(true);
         _light.Color = _complete ? _completeLightColor : _onLightColor;
         _material.SetFloat("_SolidWeight", 1f);
         _onParticles.Play();
@@ -71,7 +71,7 @@ public class LatticeNode : MonoBehaviour
         _offParticles.Stop();
         _complete = true;
         _collider.enabled = true;
-        _light.enabled = true;
+        _light.gameObject.SetActive(true);
         _light.Color = _completeLightColor;
         _material.SetFloat("_SolidWeight", 1f);
         _material.SetFloat("_CompleteWeight", 1f);

@@ -13,6 +13,7 @@ public class CustomPointLight : MonoBehaviour
     public float distanceLerpMin = 5;
     public float distanceLerpMax = 15f;
     public float distanceLerpPower = 0.5f;
+    public bool preventDistanceCulling = false;
 
     private void Awake()
     {
@@ -28,12 +29,13 @@ public class CustomPointLight : MonoBehaviour
 
     private void OnEnable()
     {
-        CustomPointLightManager.CustomPointLightRegistry.Add(this);
+       
+        if (preventDistanceCulling) CustomPointLightManager.UnculledCustomPointLightRegistry.Add(this);
     }
 
     private void OnDisable()
     {
-        CustomPointLightManager.CustomPointLightRegistry.Remove(this);
+        CustomPointLightManager.UnculledCustomPointLightRegistry.Remove(this);
     }
 
     private void Update()

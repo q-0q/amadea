@@ -21,6 +21,7 @@ public class Lattice : MonoBehaviour
     public static event Action<Lattice, bool> OnLatticeCompleted;
 
     private List<Material> _cellMaterials;
+    public GameObject ConsoleObject;
 
     [Serializable]
     public class LatticeNodeConfig
@@ -33,7 +34,7 @@ public class Lattice : MonoBehaviour
 private void Awake()
 {
     _base = transform.Find("Base");
-    _dialogue = GetComponentInChildren<DialogueController>();
+    _dialogue = ConsoleObject.GetComponentInChildren<DialogueController>();
     _completedNodes = 0;
     UpdateDialogue();
 

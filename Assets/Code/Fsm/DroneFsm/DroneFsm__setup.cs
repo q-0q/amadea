@@ -16,7 +16,7 @@ public partial class DroneFsm
             {
                 transform.position = _station.GetDronePosition().position;
                 transform.rotation = _station.GetDronePosition().rotation;
-                _lights.SetActive(false);
+                // _lights.SetActive(false);
             });
         
         Machine.Configure(DroneFsmState.Deploying)
@@ -37,7 +37,7 @@ public partial class DroneFsm
             .Permit(DroneFsmTrigger.Pulse, DroneFsmState.Pulsing)
             .OnEntry(_ =>
             {
-                _lights.SetActive(true);
+                // _lights.SetActive(true);
             });
         
         Machine.Configure(DroneFsmState.Pulsing)
@@ -47,7 +47,7 @@ public partial class DroneFsm
             {
                 _vibrator.DOComplete();
                 _vibrator.DOPunchRotation(new Vector3(0f, 0f, 10f), 0.5f, 10, 1f);
-                _pulseParticles.Play();
+                // _pulseParticles.Play();
                 Util.InvokeSphereEffect(transform.position - Vector3.up, Vector3.one * 12f, 1.25f, 0.8f, -3f);
                 OnDronePulsed?.Invoke(transform.position);
                 if(TutorialCanvas.Singleton.GetCurrentAction() == "Interact") TutorialCanvas.Singleton.HideTutorialText();

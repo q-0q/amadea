@@ -24,7 +24,7 @@ public class LatticeCoreSlice : MonoBehaviour
         _collider = GetComponentInChildren<Collider>();
         _light = GetComponentInChildren<CustomPointLight>();
         _light.Color = _offLightColor;
-        _light.enabled = false;
+        _light.gameObject.SetActive(false);
 
         _renderer = _collider.transform.GetComponent<Renderer>();
         material = _renderer.material;
@@ -53,7 +53,7 @@ public class LatticeCoreSlice : MonoBehaviour
         _offParticles.Stop();
         _complete = true;
         _collider.enabled = true;
-        _light.enabled = true;
+        _light.gameObject.SetActive(true);
         _light.Color = _completeLightColor;
         material.SetFloat("_SolidWeight", 1f);
         material.SetFloat("_CompleteWeight", 1f);

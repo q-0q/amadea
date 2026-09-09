@@ -12,7 +12,7 @@ public class CustomPointLightManager : MonoBehaviour
         Singleton = this;
     }
     
-    public static readonly List<CustomPointLight> CustomPointLightRegistry = new();
+    public static readonly List<CustomPointLight> UnculledCustomPointLightRegistry = new();
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -38,24 +38,39 @@ public class CustomPointLightManager : MonoBehaviour
     private static readonly int LerpsID = Shader.PropertyToID("_CustomPointLightLerps");
     private static readonly int ColorsID = Shader.PropertyToID("_CustomPointLightColors");
     private static readonly int CullDistanceID = Shader.PropertyToID("_CustomPointLightCullDistance");
-    private const float LightCullDistance = 80f;
+    private const float LightCullDistance = 100f;
     
     private void UpdateObserversVectorArray()
     {
 
-        var culledLights = Physics.OverlapSphere(Camera.main.transform.position, LightCullDistance,
+        var culledLightColliders = Physics.OverlapSphere(Camera.main.transform.position, LightCullDistance,
             LayerMask.GetMask("CustomPointLight"), QueryTriggerInteraction.Collide).ToList();
+
+        var lights = new List<CustomPointLight>();
         
-        int count = Mathf.Min(culledLights.Count, 64);
+
+        foreach (var unculledLight in UnculledCustomPointLightRegistry)
+        {
+            lights.Add(unculledLight);
+        }
+
+        foreach (var collider in culledLightColliders)
+        {
+            lights.Add(collider.GetComponent<CustomPointLight>());
+        }
+        
+        int count = Mathf.Min(lights.Count, 64);
         
         for (int i = 0; i < 64; i++)
         {
             if (i < count)
             {
-                var l = culledLights[i].GetComponent<CustomPointLight>();
+                var l = lights[i];
                 Vector3 pos = l.transform.position;
                 _lightPositions[i] = new Vector4(pos.x, pos.y, pos.z, 0f);
-                _lightLerps[i] = new Vector4(l.distanceLerpMin, l.distanceLerpMax, l.distanceLerpPower, 0f);
+                
+                // hijack the w value of lerp vector to indicate whether to ignore distance culling falloff in shader
+                _lightLerps[i] = new Vector4(l.distanceLerpMin, l.distanceLerpMax, l.distanceLerpPower, l.preventDistanceCulling ? 1f : 0f);
                 _lightColors[i] = new Vector4(l.Color.r, l.Color.g, l.Color.b, 0f);
             }
             else

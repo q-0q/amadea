@@ -358,17 +358,21 @@ public partial class PlayerFsm
         if (_arrivedAtLedge && !Machine.IsInState(PlayerFsmState.Tinsica)) return true; // or, just return true to allow continued lerping without updating value
         
         var wallDistance = 5f;
-        var wallHitOrigin = transform.position + (Vector3.up * 0.25f);
-        if (Physics.Raycast(wallHitOrigin, transform.forward, out var forwardHit, 5f, GetEnvironmentalLayermask()))
+        var back = 1f;
+        var wallHitOrigin = transform.position + (Vector3.up * 0.25f) - (transform.forward * back);
+        if (Physics.Raycast(wallHitOrigin, transform.forward, out var forwardHit, 5f + back, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore))
         {
-            wallDistance = forwardHit.distance;
+            wallDistance = forwardHit.distance - back;
+            
+            Debug.DrawLine(wallHitOrigin, forwardHit.point, Color.magenta, 0.5f);
         }
         else
         {
-            Debug.DrawLine(wallHitOrigin, wallHitOrigin + transform.forward * 5f, Color.orange);
+            return true;
+            Debug.DrawLine(wallHitOrigin, wallHitOrigin + transform.forward * 5f, Color.orange, 0.5f);
         }
         
-        var forwardOffset = wallDistance + 0.1f;
+        var forwardOffset = wallDistance + 1f;
         var downwardRaycastOrigin = transform.position + (Vector3.up * (ledgeHeight + UpdateLedgePositionEpsilon)) + transform.forward *
             (forwardOffset);
         Debug.DrawLine(downwardRaycastOrigin, downwardRaycastOrigin - (Vector3.up * (ledgeHeight + UpdateLedgePositionEpsilon)), Color.green);

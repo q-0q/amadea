@@ -34,6 +34,7 @@ public partial class PlayerFsm
     {
         if (CutsceneManager.Singleton.IsCutscenePlayerDisabled()) return false;
         if (Machine.IsInState(PlayerFsmState.PitonFlip) && YVelocity > PitonMaximumWallInteractYVelocity) return false;
+        if (Machine.IsInState(PlayerFsmState.GroundMove)) return true;
         return (YVelocity > VaultMinimumYVelocity && _momentum > VaultMinimumMomentum && _timeSinceMinorLeyline > 0.2f);
     }
 

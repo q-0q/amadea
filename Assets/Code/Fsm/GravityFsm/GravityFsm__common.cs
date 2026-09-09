@@ -86,7 +86,7 @@ public abstract partial class GravityFsm
                 : Mathf.Lerp(_currentSlopeCastMinimumDistanceOffset, slopeMinDistanceOffset, Time.deltaTime * 5f);
             
             // if (Mathf.Abs(YVelocity) < 0.075f) return true;
-            var b = transform.position.y - hit.point.y < (minDistance * (Machine.IsInState(GravityFsmState.Grounded) ? 50f : 1f)) + slopeMinDistanceOffset;
+            var b = transform.position.y - hit.point.y < (minDistance * (Machine.IsInState(GravityFsmState.Grounded) ? 15f : 1f)) + slopeMinDistanceOffset;
             if (b)
             {
                 // if (Physics.Raycast(hit.point - Vector3.up, Vector3.up, 2f, GetEnvironmentalLayermask(),
