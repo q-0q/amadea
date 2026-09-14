@@ -37,7 +37,7 @@ void GetCustomPointLightColor_float(float3 WorldPos, float3 WorldNormal, float3 
         lerpValue = 1 - pow(lerpValue, lerpPower);
 
         // hijack the w value of lerp vector to indicate whether to ignore distance culling falloff in shader
-        float cullDistanceFalloff = saturate(IL(_CustomPointLightCullDistance, _CustomPointLightCullDistance - 20.0, CameraDepth));
+        float cullDistanceFalloff = saturate(IL(_CustomPointLightCullDistance, _CustomPointLightCullDistance - 30.0, CameraDepth));
         float ignoreCulling = _CustomPointLightLerps[i].w;
         cullDistanceFalloff = lerp(cullDistanceFalloff, 1.0, ignoreCulling);
         

@@ -40,6 +40,17 @@ public  abstract partial class GravityFsm : Fsm
     {
         base.OnUpdate();
         
+                
+        if (Machine.IsInState(GravityFsmState.RespectParentTransform))
+        {
+            RespectParentTransformOnUpdate();
+        }
+        else
+        {
+            parentTransform = null;
+        }
+        
+        
         if (Machine.IsInState(GravityFsmState.Aerial))
         {
             AerialOnUpdate();
@@ -49,15 +60,8 @@ public  abstract partial class GravityFsm : Fsm
         {
             GroundedOnUpdate();
         }
-        
-        if (Machine.IsInState(GravityFsmState.RespectParentTransform))
-        {
-            RespectParentTransformOnUpdate();
-        }
-        else
-        {
-            parentTransform = null;
-        }
+
+
         
         HandleDepenetration();
         

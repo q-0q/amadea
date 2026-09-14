@@ -10,7 +10,7 @@ public class LightPlatform : MonoBehaviour
 
     private void Awake()
     {
-        _collider = GetComponentInChildren<Collider>();
+        _collider = transform.Find("Cube").GetComponent<Collider>();
         _particleSystem = GetComponentInChildren<ParticleSystem>();
         _renderer = GetComponentInChildren<Renderer>();
         _light = GetComponentInChildren<CustomPointLight>();

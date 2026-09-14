@@ -11,6 +11,7 @@ public class Dialogue
 {
     public List<string> texts = new List<string>();
     public bool advanceDialogueIndex = false;
+    public bool resetDialogueIndex = false;
     public float canvasDelayOffset = 0;
 }
 
@@ -58,7 +59,9 @@ public class DialogueController : MonoBehaviour
 
     public void Completed()
     {
-        if (dialogues[currentDialogueIndex].advanceDialogueIndex) currentDialogueIndex++;
+        var dialogueIndex = currentDialogueIndex;
+        if (dialogues[dialogueIndex].advanceDialogueIndex) currentDialogueIndex++;
+        if (dialogues[dialogueIndex].resetDialogueIndex) currentDialogueIndex = 0;
         OnCompleted?.Invoke();
     }
 

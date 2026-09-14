@@ -60,7 +60,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2313944, y: 1, z: 0.35718372}
+  m_LocalScale: {x: 0.1306337, y: 1, z: 0.25456485}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7530410749873920636}
@@ -298,7 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
   text: Deploy
-  triggerRange: 15
+  triggerRange: 20
   isEnabled: 1
   arrivalDistanceModifier: 1
 --- !u!1 &4465409087575068579
@@ -546,6 +546,7 @@ MonoBehaviour:
   - texts:
     - 'Calibration drone status: Ready.'
     advanceDialogueIndex: 0
+    resetDialogueIndex: 0
     canvasDelayOffset: 0
   DialogueName: Drone Console
   LookAtOverride: {fileID: 0}
@@ -565,7 +566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
   text: Access
-  triggerRange: 10
+  triggerRange: 7
   isEnabled: 1
   arrivalDistanceModifier: 1
 --- !u!1 &8221622952616298087
@@ -5602,7 +5603,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 270d13df34d2848c0adb8295f70d72d9, type: 2}
+      objectReference: {fileID: 2100000, guid: d229d53dd300248709a90de850bf958c, type: 2}
     - target: {fileID: 6791679554763962899, guid: a8d22ef0bf5834fe281616837c6a6034,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

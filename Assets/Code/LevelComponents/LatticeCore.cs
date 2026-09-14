@@ -8,7 +8,9 @@ using UnityEngine;
 
 public class LatticeCore : MonoBehaviour
 {
-    public const float SliceHeight = 4f;
+    public string completionEvent = "lattice-core-";
+    public const float CoreHeight = 44f;
+    private float _sliceHeight;
     private DialogueController _dialogue;
     
     private int _currentLatticesCompleted;
@@ -31,18 +33,19 @@ public class LatticeCore : MonoBehaviour
         
         _dialogue = GetComponentInChildren<DialogueController>();
         _currentLatticesCompleted = 0;
+        _sliceHeight = CoreHeight / latticeIds.Count;
         
         
         var slicePrefab = Resources.Load("Prefab/LatticeCoreSlice") as GameObject;
-        var baseOffset = new Vector3(0f, 5.25f, 0f);
+        var baseOffset = new Vector3(0f, (_sliceHeight * 0.5f) + 3f, 0f);
         _slices = new List<GameObject>();
         
         for (int i = 0; i < latticeIds.Count; i++)  
         {        
             var obj = Instantiate(slicePrefab, Vector3.zero, Quaternion.identity, transform);  
-            var pos = new Vector3(0, i * SliceHeight);  
+            var pos = new Vector3(0, i * _sliceHeight);  
             obj.transform.localPosition = pos + baseOffset;
-            obj.transform.localScale = new Vector3(SliceXZScale * 0.9f, SliceHeight * 0.5f, SliceXZScale * 0.9f);
+            obj.transform.localScale = new Vector3(SliceXZScale * 0.9f, _sliceHeight * 0.5f, SliceXZScale * 0.9f);
             
             var slice = obj.GetComponent<LatticeCoreSlice>();
             var top = i != latticeIds.Count - 1;
@@ -58,9 +61,20 @@ public class LatticeCore : MonoBehaviour
     
     private void UpdateDialogue()
     {
-        var status = "fully unstable";
-        _dialogue.dialogues[0].texts[0] = "Hardlight core is " + status + ". All hardlight production processes are offline.";
-        _dialogue.dialogues[0].texts[1] = latticeIds.Count - _currentLatticesCompleted + " lattices are in need of calibration.";
+        var color = "<color=red>";
+
+        if (_currentLatticesCompleted != latticeIds.Count)
+        {
+            _dialogue.dialogues[0].texts[0] = "Ouro Station Hardlight Core is not operable. Hardlight production processes are offline.";
+            _dialogue.dialogues[0].texts[1] = color + _currentLatticesCompleted + "</color> lattices are calibrated. " + color +
+                                              (latticeIds.Count - _currentLatticesCompleted) + "</color> lattices are in need of calibration.";
+        }
+
+        else
+        {
+            _dialogue.dialogues[0].texts[0] = "Station Lattice calibration complete. Hardlight Core is pending activation.";
+            _dialogue.dialogues[0].texts[1] = "Final confirmation from Administrative Deck is required to begin hardlight output.";
+        }
     }
 
     private void UpdateSliceCompletion(bool doCamera)
@@ -108,7 +122,7 @@ public class LatticeCore : MonoBehaviour
             {
                 _slices[i].GetComponent<LatticeCoreSlice>().MakeSliceCompleted();
                 var t = _slices[i].transform;
-                t.localScale = new Vector3(SliceXZScale, SliceHeight * 0.5f, SliceXZScale);
+                t.localScale = new Vector3(SliceXZScale, _sliceHeight * 0.5f, SliceXZScale);
             }
             
             if (numCompleted > 0 && numCompleted < latticeIds.Count)
@@ -124,6 +138,7 @@ public class LatticeCore : MonoBehaviour
 
             _currentLatticesCompleted = numCompleted;
             UpdateDialogue();
+            if (_currentLatticesCompleted == latticeIds.Count) SaveSystem.WritePersistentEvent(completionEvent);
         }
     }
 

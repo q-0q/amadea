@@ -24,6 +24,7 @@ public partial class PlayerFsm
             .PermitIf(PlayerFsmTrigger.FaceOpen, PlayerFsmState.Idle, _ => !PressRaycast(out var _))
             .SubstateOf(GravityFsmState.Grounded)
             .SubstateOf(PlayerFsmState.Interactable)
+            .SubstateOf(PlayerFsmState.TinsicaUsable)
             .PermitIf(PlayerFsmTrigger.SwimTriggerRaycastHit, PlayerFsmState.SwimSurfaceRise, IsSwimTrigger)
             .Permit(GravityFsmTrigger.StartFrameAerial, PlayerFsmState.Fall)
             .Permit(PlayerFsmTrigger.Jump, PlayerFsmState.Jumpsquat)

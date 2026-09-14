@@ -55,7 +55,7 @@ Material:
     - _End: 10
     - _FogMix: 1
     - _PierceFog: 0
-    - _QueueControl: 1
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _Start: 0
     - _w: 0

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Mono.Cecil;
 using UnityEngine;
 
 public class Lattice : MonoBehaviour
@@ -139,7 +138,8 @@ private void ConfigureNodeAdjacency(GameObject instantiatedNode, bool left, bool
 
     private void UpdateDialogue()
     {
-        _dialogue.dialogues[0].texts[0] = _completedNodes == nodeConfigs.Count ? "Lattice successfully calibrated." : _completedNodes + " of " + nodeConfigs.Count + " lattice nodes are currently calibrated.";
+        var color = "<color=red>";
+        _dialogue.dialogues[0].texts[0] = _completedNodes == nodeConfigs.Count ? "Lattice calibrated. Nice!" : "Lattice in need of calibration.";
     }
 
     private IEnumerator CellCompleteCoroutine()

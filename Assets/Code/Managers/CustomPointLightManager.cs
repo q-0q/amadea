@@ -56,7 +56,9 @@ public class CustomPointLightManager : MonoBehaviour
 
         foreach (var collider in culledLightColliders)
         {
-            lights.Add(collider.GetComponent<CustomPointLight>());
+            var l = collider.GetComponent<CustomPointLight>();
+            if (l.preventDistanceCulling) continue;
+            lights.Add(l);
         }
         
         int count = Mathf.Min(lights.Count, 64);

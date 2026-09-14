@@ -60,7 +60,7 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.Vault)
             .OnEntry(_ =>
             {
-                
+                _currentLedgePosition = transform.position;
             })
             .OnExit(_ =>
             {

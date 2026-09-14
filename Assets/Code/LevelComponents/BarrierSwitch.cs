@@ -52,7 +52,7 @@ public class BarrierSwitch : MonoBehaviour
             OnBarrierSwitch?.Invoke(metaName);
             _particleSystem.Play();
             SaveSystem.WritePersistentEvent(metaName);
-            _light.enabled = false;
+            _light.gameObject.SetActive(false);
             vibratorA.transform.DOShakePosition(0.4f, 0.2f, 20);
             vibratorB.transform.DOShakePosition(0.4f, 0.2f, 20);
             vibratorC.transform.DOShakePosition(0.4f, 0.2f, 20);
@@ -82,7 +82,7 @@ public class BarrierSwitch : MonoBehaviour
         {
             _interactable.SetEnabled(false);
             Util.ReplaceAnimatorTrigger(_animator, "Up");
-            _light.enabled = false;
+            _light.gameObject.SetActive(false);
             Curtain.SetActive(false);
         }
     }

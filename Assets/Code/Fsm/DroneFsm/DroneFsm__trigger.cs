@@ -9,7 +9,7 @@ public partial class DroneFsm
         base.OnFireTriggers();
 
 
-        if (PlayerFsm.Singleton.currentInteractable == null || !PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Interactable) && !PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Dialogue))
+        if (PlayerFsm.Singleton.currentInteractable == null || !PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Interactable) && !PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Dialogue) && !PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.WalkToPosition))
         {
             if (!PhotoManager.Singleton.IsActive() && !GameMenu.Singleton.IsMenuOpen())
             {
