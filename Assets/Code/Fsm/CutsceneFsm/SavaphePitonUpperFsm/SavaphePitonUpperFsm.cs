@@ -52,9 +52,9 @@ public partial class SavaphePitonUpperFsm : CutsceneFsm
     protected override void OnStartComplete()
     {
         base.OnStartComplete();
-        Machine.Jump(SaveSystem.GetBell(bell.metaName)
-            ? SavaphePitonUpperFsmState.Rung
-            : SavaphePitonUpperFsmState.NotRung);
+        // Machine.Jump(SaveSystem.GetBell(bell.metaName)
+        //     ? SavaphePitonUpperFsmState.Rung
+        //     : SavaphePitonUpperFsmState.NotRung);
     }
 
     protected override void OnStateChanged(TriggerParams triggerParams)
@@ -64,11 +64,11 @@ public partial class SavaphePitonUpperFsm : CutsceneFsm
 
     private void OnEnable()
     {
-        bell.GetComponentInChildren<Interactable>().OnInteracted += OnBellInteracted;
+        // bell.GetComponentInChildren<Interactable>().OnInteracted += OnBellInteracted;
     }
 
     private void OnDisable()
     {
-        bell.GetComponentInChildren<Interactable>().OnInteracted -= OnBellInteracted;
+        // bell.GetComponentInChildren<Interactable>().OnInteracted -= OnBellInteracted;
     }
 }

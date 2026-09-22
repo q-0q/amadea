@@ -29,9 +29,9 @@ public class CustomPointLightManager : MonoBehaviour
 
     
     
-    private static Vector4[] _lightPositions = new Vector4[64];
-    private static Vector4[] _lightLerps = new Vector4[64];
-    private static Vector4[] _lightColors = new Vector4[64];
+    private static Vector4[] _lightPositions = new Vector4[128];
+    private static Vector4[] _lightLerps = new Vector4[128];
+    private static Vector4[] _lightColors = new Vector4[128];
     
     private static readonly int CountID = Shader.PropertyToID("_CustomPointLightCount");
     private static readonly int PositionsID = Shader.PropertyToID("_CustomPointLightPositions");
@@ -61,9 +61,9 @@ public class CustomPointLightManager : MonoBehaviour
             lights.Add(l);
         }
         
-        int count = Mathf.Min(lights.Count, 64);
+        int count = Mathf.Min(lights.Count, 128);
         
-        for (int i = 0; i < 64; i++)
+        for (int i = 0; i < 128; i++)
         {
             if (i < count)
             {

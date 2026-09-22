@@ -53,6 +53,8 @@ public partial class SentryFsm : Fsm
 
         _obstructionTimer += Time.deltaTime;
         
+        _lineRenderer.SetPosition(0, eye.position);
+        
         if (Machine.IsInState(SentryFsmState.Idle))
         {
             _lineRenderer.SetPosition(1, eye.position);
@@ -62,6 +64,7 @@ public partial class SentryFsm : Fsm
         if (Machine.IsInState(SentryFsmState.Wake))
         {
             
+            _lineRenderer.SetPosition(1, eye.position);
             eye.rotation = Quaternion.Lerp(eye.rotation,Quaternion.LookRotation(GetPlayerPosition() - eye.position, Vector3.up), Time.deltaTime * 15);
             
         }

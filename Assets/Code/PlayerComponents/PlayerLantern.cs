@@ -13,7 +13,22 @@ public class PlayerLantern : MonoBehaviour
         _child.SetActive(false);
         _playerHasLantern = SaveSystem.GetAllItems().Contains("Lantern");
     }
+
+    private void OnEnable()
+    {
+        SaveSystem.OnSaveDataUpdated += OnSaveDataUpdated;
+    }
     
+    private void OnDisable()
+    {
+        SaveSystem.OnSaveDataUpdated -= OnSaveDataUpdated;
+    }
+
+    private void OnSaveDataUpdated(SaveSystem.SaveData obj)
+    {
+        _playerHasLantern = SaveSystem.GetAllItems().Contains("Lantern");
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

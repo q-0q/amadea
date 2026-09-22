@@ -54,7 +54,7 @@ public class Barrier : MonoBehaviour
         {
             Util.ReplaceAnimatorTrigger(_animator, "Open");
             curtainCollider.enabled = false;
-            _light.enabled = false;
+            _light.gameObject.SetActive(false);
             _auraRenderer.enabled = false;
             return;
         }
@@ -128,7 +128,7 @@ public class Barrier : MonoBehaviour
                 yield return null;
             }
 
-            _light.enabled = false;
+            _light.gameObject.SetActive(false);
         }
         
         IEnumerator Coroutine()

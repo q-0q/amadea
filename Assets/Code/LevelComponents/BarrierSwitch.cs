@@ -18,6 +18,8 @@ public class BarrierSwitch : MonoBehaviour
     public GameObject vibratorC;
     private CustomPointLight _light;
 
+    public float extraPullTime = 0f;
+
     public static event Action<string> OnBarrierSwitch;
 
     private void Awake()
@@ -43,21 +45,41 @@ public class BarrierSwitch : MonoBehaviour
     private void OnHardInteracted()
     {
         Util.ReplaceAnimatorTrigger(_animator, "Rising");
-        _interactable.SetEnabled(false);
         StartCoroutine(Coroutine());
         IEnumerator Coroutine()
         {
-            yield return new WaitForSeconds(1.125f);
+            var t = 0f;
+            var d = 1.125f + extraPullTime;
+            vibratorA.transform.DOShakePosition(d, 0.025f, 15, 90f, false, false);
+            while (t < d)
+            {
+                if (PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Dying) || PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Respawn))
+                {
+                    Util.ReplaceAnimatorTrigger(_animator, "Down");
+                    yield break;
+                };
+
+                t += Time.deltaTime;
+                yield return null;
+            }
+            
+            Util.ReplaceAnimatorTrigger(_animator, "Up");
+            PlayerFsm.Singleton.Machine.Fire(PlayerFsm.PlayerFsmTrigger.PullCompleted);
+            _interactable.SetEnabled(false);
             Curtain.SetActive(false);
             OnBarrierSwitch?.Invoke(metaName);
             _particleSystem.Play();
             SaveSystem.WritePersistentEvent(metaName);
             _light.gameObject.SetActive(false);
-            vibratorA.transform.DOShakePosition(0.4f, 0.2f, 20);
-            vibratorB.transform.DOShakePosition(0.4f, 0.2f, 20);
-            vibratorC.transform.DOShakePosition(0.4f, 0.2f, 20);
-            
+            Vibrate(0.4f, 0.2f, 20);
         }
+    }
+
+    private void Vibrate(float d, float s, int v)
+    {
+        vibratorA.transform.DOShakePosition(d, s, v);
+        vibratorB.transform.DOShakePosition(d, s, v);
+        vibratorC.transform.DOShakePosition(d, s, v);
     }
 
     private void OnDisable()

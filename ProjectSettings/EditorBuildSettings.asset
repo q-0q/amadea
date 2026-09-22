@@ -38,6 +38,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Production/10-Ouro0.unity
     guid: 118fdd613e67f486ab1695d4c5f7c9d8
+  - enabled: 1
+    path: Assets/Scenes/Production/11-Ouro1.unity
+    guid: 1e98749b7809b4b96acb01b79eeb7f64
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: c9658cb7b2ceb41c0827874ffd84da86,
       type: 3}

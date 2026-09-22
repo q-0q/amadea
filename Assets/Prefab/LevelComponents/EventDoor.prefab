@@ -306,6 +306,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 7615261824804313336}
   - {fileID: 6657358205618142725}
   m_Father: {fileID: 4664436030043456398}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -341,7 +342,6 @@ Transform:
   m_Children:
   - {fileID: 369856422085423072}
   - {fileID: 1370880711947603300}
-  - {fileID: 7615261824804313336}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &8581690232901307975
@@ -368,8 +368,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 433322283298748631}
-  - component: {fileID: 7096736011184288405}
-  - component: {fileID: 5656680853966476931}
+  - component: {fileID: 3195705141672356725}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -392,72 +391,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6487965573569606929}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!108 &7096736011184288405
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6535629691442797587}
-  m_Enabled: 1
-  serializedVersion: 13
-  m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.3
-  m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize2D: {x: 0.5, y: 0.5}
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
-  m_ForceVisible: 0
-  m_ShapeRadius: 0.025
-  m_ShadowAngle: 0
-  m_LightUnit: 1
-  m_LuxAtDistance: 1
-  m_EnableSpotReflector: 1
---- !u!114 &5656680853966476931
+--- !u!114 &3195705141672356725
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -466,26 +400,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6535629691442797587}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Script: {fileID: 11500000, guid: 6afe0ab094f14d2dacfb803ede6ee220, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
-  m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_CustomShadowLayers: 0
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
-  m_SoftShadowQuality: 0
-  m_RenderingLayersMask:
-    serializedVersion: 0
-    m_Bits: 1
-  m_ShadowRenderingLayersMask:
-    serializedVersion: 0
-    m_Bits: 1
-  m_Version: 4
-  m_LightLayerMask: 1
-  m_ShadowLayerMask: 1
-  m_RenderingLayers: 1
-  m_ShadowRenderingLayers: 1
+  m_EditorClassIdentifier: Assembly-CSharp::CustomPointLight
+  Color: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 0}
+  distanceLerpMin: 0
+  distanceLerpMax: 8
+  distanceLerpPower: 0.5
+  preventDistanceCulling: 0
 --- !u!1 &6724716766418250374
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,7 +418,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7615261824804313336}
   - component: {fileID: 677692832393101498}
-  - component: {fileID: 4822651347831268708}
   m_Layer: 0
   m_Name: Dialogue
   m_TagString: Untagged
@@ -512,12 +433,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6724716766418250374}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.72, y: -3.19, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.3600003, y: -1.5950003, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4664436030043456398}
+  m_Father: {fileID: 1370880711947603300}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &677692832393101498
 MonoBehaviour:
@@ -531,35 +452,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e8042624f594a99bc2abbe1f2b02a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
-  text: Inspect
+  text: Open
   triggerRange: 18
   isEnabled: 1
   arrivalDistanceModifier: 1
---- !u!114 &4822651347831268708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6724716766418250374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d20f73aabcb4cfbaac49363662be3e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueController
-  currentDialogueIndex: 0
-  textStartOffset: 0
-  dialogues:
-  - texts:
-    - The <color=yellow>Glyphstone</color> chirps as you approach the door.
-    advanceDialogueIndex: 0
-    resetDialogueIndex: 0
-    canvasDelayOffset: 0
-  DialogueName: 
-  LookAtOverride: {fileID: 8804850255554125960}
-  CameraY: 0.7
-  canvasDelay: 0
-  cameraFollowOffsetLerp: 0
 --- !u!1 &7006792085065176192
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,6 +853,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -8454011608083527425, guid: 4973acc45f0244423bcdc0fae5ad9e1e,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 78f8e72f919d54035981ff96b863df3a, type: 2}
     - target: {fileID: -2765085677684787853, guid: 4973acc45f0244423bcdc0fae5ad9e1e,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -1094,9 +995,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6923950877310937046, guid: 4973acc45f0244423bcdc0fae5ad9e1e, type: 3}
---- !u!4 &8804850255554125960 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2438723186487228774, guid: 4973acc45f0244423bcdc0fae5ad9e1e,
-    type: 3}
-  m_PrefabInstance: {fileID: 6622835144247728622}
-  m_PrefabAsset: {fileID: 0}

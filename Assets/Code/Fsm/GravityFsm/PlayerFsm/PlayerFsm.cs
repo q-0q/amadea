@@ -58,7 +58,8 @@ public partial class PlayerFsm : GravityFsm
         public static int AirControl;
         public static int WalkToPosition;
         public static int WalkToSwitchPosition;
-        public static int InteractWithSwitch;
+        public static int InteractWithSwitch; // interactpull
+        public static int InteractPullRecovery;
         public static int Dash;
         public static int FallAfterDash;
         public static int Skipsquat;
@@ -200,6 +201,7 @@ public partial class PlayerFsm : GravityFsm
         public static int Map;
         
         public static int Trick;
+        public static int PullCompleted;
     }
     
     protected override void OnAwake()

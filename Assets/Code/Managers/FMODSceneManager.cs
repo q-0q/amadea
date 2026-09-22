@@ -17,6 +17,7 @@ public class FMODSceneManager : MonoBehaviour
         WindAmbience,
         CaveAmbience,
         SnailMusic,
+        AwakeningMusic
         
     }
     
@@ -55,6 +56,7 @@ public class FMODSceneManager : MonoBehaviour
             [FMODSceneEvent.SnailMusic] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/SnailMusic")),
             [FMODSceneEvent.WindAmbience] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/WindAmbience")),
             [FMODSceneEvent.CaveAmbience] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/CaveAmbience")),
+            [FMODSceneEvent.AwakeningMusic] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/M_Awakening")),
         };
     }
 

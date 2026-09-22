@@ -140,11 +140,11 @@ public class FoliageSystem : MonoBehaviour
         if (((1 << hit.collider.gameObject.layer) & receiveFoliageMask) == 0) return;
         
         // try to detect if we are inside geometry.
-        if (RaycastCheckSphere(hit, rayDirection)) return;
+        if (RaycastCheckSphere(hit.point, rayDirection)) return;
         
         // edge detection
-        var edgeDelta = Mathf.Lerp(2f, 10f, Mathf.InverseLerp(Vector3.Angle(hit.normal, Vector3.up), 0f, 30f));
-        if (IsNearEdge(worldOrigin, rayDirection, hit.distance + edgeDelta)) return;
+        var edgeDelta = Mathf.Lerp(3f, 8f, Mathf.InverseLerp(Vector3.Angle(hit.normal, Vector3.up), 0f, 30f));
+        if (IsNearEdge(hit.point, rayDirection, hit.normal, edgeDelta)) return;
         
         // done: create matrix and add to list
         
@@ -181,38 +181,38 @@ public class FoliageSystem : MonoBehaviour
                 receiveFoliageMask | LayerMask.GetMask("FoliageMask"),
                 QueryTriggerInteraction.Ignore))
             return false;
-
-
-        //
+        
         if (Vector3.Angle(hit.normal, -rayDirection) > maxSlope) return false;
 
         if (((1 << hit.collider.gameObject.layer) & receiveFoliageMask) == 0)
             return false;
 
-        if (RaycastCheckSphere(hit, rayDirection)) return false;
+        // if (RaycastCheckSphere(hit.point, rayDirection)) return false;
 
         return true;
     }
 
     
 
-    private bool RaycastCheckSphere(RaycastHit hitInfo, Vector3 rayDirection)
+    private bool RaycastCheckSphere(Vector3 point, Vector3 rayDirection)
     {
+        
         // zig zag up and down raycast to find whether
         // the lowest upwards normal has a downwards
         // normal lower than it.
         
-        var maxDistance = 300f;
-        var origin = hitInfo.point + (-rayDirection.normalized * maxDistance);
+        var maxDistance = 600f;
+        var origin = point + (-rayDirection.normalized * maxDistance);
 
         var maxIterations = 50;
         var i = 0;
+        var epsilon = 1f;
         while (i < maxIterations)
         {
-            if (Physics.Raycast(origin, rayDirection, out var topFaceHit, maxDistance - 1f, Fsm.GetEnvironmentalLayermask(),
+            if (Physics.Raycast(origin, rayDirection, out var topFaceHit, maxDistance - epsilon, Fsm.GetEnvironmentalLayermask(),
                     QueryTriggerInteraction.Ignore))
             {
-                if (Physics.Raycast(hitInfo.point, -rayDirection, out var bottomFaceHit, topFaceHit.distance,
+                if (Physics.Raycast(point, -rayDirection, out var bottomFaceHit, maxDistance - topFaceHit.distance - epsilon,
                         Fsm.GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore))
                 {
                     origin = bottomFaceHit.point;
@@ -284,20 +284,33 @@ public class FoliageSystem : MonoBehaviour
     }
     
     
-    bool IsNearEdge(Vector3 worldOrigin, Vector3 rayDirection, float maxDistance)
+    bool IsNearEdge(Vector3 worldOrigin, Vector3 rayDirection, Vector3 worldNormal, float maxDistance)
     {
-
         var rayCount = 8;
         var originRadius = edgeDistance;
-        
+    
+        // Create a rotation that transforms vectors from the default horizontal plane (up normal) to worldNormal
+        Quaternion rotationToPlane = Quaternion.FromToRotation(Vector3.up, worldNormal.normalized);
 
         for (int i = 0; i < rayCount; i++)
         {
-            var origin = worldOrigin + Quaternion.Euler(0, 360f * ((float)i
-                / rayCount), 0) * (Vector3.forward * originRadius);
+            // Calculate point on local XZ plane
+            Vector3 localOffset = Quaternion.Euler(0, 360f * ((float)i / rayCount), 0) * (Vector3.forward * originRadius);
+        
+            // Rotate offset to align with plane normal and add to world origin
+            Vector3 origin = worldOrigin + (rotationToPlane * localOffset);
 
-            if (!Test(origin, rayDirection, out var hit)) return true;
-            if (hit.distance >= maxDistance) return true;
+
+            if (!Physics.Raycast(
+                    origin - rayDirection.normalized,
+                    rayDirection,
+                    out _,
+                    maxDistance,
+                    receiveFoliageMask | LayerMask.GetMask("FoliageMask"),
+                    QueryTriggerInteraction.Ignore))
+                return true;
+            
+            if (RaycastCheckSphere(origin, rayDirection)) return true;
         }
 
         return false;

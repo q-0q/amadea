@@ -22,6 +22,12 @@ public class RotationDais : MonoBehaviour
 
     public Transform _childToRotator;
 
+    public bool bob = true;
+
+    // --- NEW AXIS RESTRICTION FIELDS ---
+    public bool restrictAxis = false;
+    public Vector3 allowedAxis = Vector3.up;
+
     private void Awake()
     {
         _interactable = GetComponentInChildren<Interactable>();
@@ -107,6 +113,13 @@ public class RotationDais : MonoBehaviour
         Vector3 up = transform.up; 
         Vector3 targetAxis = (-up * input.x) + (right * input.y);
         
+        // --- AXIS RESTRICTION CHECK ---
+        if (restrictAxis && allowedAxis != Vector3.zero)
+        {
+            // Squash the input rotation target onto the allowed axis only
+            targetAxis = Vector3.Project(targetAxis, allowedAxis.normalized);
+        }
+        
         float acceleration = 1.5f;
         float maxSpeed = 100f;
         
@@ -118,12 +131,12 @@ public class RotationDais : MonoBehaviour
         
         _rotator.Rotate(_currentRotationVelocity * (maxSpeed * Time.deltaTime), Space.World);
         _ball.Rotate(_currentRotationVelocity * (maxSpeed * Time.deltaTime * 3f), Space.World);
+        
         Vector3 ballWorldSpaceOffset = new Vector3(0f, Mathf.Sin(3f * Time.time) * 0.1f, 0f);
         _ball.position = _baseBallWorldPosition + ballWorldSpaceOffset;
         
-        Vector3 rotatorBobWorldspaceOffset = new Vector3(0f, Mathf.Sin(1.5f * Time.time) * 0.75f, 0f);
+        Vector3 rotatorBobWorldspaceOffset = new Vector3(0f, Mathf.Sin(1.5f * Time.time) * 0.75f * (bob ? 1f : 0f), 0f);
         _rotatorBob.position = _baseRotatorBobWorldPosition + rotatorBobWorldspaceOffset;
-        
         
     }
 }

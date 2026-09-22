@@ -4993,7 +4993,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 175.67499, y: -25}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 131.63, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &211854111140663272
 CanvasRenderer:
@@ -22032,6 +22032,7 @@ MonoBehaviour:
     - <i>A thrumming drone envelops the plinth.</i>
     - <i>A distant voice calls out from the incense burner.</i>
     advanceDialogueIndex: 0
+    resetDialogueIndex: 0
     canvasDelayOffset: 0
   DialogueName: 
   LookAtOverride: {fileID: 0}
@@ -22746,7 +22747,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237718675737592044}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.079180114, y: 0.000033798333, z: 0.0000026845846, w: 0.9968603}
+  m_LocalRotation: {x: -0.079180114, y: 0.000033832686, z: 0.000002687313, w: 0.9968603}
   m_LocalPosition: {x: 4.1000004, y: 0, z: 16.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -27329,10 +27330,12 @@ MonoBehaviour:
     - <i>When you step off this altar and the mark expires, your soul will be mine...</i>
     - <i>Run, run for your life! Mwahahaha!</i>
     advanceDialogueIndex: 1
+    resetDialogueIndex: 0
     canvasDelayOffset: 0
   - texts:
     - <i>Go on... face your punishment! Hoho!</i>
     advanceDialogueIndex: 0
+    resetDialogueIndex: 0
     canvasDelayOffset: -2
   DialogueName: Far presence
   LookAtOverride: {fileID: 0}
@@ -28772,6 +28775,7 @@ MonoBehaviour:
   - texts:
     - <i>A thrumming drone envelops the plinth.</i>
     advanceDialogueIndex: 0
+    resetDialogueIndex: 0
     canvasDelayOffset: 0
   DialogueName: 
   LookAtOverride: {fileID: 0}
@@ -42753,7 +42757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bad5d292037946238db5392c915a7b69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomDarknessObserver
-  radiusMultiplier: 30
+  radiusMultiplier: 45
 --- !u!1 &5718055141988778420
 GameObject:
   m_ObjectHideFlags: 0
@@ -42917,6 +42921,7 @@ MonoBehaviour:
     - <i>Seek my altars across the Mountain. Sate the mark's thirst for speed.</i>
     - <i>Together, we will usher in a new age of darkness! Mwahaha! Heehee!</i>
     advanceDialogueIndex: 0
+    resetDialogueIndex: 0
     canvasDelayOffset: 0
   DialogueName: Far presence
   LookAtOverride: {fileID: 0}
@@ -43147,6 +43152,7 @@ Transform:
   m_Children:
   - {fileID: 5765058043003456884}
   - {fileID: 7016347945517655620}
+  - {fileID: 2767797077145008348}
   - {fileID: 3475093832481965333}
   - {fileID: 8876068858430195840}
   - {fileID: 7041036310416720407}
@@ -43199,6 +43205,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CustomFogObserver
   isPlayer: 0
   radiusMultiplier: 1
+--- !u!1 &5991863201710531985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2767797077145008348}
+  - component: {fileID: 7616204085219938457}
+  m_Layer: 0
+  m_Name: CPL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2767797077145008348
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5991863201710531985}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7478607111614064131}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7616204085219938457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5991863201710531985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6afe0ab094f14d2dacfb803ede6ee220, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomPointLight
+  Color: {r: 0.30980393, g: 0.043097753, b: 0, a: 0}
+  distanceLerpMin: 5
+  distanceLerpMax: 45
+  distanceLerpPower: 0.5
+  preventDistanceCulling: 0
 --- !u!1 &6000177227294473902
 GameObject:
   m_ObjectHideFlags: 0
@@ -43351,6 +43406,7 @@ MonoBehaviour:
     - <i>Prove your worth to me, here and now, small thing! Or you will die in this
       place... mwahaha!</i>
     advanceDialogueIndex: 0
+    resetDialogueIndex: 0
     canvasDelayOffset: 0
   DialogueName: Far presence
   LookAtOverride: {fileID: 0}
@@ -43907,6 +43963,7 @@ MonoBehaviour:
     - <i>Too bad! Death does not absolve you of my mark!</i>
     - <i>Try again... or be doomed for eternity! Heehee!</i>
     advanceDialogueIndex: 0
+    resetDialogueIndex: 0
     canvasDelayOffset: 0
   DialogueName: Far presence
   LookAtOverride: {fileID: 0}
@@ -45550,8 +45607,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 30, y: 30, z: 30}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7478607111614064131}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

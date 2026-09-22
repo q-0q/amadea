@@ -69,11 +69,16 @@ public partial class PlayerFsm
             })
             .OnEntry(_ =>
             {
-                _currentLedgePosition = transform.position;
+                // _currentLedgePosition = transform.position;
                 _inputBuffer.ConsumeBuffer("Trick");
                 StartCoroutine(TrickTintCoroutine(0.155f));
                 _playerTrickParticles.InvokeTinsica();
+                FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/Trick"), gameObject);
+                FMODUnity.RuntimeManager.PlayOneShotAttached(dashWhooshEventReference, gameObject);
                 _momentum = Mathf.Max(_momentum, TinsicaEntryMomentum);
+                OnPlayerFootstep();
+                
+                
                 PlayerManaManager.Singleton.Consume();
             });
         
@@ -86,6 +91,7 @@ public partial class PlayerFsm
                 Animator.SetLayerWeight(1, 0);
                 _inputBuffer.ConsumeBuffer("Jump");
                 FMODUnity.RuntimeManager.PlayOneShotAttached(jumpFmodEvent, gameObject);
+                
                 OnPlayerFootstep();
             })
             .OnExitFrom(FsmTrigger.Timeout, _ =>
@@ -115,7 +121,10 @@ public partial class PlayerFsm
                 StartCoroutine(TrickTintCoroutine(0.1f));
                 _inputBuffer.ConsumeBuffer("Jump");
                 _playerTrickParticles.InvokeTinsicaJump();
+                FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/Trick"), gameObject);
+                FMODUnity.RuntimeManager.PlayOneShotAttached(skipWhooshEventReference, gameObject);
                 PlayerManaManager.Singleton.Consume();
+                OnPlayerFootstep();
                 YVelocity = 21f;
             });
     }

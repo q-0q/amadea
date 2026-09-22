@@ -162,7 +162,9 @@ public partial class PlayerFsm
             {
                 _playerSurgeHalo.StartBreak();
                 _dashSinceLeavingGround = false;
-                YVelocity = Mathf.Max(YVelocity, 15f);
+                
+                
+                YVelocity = Mathf.Max(YVelocity, 25f);
                 _inputBuffer.ConsumeBuffer("Interact");
             });
     }

@@ -90,6 +90,7 @@ public partial class PlayerFsm
         StateMapConfig.Duration.Add(PlayerFsmState.GrappleStartup, 0.175f);
         StateMapConfig.Duration.Add(PlayerFsmState.GrappleFlipsquat, 0.265f);
         StateMapConfig.Duration.Add(PlayerFsmState.InteractWithSwitch, 2.75f);
+        StateMapConfig.Duration.Add(PlayerFsmState.InteractPullRecovery, 2f);
         StateMapConfig.Duration.Add(PlayerFsmState.Skipsquat, 0.125f);
         StateMapConfig.Duration.Add(PlayerFsmState.TrialTeleport, TrialTeleportDuration);
         StateMapConfig.Duration.Add(PlayerFsmState.PitonFlipsquat, 0.1f);
@@ -129,6 +130,7 @@ public partial class PlayerFsm
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.HardLandRoll, "HardLandRoll");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.HardTurn, "HardTurn");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.InteractWithSwitch, "InteractWithSwitch");
+        StateMapConfig.AnimationTrigger.Add(PlayerFsmState.InteractPullRecovery, "InteractPullRecovery");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.Jump, "Jump");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.Jumpsquat, "Jumpsquat");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.Landsquat, "Landsquat");

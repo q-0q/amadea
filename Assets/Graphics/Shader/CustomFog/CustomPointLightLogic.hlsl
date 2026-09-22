@@ -1,6 +1,6 @@
-uniform float4 _CustomPointLightPositions[64];
-uniform float4 _CustomPointLightLerps[64];
-uniform float4 _CustomPointLightColors[64];
+uniform float4 _CustomPointLightPositions[128];
+uniform float4 _CustomPointLightLerps[128];
+uniform float4 _CustomPointLightColors[128];
 uniform int _CustomPointLightCount;
 uniform float _CustomPointLightCullDistance;
 

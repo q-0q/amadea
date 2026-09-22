@@ -39,7 +39,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _Dot: 1.27
+    - _NoiseSpeed: 0.1
+    - _ScaleMultiplier: 1
+    - _ScaleOscillationSpeed: 1.37
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1

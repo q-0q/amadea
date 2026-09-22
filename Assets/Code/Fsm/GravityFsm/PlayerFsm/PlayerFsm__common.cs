@@ -357,6 +357,10 @@ public partial class PlayerFsm
 
         if (_arrivedAtLedge && !Machine.IsInState(PlayerFsmState.Tinsica)) return true; // or, just return true to allow continued lerping without updating value
         
+        var delta = _currentLedgePosition.y - transform.position.y;
+        if (delta * Time.deltaTime <= LedgeArrivalDistance) _arrivedAtLedge = true;
+        print(delta);
+        
         var wallDistance = 5f;
         var back = 1f;
         var wallHitOrigin = transform.position + (Vector3.up * 0.25f) - (transform.forward * back);
@@ -368,8 +372,9 @@ public partial class PlayerFsm
         }
         else
         {
-            return true;
-            Debug.DrawLine(wallHitOrigin, wallHitOrigin + transform.forward * 5f, Color.orange, 0.5f);
+            wallDistance = 0;
+            // return true;
+            // Debug.DrawLine(wallHitOrigin, wallHitOrigin + transform.forward * 5f, Color.orange, 0.5f);
         }
         
         var forwardOffset = wallDistance + 1f;
@@ -382,9 +387,7 @@ public partial class PlayerFsm
 
         // if (slope > 60f) return false;
         if (upwardsOnly && hit.point.y < transform.position.y) return false;
-        var slope = Vector3.Angle(hit.normal, Vector3.up);
-        var delta = hit.point.y - transform.position.y;
-        if (delta <= LedgeArrivalDistance) _arrivedAtLedge = true;
+
         _currentLedgePosition = hit.point;
         return true;
     }
@@ -735,7 +738,7 @@ public partial class PlayerFsm
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = _arrivedAtLedge ? Color.green : Color.red;
         Gizmos.DrawSphere(_currentLedgePosition, 0.25f);
         
         var raycastLength = GroundedRaycastLength * GetRaycastTimeModifier();
@@ -799,9 +802,6 @@ public partial class PlayerFsm
 
     protected override void OnParentTransformChanged(Transform t)
     {
-
-        print("changed!");
-        
         if (t != null)
         {
             t.TryGetComponent(out PlayerSlipperyIndicator tractionIndicator);

@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 
 public partial class SavaphePitonUpperFsm
 {
-    public BellController bell;
+    // public BellController bell;
     private Interactable _interactable;
 
     private void OnBellInteracted()

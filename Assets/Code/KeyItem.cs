@@ -168,6 +168,22 @@ public static class KeyItemRegistry
             },
             GetUseConfirmation = () => ""
         });
+        
+        
+        KeyItemRegistrations.Add("Rod", new KeyItemRegistration()
+        {
+            displayName = "Divining Rod",
+            description = "A Y-shaped, petrified branch of an old, strange tree.\n\nWhen the split ends are held in both hands, the branch appears to point itself towards some unknown destination.",
+            MeshGameObject = Resources.Load("Prefab/KeyItems/UrnFragment") as GameObject,
+            Sprite = null,
+            GetUseDescription = () => "Not implemented yet!",
+            GetCanUse = () => false,
+            onUse = () =>
+            {
+
+            },
+            GetUseConfirmation = () => ""
+        });
     }
 }
 

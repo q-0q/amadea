@@ -95,13 +95,13 @@ public class LatticeCore : MonoBehaviour
                 CutsceneManager.Singleton.SetPseudoCutsceneActive();
                 yield return new WaitForSeconds(0.5f);
                 var t = 0f;
-                var d = 1f;
+                var d = 1.25f;
 
                 _camera.Priority = 50;
                 _camera.transform.position = _cameraStart.position;
                 _camera.transform.rotation = _cameraStart.rotation;
                 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.75f);
                 
                 while (t < d)
                 {
@@ -132,7 +132,7 @@ public class LatticeCore : MonoBehaviour
                 if (numCompleted > 1) _slices[numCompleted - 2].GetComponent<LatticeCoreSlice>().material.SetFloat("_TopMask", 1f);
             }
             
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(2.5f);
             _camera.Priority = -50;
             CutsceneManager.Singleton.ClearPseudoCutsceneActive();
 

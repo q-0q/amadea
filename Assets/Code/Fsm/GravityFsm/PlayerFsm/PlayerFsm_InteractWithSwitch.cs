@@ -14,7 +14,7 @@ public partial class PlayerFsm
     {
         Machine.Configure(PlayerFsmState.InteractWithSwitch)
             .SubstateOf(GravityFsmState.Grounded)
-            .Permit(FsmTrigger.Timeout, PlayerFsmState.GroundMove)
+            .Permit(PlayerFsmTrigger.PullCompleted, PlayerFsmState.InteractPullRecovery)
             .OnEntry(_ =>
             {
                 if (currentInteractable != null) currentInteractable.TriggerHardInteraction();
@@ -25,5 +25,9 @@ public partial class PlayerFsm
                 Animator.SetFloat("Momentum", 0f);
                 Animator.SetFloat("SpeedMod", 0f);
             });
+
+        Machine.Configure(PlayerFsmState.InteractPullRecovery)
+            .SubstateOf(GravityFsmState.Grounded)
+            .Permit(FsmTrigger.Timeout, PlayerFsmState.GroundMove);
     }
 }

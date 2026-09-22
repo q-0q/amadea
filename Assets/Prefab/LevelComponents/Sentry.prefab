@@ -48,6 +48,7 @@ MonoBehaviour:
   distanceLerpMin: 1
   distanceLerpMax: 7
   distanceLerpPower: 0.5
+  preventDistanceCulling: 1
 --- !u!1 &2956956604265885819
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,6 +97,7 @@ MonoBehaviour:
   distanceLerpMin: 1
   distanceLerpMax: 7
   distanceLerpPower: 0.5
+  preventDistanceCulling: 0
 --- !u!1 &3713462844105049590
 GameObject:
   m_ObjectHideFlags: 0
