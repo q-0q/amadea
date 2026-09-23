@@ -133,6 +133,7 @@ public partial class PlayerFsm
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.InteractPullRecovery, "InteractPullRecovery");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.Jump, "Jump");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.Jumpsquat, "Jumpsquat");
+        StateMapConfig.AnimationTrigger.Add(PlayerFsmState.WallrunJumpsquat, "Jumpsquat");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.Landsquat, "Landsquat");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.MediumVaultHang, "MediumVaultHang");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.SlowVaultFinish, "SlowVaultFinish");

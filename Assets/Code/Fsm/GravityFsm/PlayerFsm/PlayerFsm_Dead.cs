@@ -44,6 +44,7 @@ public partial class PlayerFsm
                 isSprinting = false;
                 _isSurgeQueued = false;
                 _deathParticles.PlayDeath();
+                _impulse.GenerateImpulse();
                 EndSurge();
             });
         

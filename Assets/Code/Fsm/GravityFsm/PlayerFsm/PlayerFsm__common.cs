@@ -303,6 +303,7 @@ public partial class PlayerFsm
     private bool _isSurgeQueued;
     private float _timeSinceSurgeQueued;
     public static event Action<String> OnItemCollected;
+    private CinemachineImpulseSource _impulse;
 
 
     private bool IsHitValidFlank(RaycastHit hit, bool left)

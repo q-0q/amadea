@@ -46,6 +46,7 @@ public partial class PlayerFsm : GravityFsm
         public static int HardLand;
         public static int HardLandRoll;
         public static int Wallrun;
+        public static int WallrunJumpsquat;
         public static int ImpaleGround;
         public static int ImpaleAir;
         public static int GrappleStartup;
@@ -148,6 +149,7 @@ public partial class PlayerFsm : GravityFsm
         public static int SentryImmune;
         public static int WalkToTravelPosition;
         public static int Travel;
+        
     }
 
     public class PlayerFsmTrigger : GravityFsmTrigger
@@ -303,6 +305,7 @@ public partial class PlayerFsm : GravityFsm
         _renderers = GetComponentsInChildren<Renderer>().ToList();
         _skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         _material = GetComponentInChildren<SkinnedMeshRenderer>().material;
+        _impulse = GetComponentInChildren<CinemachineImpulseSource>();
 
         SaveSystem.UpdateScreenshot(0.3f);
         SnapToGround();
@@ -375,7 +378,7 @@ public partial class PlayerFsm : GravityFsm
             GroundMoveOnUpdate();
         }
 
-        if ((Machine.IsInState(PlayerFsmState.Grounded)) && !Machine.IsInState(PlayerFsmState.Wallrun) && !Machine.IsInState(PlayerFsmState.Jumpsquat))
+        if ((Machine.IsInState(PlayerFsmState.Grounded)) && !Machine.IsInState(PlayerFsmState.Wallrun) && !Machine.IsInState(PlayerFsmState.WallrunJumpsquat))
         {
             if (parentTransform != null)
             {

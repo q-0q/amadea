@@ -77,7 +77,8 @@ public partial class PlayerFsm
                 FMODUnity.RuntimeManager.PlayOneShotAttached(dashWhooshEventReference, gameObject);
                 _momentum = Mathf.Max(_momentum, TinsicaEntryMomentum);
                 OnPlayerFootstep();
-                
+                YVelocity = 0;
+                LastUpwardsY = transform.position.y;
                 
                 PlayerManaManager.Singleton.Consume();
             });

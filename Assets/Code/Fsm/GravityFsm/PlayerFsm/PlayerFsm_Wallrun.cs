@@ -32,7 +32,7 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.RopeSwingInteractable)
             .SubstateOf(PlayerFsmState.MinorLeylineInteractable)
             .SubstateOf(PlayerFsmState.Landable)
-            .Permit(PlayerFsmTrigger.Jump, PlayerFsmState.Jumpsquat)
+            .Permit(PlayerFsmTrigger.Jump, PlayerFsmState.WallrunJumpsquat)
             .Permit(PlayerFsmTrigger.FlankOpen, PlayerFsmState.Fall)
             .Permit(PlayerFsmTrigger.HardTurn, PlayerFsmState.Fall)
             .PermitIf(PlayerFsmTrigger.FaceLedge, PlayerFsmState.Vault, _ => YVelocity > VaultMinimumYVelocity, 1)

@@ -21,6 +21,9 @@ public partial class PlayerFsm
                 YVelocity = JumpYVelocity; 
 
             });
-        
+
+        Machine.Configure(PlayerFsmState.WallrunJumpsquat)
+            .SubstateOf(PlayerFsmState.Jumpsquat);
+
     }
 }
