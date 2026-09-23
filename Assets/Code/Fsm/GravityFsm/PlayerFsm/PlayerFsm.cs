@@ -211,6 +211,12 @@ public partial class PlayerFsm : GravityFsm
         Singleton = this;
         
         
+        respawnAmbientInstance =
+            FMODUnity.RuntimeManager.CreateInstance(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/RespawnAmbient"));
+        
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("RespawnAmbientAmount", 0f);
+        
         SetPositionFromSaveData();
 
         Cursor.visible = false;
@@ -306,6 +312,8 @@ public partial class PlayerFsm : GravityFsm
         _skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         _material = GetComponentInChildren<SkinnedMeshRenderer>().material;
         _impulse = GetComponentInChildren<CinemachineImpulseSource>();
+
+
 
         SaveSystem.UpdateScreenshot(0.3f);
         SnapToGround();
@@ -745,6 +753,9 @@ public partial class PlayerFsm : GravityFsm
         windRushFmodInstance.start();
         
         freezeFmodInstance = FMODUnity.RuntimeManager.CreateInstance(freezeFmodEvent);
+
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(respawnAmbientInstance, gameObject);
+        respawnAmbientInstance.start();
     }
     
     private void OnDisable()
@@ -759,5 +770,6 @@ public partial class PlayerFsm : GravityFsm
         slideFmodInstance.stop(STOP_MODE.ALLOWFADEOUT);
         slipAmbientFmodInstance.stop(STOP_MODE.ALLOWFADEOUT);
         windRushFmodInstance.stop(STOP_MODE.ALLOWFADEOUT);
+        respawnAmbientInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
 }

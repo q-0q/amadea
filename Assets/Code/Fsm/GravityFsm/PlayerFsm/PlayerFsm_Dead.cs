@@ -44,8 +44,40 @@ public partial class PlayerFsm
                 isSprinting = false;
                 _isSurgeQueued = false;
                 _deathParticles.PlayDeath();
-                _impulse.GenerateImpulse();
+                // _impulse.GenerateImpulse();
+
+                
                 EndSurge();
+                
+                StartCoroutine(SoundCoroutine());
+                IEnumerator SoundCoroutine()
+                {
+                    
+                    yield return new WaitForSeconds(0.5f);
+                    
+                    var t = 0f;
+                    var d = 1f;
+                    while (t < d)
+                    {
+                        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("RespawnAmbientAmount", t / d);
+                        t += Time.deltaTime;
+                        yield return null;
+                    }
+
+                    yield return new WaitForSeconds(0.35f);
+                    
+                    t = 0f;
+                    d = 4f;
+                    while (t < d)
+                    {
+                        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("RespawnAmbientAmount", 1f - (t / d));
+                        t += Time.deltaTime;
+                        yield return null;
+                    }
+                    
+                    FMODUnity.RuntimeManager.StudioSystem.setParameterByName("RespawnAmbientAmount", 0f);
+                }
+                
             });
         
         Machine.Configure(PlayerFsmState.Dead)
@@ -81,10 +113,12 @@ public partial class PlayerFsm
                 transform.position = _safeGroundPosition;
                 OnPlayerTeleported?.Invoke(transform.position - initialPosition);
                 
+
                 
                 
                 
-                IEnumerator Coroutine()
+                
+                IEnumerator ClipCoroutine()
                 {
                     yield return new WaitForSeconds(0.1f);
                     // Util.InvokeSphereEffect(transform.position, Vector3.one * 4f, 1.25f, 0.8f, -0.5f);
@@ -94,17 +128,33 @@ public partial class PlayerFsm
                     while (t < d)
                     {
                         Shader.SetGlobalFloat("_PlayerEvaporateClip", 1f - Util.SmoothLerp01(t / d));
+                        t += Time.deltaTime;
+                        yield return null;
+                    }
+                }
+                
+                IEnumerator TintCoroutine()
+                {
+                    yield return new WaitForSeconds(0.1f);
+                    // Util.InvokeSphereEffect(transform.position, Vector3.one * 4f, 1.25f, 0.8f, -0.5f);
+                    yield return new WaitForSeconds(0.1f);
+                    var t = 0f;
+                    var d = 1f;
+                    while (t < d)
+                    {
                         Shader.SetGlobalFloat("_PlayerTintWeight", 1f - Util.SmoothLerp01(t / d));
                         t += Time.deltaTime;
                         yield return null;
                     }
                 }
                 
-                StartCoroutine(Coroutine());
+                StartCoroutine(TintCoroutine());
+                StartCoroutine(ClipCoroutine());
             })
             .OnExit(_ =>
             {
                 Shader.SetGlobalFloat("_PlayerTintWeight", 0);
+                
             });
     }
 }

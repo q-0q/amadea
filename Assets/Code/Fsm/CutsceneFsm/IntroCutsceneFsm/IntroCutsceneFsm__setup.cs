@@ -99,7 +99,21 @@ public partial class IntroCutsceneFsm
                     _light.enabled = false;
                 }
                 
+                IEnumerator SoundCoroutine()
+                {
+                    var t = 0f;
+                    var d = 4f;
+                    while (t < d)
+                    {
+                        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("RespawnAmbientAmount",
+                            1f - (t / d));
+                        t += Time.deltaTime;
+                        yield return null;
+                    }
+                }
+                
                 _virtualCamera.Priority = -50;
+                StartCoroutine(SoundCoroutine());
                 StartCoroutine(Coroutine());
             })
             .OnEntry(_ =>

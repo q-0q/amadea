@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using Code.Misc;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Util = Code.Misc.Util;
 
 public class Barrier : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class Barrier : MonoBehaviour
 
     private Renderer _auraRenderer;
 
+    private EventInstance _ambientEventInstance;
+
 
     private void Awake()
     {
@@ -50,6 +53,9 @@ public class Barrier : MonoBehaviour
         TryGetComponent(out _openTrigger);
         _openTrigger.enabled = false;
 
+        _ambientEventInstance = FMODUnity.RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/BarrierAmbience"));
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_ambientEventInstance, gameObject);
+
         if (SaveSystem.GetPersistentEventCompleted(metaName))
         {
             Util.ReplaceAnimatorTrigger(_animator, "Open");
@@ -58,6 +64,8 @@ public class Barrier : MonoBehaviour
             _auraRenderer.enabled = false;
             return;
         }
+        
+        _ambientEventInstance.start();
         
         _lightVirtualCamera = transform.Find("Camera").Find("MultiSwitchDoorLightVirtualCamera").GetComponentInChildren<CinemachineVirtualCamera>();
         
@@ -87,11 +95,13 @@ public class Barrier : MonoBehaviour
     private void OnEnable()
     {
         BarrierSwitch.OnBarrierSwitch += OnSwitch;
+        
     }
 
     private void OnDisable()
     {
         BarrierSwitch.OnBarrierSwitch -= OnSwitch;
+        _ambientEventInstance.stop(STOP_MODE.IMMEDIATE);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -115,6 +125,9 @@ public class Barrier : MonoBehaviour
         Util.ReplaceAnimatorTrigger(_animator, "Opening");
         StartCoroutine(Coroutine());
         StartCoroutine(LightCoroutine());
+        StartCoroutine(SoundCoroutine());
+        
+        
 
         IEnumerator LightCoroutine()
         {
@@ -129,6 +142,15 @@ public class Barrier : MonoBehaviour
             }
 
             _light.gameObject.SetActive(false);
+            
+        }
+        
+        IEnumerator SoundCoroutine()
+        {
+            FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/BarrierOpen"), gameObject);
+            yield return new WaitForSeconds(0.5f);
+            _ambientEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            
         }
         
         IEnumerator Coroutine()

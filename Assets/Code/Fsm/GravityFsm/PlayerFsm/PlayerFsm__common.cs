@@ -278,6 +278,7 @@ public partial class PlayerFsm
     private EventInstance surgeStartupFmodInstance;
     private EventInstance windRushFmodInstance;
     private EventInstance freezeFmodInstance;
+    private EventInstance respawnAmbientInstance;
     
     
     
@@ -992,7 +993,7 @@ public partial class PlayerFsm
         }
         else if (Machine.IsInState(GravityFsmState.Aerial))
         {
-            _desiredWindRushFmodAmount = Mathf.Lerp(0f, 1f, Mathf.InverseLerp(0f, -70f, CurrentFallDistance()));
+            _desiredWindRushFmodAmount = Mathf.Lerp(0f, 1f, Mathf.InverseLerp(0f, -55f, CurrentFallDistance()));
         }
         else
         {
