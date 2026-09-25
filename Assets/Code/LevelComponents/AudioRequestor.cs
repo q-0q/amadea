@@ -5,27 +5,20 @@ using UnityEngine;
 
 public class FMODSceneRequestor : MonoBehaviour
 {
-    [Serializable]
-    public class StartRequest
-    {
-        public FMODSceneManager.FMODSceneEvent FMODSceneEvent;
-        public float minimumPlayerY = -1000f;
 
+    public float musicProgression = 0;
+    public FMODSceneManager.MusicEvent MusicEvent;
+    public List<FMODSceneManager.AmbientEvent> AmbientEvents;
+
+    private void Start()
+    {
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("MusicProgression", musicProgression);
+        print("set: " + musicProgression);
     }
-    public List<StartRequest> StartEvents;
-    public List<FMODSceneManager.FMODSceneEvent> StopEvents;
+
     void Update()
     {
-        
-        foreach (var start in StartEvents)
-        {
-            if (PlayerFsm.Singleton.transform.position.y < start.minimumPlayerY) continue;
-            FMODSceneManager.Singleton.Play(start.FMODSceneEvent);
-        }
-        
-        foreach (var stop in StopEvents)
-        {
-            FMODSceneManager.Singleton.Stop(stop);
-        }
+        FMODSceneManager.Singleton.SetAmbientEvents(AmbientEvents);
+        FMODSceneManager.Singleton.SetMusicEvent(MusicEvent, musicProgression);
     }
 }

@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
-using Code.Misc;
 using Code.TriggerParams;
 using DG.Tweening;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Util = Code.Misc.Util;
 
 public class BarrierSwitch : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class BarrierSwitch : MonoBehaviour
 
     public static event Action<string> OnBarrierSwitch;
 
+    private EventInstance _ambientEventInstance;
+
     private void Awake()
     {
         _interactable = GetComponentInChildren<Interactable>();
@@ -30,8 +33,14 @@ public class BarrierSwitch : MonoBehaviour
         _light = GetComponentInChildren<CustomPointLight>();
         Util.ReplaceAnimatorTrigger(_animator, "Down");
 
+        _ambientEventInstance =
+            FMODUnity.RuntimeManager.CreateInstance(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/MachineAmbienceA"));
         
-        
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_ambientEventInstance, gameObject);
+
+
+
     }
     
     
@@ -51,11 +60,20 @@ public class BarrierSwitch : MonoBehaviour
             var t = 0f;
             var d = 1.125f + extraPullTime;
             vibratorA.transform.DOShakePosition(d, 0.025f, 15, 90f, false, false);
+
+            var pullEvent =
+                FMODUnity.RuntimeManager.CreateInstance(
+                    FMODUnity.RuntimeManager.PathToEventReference("event:/BarrierSwitchPull"));
+            
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(pullEvent, gameObject);
+            pullEvent.start();
+            
             while (t < d)
             {
                 if (PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Dying) || PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Respawn))
                 {
                     Util.ReplaceAnimatorTrigger(_animator, "Down");
+                    pullEvent.stop(STOP_MODE.IMMEDIATE);
                     yield break;
                 };
 
@@ -63,6 +81,9 @@ public class BarrierSwitch : MonoBehaviour
                 yield return null;
             }
             
+            pullEvent.stop(STOP_MODE.IMMEDIATE);
+            _ambientEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+            FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/BarrierSwitchBreak"), gameObject);
             Util.ReplaceAnimatorTrigger(_animator, "Up");
             PlayerFsm.Singleton.Machine.Fire(PlayerFsm.PlayerFsmTrigger.PullCompleted);
             _interactable.SetEnabled(false);
@@ -86,6 +107,7 @@ public class BarrierSwitch : MonoBehaviour
     {
         _interactable.OnInteracted -= OnInteracted;
         _interactable.OnHardInteracted -= OnHardInteracted;
+        _ambientEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
     private void OnInteracted()
@@ -106,6 +128,10 @@ public class BarrierSwitch : MonoBehaviour
             Util.ReplaceAnimatorTrigger(_animator, "Up");
             _light.gameObject.SetActive(false);
             Curtain.SetActive(false);
+        }
+        else
+        {
+            _ambientEventInstance.start();
         }
     }
 

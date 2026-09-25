@@ -74,5 +74,6 @@ public class LeylineDoor : MonoBehaviour
         SaveSystem.WritePersistentEvent(metaName);
         _collider.enabled = false;
         Util.ReplaceAnimatorTrigger(_animator, "Opening");
+        FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/LeylineDoorOpen"), gameObject);
     }
 }

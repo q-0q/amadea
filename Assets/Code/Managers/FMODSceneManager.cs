@@ -6,22 +6,23 @@ using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class FMODSceneManager : MonoBehaviour
 {
-    public enum FMODSceneEvent
+    public enum MusicEvent
     {
-        
-        // DO NOT CHANGE THE ORDER OF THESE! ONLY ADD TO THE END OF THE LIST!!!
-        // OTHERWISE ALL EXISTING AUDIO REQUESTORS WILL BE MESSED UP!
-        Ch1Music,
-        CogsMusic,
-        TimeGoesOnMusic,
-        WindAmbience,
-        CaveAmbience,
-        SnailMusic,
-        AwakeningMusic
-        
+        Sustain,
+        Off,
+        Awakening,
+        Glyph,
+        Steppe
+    }
+
+    public enum AmbientEvent
+    {
+        Wind,
+        Cave
     }
     
-    private static Dictionary<FMODSceneEvent, EventInstance> _eventInstances;
+    private static Dictionary<MusicEvent, EventInstance> _musicInstances;
+    private static Dictionary<AmbientEvent, EventInstance> _ambientInstances;
     
     private static FMODSceneManager _singleton;
     public static FMODSceneManager Singleton
@@ -37,6 +38,8 @@ public class FMODSceneManager : MonoBehaviour
         }
     }
 
+    private EventInstance _reverbControllerInstance;
+    
     void Awake()
     {
         if (_singleton != null && _singleton != this)
@@ -48,32 +51,87 @@ public class FMODSceneManager : MonoBehaviour
         _singleton = this;
         DontDestroyOnLoad(gameObject);
 
-        _eventInstances = new Dictionary<FMODSceneEvent, EventInstance>
+        _musicInstances = new Dictionary<MusicEvent, EventInstance>
         {
-            [FMODSceneEvent.Ch1Music] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/CH1_Music")),
-            [FMODSceneEvent.CogsMusic] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/Music2")),
-            [FMODSceneEvent.TimeGoesOnMusic] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/Music3")),
-            [FMODSceneEvent.SnailMusic] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/SnailMusic")),
-            [FMODSceneEvent.WindAmbience] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/WindAmbience")),
-            [FMODSceneEvent.CaveAmbience] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/CaveAmbience")),
-            [FMODSceneEvent.AwakeningMusic] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/M_Awakening")),
+            [MusicEvent.Awakening] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/M_Awakening")),
+            [MusicEvent.Glyph] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/M_Glyph")),
+            [MusicEvent.Steppe] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/M_Steppe")),
         };
+        
+        _ambientInstances = new Dictionary<AmbientEvent, EventInstance>
+        {
+            [AmbientEvent.Cave] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/CaveAmbience")),
+            [AmbientEvent.Wind] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/WindAmbience")),
+        };
+
+        _reverbControllerInstance =
+            FMODUnity.RuntimeManager.CreateInstance(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/SYS_ReverbController"));
+
+        _reverbControllerInstance.start();
     }
 
-    public void Play(FMODSceneEvent fmodSceneEvent)
+
+    public void SetAmbientEvents(List<AmbientEvent> ambientEvents)
     {
-        if (PlaybackState(_eventInstances[fmodSceneEvent]) == PLAYBACK_STATE.PLAYING) return;
-        _eventInstances[fmodSceneEvent].start();
+        foreach (var (key, instance) in _ambientInstances)
+        {
+            if (!ambientEvents.Contains(key))
+            {
+                instance.stop(STOP_MODE.ALLOWFADEOUT);
+                continue;
+            }
+            
+            if (PlaybackState(instance) == PLAYBACK_STATE.PLAYING) continue;
+            instance.start();
+        }
+    }
+
+    public void StopMusic()
+    {
+        foreach (var (key, instance) in _musicInstances)
+        {
+            instance.stop(STOP_MODE.ALLOWFADEOUT);
+        }
+    }
+
+    public void SetMusicEvent(MusicEvent musicEvent, float musicProgression)
+    {
+        if (musicEvent == MusicEvent.Sustain) return;
+        if (musicEvent == MusicEvent.Off)
+        {
+            StopMusic();
+            return;
+        };
+        
+        var isMusicMaskActive = IsMusicMaskActive();
+        
+        foreach (var (key, instance) in _musicInstances)
+        {
+            if (key != musicEvent)
+            {
+                instance.stop(STOP_MODE.ALLOWFADEOUT);
+                continue;
+            }
+            
+            if (isMusicMaskActive) continue;
+            if (PlaybackState(instance) == PLAYBACK_STATE.PLAYING) continue;
+            instance.start();
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("MusicProgression", musicProgression);
+            print("set: 0");
+        }
     }
     
-    public void Stop(FMODSceneEvent fmodSceneEvent)
-    {
-        _eventInstances[fmodSceneEvent].stop(STOP_MODE.ALLOWFADEOUT);
-    }
+    
 
     public void StopAll()
     {
-        foreach (var (_, instance) in _eventInstances)
+        foreach (var (_, instance) in _musicInstances)
+        {
+            instance.stop(STOP_MODE.ALLOWFADEOUT);
+        }
+        
+        foreach (var (_, instance) in _ambientInstances)
         {
             instance.stop(STOP_MODE.ALLOWFADEOUT);
         }
@@ -86,6 +144,12 @@ public class FMODSceneManager : MonoBehaviour
         FMOD.Studio.PLAYBACK_STATE pS;
         instance.getPlaybackState(out pS);
         return pS;
+    }
+
+    private bool IsMusicMaskActive()
+    {
+        return Physics.CheckSphere(PlayerFsm.Singleton.transform.position, 3f,
+            LayerMask.GetMask("AudioRequestorMask"));
     }
 }
 

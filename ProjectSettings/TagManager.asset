@@ -16,14 +16,14 @@ TagManager:
   - FoliageB
   - FoliageC
   - FoliageD
-  - Foliage
+  - AudioRequestorMask
   - CustomPointLight
   - Interactable
   - MinorLeylineTrigger
   - Gust
   - GustMask
   - Piton
-  - ReceiveFoliage
+  - 
   - ForceSlide
   - DeathCollider
   - DeathColliderMask

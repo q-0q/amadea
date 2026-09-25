@@ -23,6 +23,7 @@ public class AreaTrigger : MonoBehaviour
             return;
         }
         
+        FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/AreaDiscovered"), gameObject);
         gameObject.SetActive(false);
         SaveSystem.WriteArea(id);
         OnAreaTrigger?.Invoke(id);

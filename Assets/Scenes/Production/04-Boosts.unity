@@ -1227,10 +1227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af58aa0dbe414c20b5a9cebe1ce5391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FMODSceneRequestor
-  StartEvents:
-  - FMODSceneEvent: 3
-    minimumPlayerY: -10000
-  StopEvents: 
+  musicProgression: 0
+  MusicEvent: 4
+  AmbientEvents: 00000000
 --- !u!4 &398346470
 Transform:
   m_ObjectHideFlags: 0

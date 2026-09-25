@@ -17,6 +17,10 @@ public partial class ProfessorFsm
     [SerializeField] private Light HeadLight;
     private float baseHeadlightIntensity;
     private GameObject _halo;
+
+
+    private EventInstance _ambienceA;
+    private EventInstance _ambienceB;
     
     private void OnDialogueProgressed(int textIndex)
     {

@@ -30,7 +30,7 @@ public class FoliageChunkManager : MonoBehaviour
         Instance = this;
         _camera = Camera.main;
         _renderDistance = ComputeWorldspaceRenderDistance(MetaSaveSystem.LoadCachedMetaSaveData().foliageRenderDistanceLevel);
-        FoliageLayer = LayerMask.NameToLayer("Foliage");
+        FoliageLayer = LayerMask.NameToLayer("Default");
         
         var foliageSceneData = FoliageSerializer.LoadFoliageSceneData(SceneManager.GetActiveScene().name);
         if (foliageSceneData == null) return;

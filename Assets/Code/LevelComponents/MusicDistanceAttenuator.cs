@@ -14,6 +14,8 @@ public class MusicDistanceAttenuator : MonoBehaviour
 
     public float maxDistance = 40f;
 
+    public float scalar = 1.0f;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

@@ -102,7 +102,7 @@ public partial class IntroCutsceneFsm
                 IEnumerator SoundCoroutine()
                 {
                     var t = 0f;
-                    var d = 4f;
+                    var d = 7f;
                     while (t < d)
                     {
                         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("RespawnAmbientAmount",

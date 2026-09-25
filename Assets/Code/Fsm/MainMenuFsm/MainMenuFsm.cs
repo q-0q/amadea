@@ -49,7 +49,7 @@ public partial class MainMenuFsm : Fsm
         _backButtonObject.SetActive(false);
         Time.timeScale = 1f;
         FMODSceneManager.Singleton.StopAll();
-        FMODSceneManager.Singleton.Play(FMODSceneManager.FMODSceneEvent.WindAmbience);
+        FMODSceneManager.Singleton.SetAmbientEvents(new List<FMODSceneManager.AmbientEvent>() { FMODSceneManager.AmbientEvent.Wind });
     }
 
     protected override void OnStartComplete()

@@ -49,9 +49,11 @@ public class TerminalNode : MonoBehaviour
 
     private const string intakeEventPath = "event:/TerminalIntake";
     private const string accessEventPath = "event:/TerminalAccess";
-    private const string ambientEventPath = "event:/TerminalAmbient";
+    private const string ambientAEventPath = "event:/TerminalAmbientA";
+    private const string ambientBEventPath = "event:/TerminalAmbientB";
 
-    private EventInstance ambientEventInstance;
+    private EventInstance ambientAEventInstance;
+    private EventInstance ambientBEventInstance;
     
 
     private void Awake()
@@ -154,8 +156,12 @@ public class TerminalNode : MonoBehaviour
         SaveSystem.OnSaveDataUpdated += OnSaveDataUpdated;
         GlyphController.TerminalsInScene.Add(this);
         
-        ambientEventInstance = FMODUnity.RuntimeManager.CreateInstance(ambientEventPath);
-        FMODUnity.RuntimeManager.AttachInstanceToGameObject(ambientEventInstance, _mainCanvas.gameObject);
+        ambientAEventInstance = FMODUnity.RuntimeManager.CreateInstance(ambientAEventPath);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(ambientAEventInstance, _mainCanvas.gameObject);
+        ambientAEventInstance.start();
+
+        ambientBEventInstance = FMODUnity.RuntimeManager.CreateInstance(ambientBEventPath);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(ambientBEventInstance, _mainCanvas.gameObject);
     }
 
     private void OnDialogueCompleted()
@@ -198,13 +204,14 @@ public class TerminalNode : MonoBehaviour
         SaveSystem.OnSaveDataUpdated -= OnSaveDataUpdated;
         GlyphController.TerminalsInScene.Remove(this);
 
-        ambientEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+        ambientAEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
+        ambientBEventInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
     void Start()
     {
      
-        if (SaveSystem.GetTerminalNode(metaName)) ambientEventInstance.start();
+        if (SaveSystem.GetTerminalNode(metaName)) ambientBEventInstance.start();
         
         var curveLength = _visualSplineContainer.Spline.GetLength();
         _visualSplineMaterial.SetFloat("_SplineLength", curveLength);
@@ -287,7 +294,7 @@ public class TerminalNode : MonoBehaviour
                 current = GlyphController.TerminalRegistry[current].previousNode;
             }
             
-            if (isNew) ambientEventInstance.start();
+            if (isNew) ambientBEventInstance.start();
             FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference(accessEventPath), _mainCanvas.gameObject);
             
             ConfigureDialogueController();

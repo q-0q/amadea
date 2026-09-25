@@ -361,7 +361,6 @@ public partial class PlayerFsm
         
         var delta = _currentLedgePosition.y - transform.position.y;
         if (delta * Time.deltaTime <= LedgeArrivalDistance) _arrivedAtLedge = true;
-        print(delta);
         
         var wallDistance = 5f;
         var back = 1f;
@@ -993,7 +992,7 @@ public partial class PlayerFsm
         }
         else if (Machine.IsInState(GravityFsmState.Aerial))
         {
-            _desiredWindRushFmodAmount = Mathf.Lerp(0f, 1f, Mathf.InverseLerp(0f, -55f, CurrentFallDistance()));
+            _desiredWindRushFmodAmount = Mathf.Lerp(0f, 1f, Mathf.InverseLerp(-8f, -55f, CurrentFallDistance()));
         }
         else
         {
@@ -1071,18 +1070,20 @@ public partial class PlayerFsm
     {
 
         var newDistance = 0f;
+        var scalar = 1.0f;
         foreach (var attenuator in MusicDistanceAttenuatorRegistry.Attenuators)
         {
             var attenuation = Mathf.InverseLerp(attenuator.maxDistance, attenuator.minDistance,
                 Vector3.Distance(transform.position, attenuator.transform.position));
             
             if (attenuation <= 0.01f) continue;
+            scalar = attenuator.scalar;
             newDistance = attenuation;
             break;
         }
 
         RuntimeManager.StudioSystem.getParameterByName("MusicDistance", out float currentDistance);
-        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("MusicDistance", Mathf.Lerp(currentDistance, newDistance, Time.deltaTime * 2f));
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("MusicDistance", Mathf.Lerp(currentDistance, newDistance * scalar, Time.deltaTime * 2f));
     }
 
     private void HandleSlideTimer()

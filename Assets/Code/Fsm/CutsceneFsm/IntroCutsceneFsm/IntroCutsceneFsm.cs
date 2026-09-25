@@ -109,7 +109,7 @@ public partial class IntroCutsceneFsm : CutsceneFsm
         {
             _mainCanvasGroup.alpha = Mathf.Lerp(1f, 0.0f, Mathf.InverseLerp(0f, CanvasFadeDuration, TimeInCurrentState()));
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("RespawnAmbientAmount",
-                Mathf.InverseLerp(0, 4f, TimeInCurrentState()));
+                Mathf.InverseLerp(0, 7f, TimeInCurrentState()));
         }
         
     }

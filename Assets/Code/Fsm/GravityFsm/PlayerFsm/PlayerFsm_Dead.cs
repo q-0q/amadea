@@ -53,10 +53,10 @@ public partial class PlayerFsm
                 IEnumerator SoundCoroutine()
                 {
                     
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.75f);
                     
                     var t = 0f;
-                    var d = 1f;
+                    var d = 0.75f;
                     while (t < d)
                     {
                         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("RespawnAmbientAmount", t / d);
@@ -64,10 +64,10 @@ public partial class PlayerFsm
                         yield return null;
                     }
 
-                    yield return new WaitForSeconds(0.35f);
+                    // yield return new WaitForSeconds(0.35f);
                     
                     t = 0f;
-                    d = 4f;
+                    d = 2f;
                     while (t < d)
                     {
                         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("RespawnAmbientAmount", 1f - (t / d));

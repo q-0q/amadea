@@ -77,6 +77,19 @@ public partial class ProfessorFsm : CutsceneFsm
         _dialogueController.OnCompleted += OnDialogueCompleted;
         _dialogueController.OnProgressed += OnDialogueProgressed;
         SaveSystem.OnSaveDataUpdated += OnSaveDataUpdated;
+
+        _ambienceA =
+            FMODUnity.RuntimeManager.CreateInstance(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/TerminalAmbientA"));
+        
+        _ambienceB =
+            FMODUnity.RuntimeManager.CreateInstance(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/GlyphAmbience"));
+
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_ambienceA, gameObject);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_ambienceB, gameObject);
+        _ambienceA.start();
+        // _ambienceB.start();
     }
 
     private void OnDisable()
@@ -85,5 +98,8 @@ public partial class ProfessorFsm : CutsceneFsm
         _dialogueController.OnCompleted -= OnDialogueCompleted;
         _dialogueController.OnProgressed -= OnDialogueProgressed;
         SaveSystem.OnSaveDataUpdated -= OnSaveDataUpdated;
+        
+        _ambienceA.stop(STOP_MODE.ALLOWFADEOUT);
+        _ambienceB.stop(STOP_MODE.ALLOWFADEOUT);
     }
 }

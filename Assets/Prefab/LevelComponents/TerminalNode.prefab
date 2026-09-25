@@ -675,6 +675,7 @@ MonoBehaviour:
   distanceLerpMin: -10
   distanceLerpMax: 45
   distanceLerpPower: 0.1
+  preventDistanceCulling: 0
 --- !u!1 &7240032942176817888
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,7 +732,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7947174582210660474}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6100332, y: -0.35123643, z: 0.345161, w: 0.62077075}
+  m_LocalRotation: {x: 0.7009113, y: -0, z: -0, w: 0.7132485}
   m_LocalPosition: {x: 0, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1292,6 +1293,21 @@ PrefabInstance:
         type: 3}
       propertyPath: arrivalDistanceModifier
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285201693317206902, guid: 98abda2a43db947a6ad2ec9fed4d39e1,
+        type: 3}
+      propertyPath: scalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285201693317206902, guid: 98abda2a43db947a6ad2ec9fed4d39e1,
+        type: 3}
+      propertyPath: maxDistance
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1285201693317206902, guid: 98abda2a43db947a6ad2ec9fed4d39e1,
+        type: 3}
+      propertyPath: minDistance
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1468135881260873540, guid: 98abda2a43db947a6ad2ec9fed4d39e1,
         type: 3}
