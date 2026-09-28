@@ -93,6 +93,7 @@ MonoBehaviour:
   distanceLerpMin: 6
   distanceLerpMax: 15
   distanceLerpPower: 0.5
+  preventDistanceCulling: 0
 --- !u!1 &8971482711990297539
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,7 +305,7 @@ PrefabInstance:
     - target: {fileID: 8487741537274906717, guid: ac7e93de1899e4f7e9a23c663e864510,
         type: 3}
       propertyPath: m_Name
-      value: LargeLampFogOb Variant
+      value: FlameLamp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -323,7 +324,15 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4426808191349674503}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8487741537274906717, guid: ac7e93de1899e4f7e9a23c663e864510,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6834972418032644217}
+    - targetCorrespondingSourceObject: {fileID: 8487741537274906717, guid: ac7e93de1899e4f7e9a23c663e864510,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7926734736920316378}
   m_SourcePrefab: {fileID: 100100000, guid: ac7e93de1899e4f7e9a23c663e864510, type: 3}
 --- !u!4 &3250249567401042571 stripped
 Transform:
@@ -331,3 +340,52 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3756885344871693289}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4749503915528811444 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8487741537274906717, guid: ac7e93de1899e4f7e9a23c663e864510,
+    type: 3}
+  m_PrefabInstance: {fileID: 3756885344871693289}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6834972418032644217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749503915528811444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 185954410
+      Data2: 1167671992
+      Data3: -341726073
+      Data4: -1769409114
+    Path: event:/FireAmbience
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 90
+--- !u!114 &7926734736920316378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749503915528811444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6759f7142c47425fbeb735e5c60525a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'

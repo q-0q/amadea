@@ -20,6 +20,7 @@ public partial class PlayerFsm
                 _currentFlankType = FlankType.None;
                 currentRopeSwing = null;
                 OnPlayerFootstep();
+                PlaySlipSound();
             });
     }
 }

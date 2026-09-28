@@ -81,6 +81,8 @@ public class Chest : MonoBehaviour
                 yield return null;
             
             DoOpen();
+            
+            FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/ChestOpen"), gameObject);
 
             yield return new WaitForSeconds(0.4f);
 

@@ -70,6 +70,10 @@ public class AcquisitionCanvas : MonoBehaviour
         _lowerText.text = lowerText;
         isOpen = true;
 
+        MusicDistanceAttenuator.IsCoroutineActive = true;
+        FMODUnity.RuntimeManager.StudioSystem.getParameterByName("MusicDistance", out float initialMusicDistance);
+        FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/Acquisition"), gameObject);
+
         var t = 0f;
         var d = 1f;
 
@@ -77,12 +81,14 @@ public class AcquisitionCanvas : MonoBehaviour
         {
             var w = Util.SmoothLerp01(t / d );
             _backgroundCanvasGroup.alpha = Mathf.Lerp(_backgroundCanvasGroup.alpha, 1f, Time.deltaTime * 7f);
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("MusicDistance", Mathf.Lerp(initialMusicDistance, 1f, w));
             t += Time.deltaTime;
             yield return null;
         }
         
         _backgroundCanvasGroup.alpha = 1f;
 
+        
         yield return new WaitForSeconds(0.5f);
         
         t = 0f;
@@ -127,7 +133,7 @@ public class AcquisitionCanvas : MonoBehaviour
 
 
 
-        var holdTime = lowerText == "" ? 1.5f : 3f;
+        var holdTime = lowerText == "" ? 2f : 3.5f;
         yield return new WaitForSeconds(holdTime);
         
         t = 0f;
@@ -140,6 +146,7 @@ public class AcquisitionCanvas : MonoBehaviour
             _upperCanvasGroup.alpha = w;
             _middleCanvasGroup.alpha = w;
             _lowerCanvasGroup.alpha = w;
+            FMODUnity.RuntimeManager.StudioSystem.setParameterByName("MusicDistance", Mathf.Lerp(1f, initialMusicDistance, w));
             t += Time.deltaTime;
             yield return null;
         }
@@ -150,6 +157,8 @@ public class AcquisitionCanvas : MonoBehaviour
         _upperCanvasGroup.alpha = 0;
         _middleCanvasGroup.alpha = 0f;
         _lowerCanvasGroup.alpha = 0;
+        
+        MusicDistanceAttenuator.IsCoroutineActive = false;
 
         
         yield return null;

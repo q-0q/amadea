@@ -57,8 +57,16 @@ public class TutorialCanvas : MonoBehaviour
 
     public void ShowTutorialText(string text, string action)
     {
+        if (CutsceneManager.Singleton.IsCutsceneTutorialCanvasHidden()) return;
+        
+        
         this.action = action;
         Image.gameObject.SetActive(action != "");
+        if (!_open)
+        {
+            FMODUnity.RuntimeManager.PlayOneShotAttached(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/TutorialPrompt"), gameObject);
+        }
         _open = true;
         _tmpText.text = text;
         
@@ -66,6 +74,8 @@ public class TutorialCanvas : MonoBehaviour
         
         // Force the parent to reposition the icon and text based on new width
         LayoutRebuilder.ForceRebuildLayoutImmediate(_tmpText.transform.parent.GetComponent<RectTransform>());
+        
+        
     }
     
     public string GetCurrentAction()

@@ -1474,6 +1474,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 2.14
       objectReference: {fileID: 0}
+    - target: {fileID: 5573495785446936153, guid: 98abda2a43db947a6ad2ec9fed4d39e1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5729339326238119455, guid: 98abda2a43db947a6ad2ec9fed4d39e1,
         type: 3}
       propertyPath: raycastDepth

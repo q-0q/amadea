@@ -22,6 +22,7 @@ public partial class PlayerFsm
                 FMODUnity.RuntimeManager.PlayOneShotAttached(impactFmodEvent, gameObject);
                 FMODUnity.RuntimeManager.PlayOneShotAttached(hardlandEventReference, gameObject);
                 OnPlayerFootstep();
+                PlaySlipSound();
                 _momentum = HardLandExitMomentum;
             });
 

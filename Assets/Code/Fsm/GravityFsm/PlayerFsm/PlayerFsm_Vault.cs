@@ -42,6 +42,7 @@ public partial class PlayerFsm
                 _previousWallrunSide = FlankType.None;
                 _currentFlankType = FlankType.None;
                 currentRopeSwing = null;
+                PlaySlipSound();
                 
                 FMODUnity.RuntimeManager.PlayOneShotAttached(jumpFmodEvent, gameObject);
                 OnPlayerFootstep();
@@ -60,6 +61,7 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.Vault)
             .OnEntry(_ =>
             {
+                
                 // _currentLedgePosition = transform.position;
             })
             .OnExit(_ =>

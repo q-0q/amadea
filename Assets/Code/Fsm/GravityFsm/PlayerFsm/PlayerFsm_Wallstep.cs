@@ -37,6 +37,7 @@ public partial class PlayerFsm
                 _momentum = 10f;
                 
                 OnPlayerFootstep();
+                PlaySlipSound();
                 FMODUnity.RuntimeManager.PlayOneShotAttached(jumpFmodEvent, gameObject);
             })
             .OnExitFrom(GravityFsmTrigger.StartFrameGrounded, _ =>

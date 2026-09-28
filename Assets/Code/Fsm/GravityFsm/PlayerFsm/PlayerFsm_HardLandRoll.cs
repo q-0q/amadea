@@ -20,8 +20,10 @@ public partial class PlayerFsm
             .PermitIf(GravityFsmTrigger.StartFrameAerial, PlayerFsmState.Jumpsquat, _ => _inputBuffer.IsBuffered("Jump"), 1)
             .OnEntry(_ =>
             {
+                FMODUnity.RuntimeManager.PlayOneShotAttached(hardlandEventReference, gameObject);
                 FMODUnity.RuntimeManager.PlayOneShotAttached(impactFmodEvent, gameObject);
                 OnPlayerFootstep();
+                PlaySlipSound();
                 LastUpwardsY = transform.position.y;
                 _momentum = HardLandRollExitMomentum;
             });

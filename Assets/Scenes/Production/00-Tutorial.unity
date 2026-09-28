@@ -16606,7 +16606,7 @@ PrefabInstance:
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 131.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
@@ -24915,7 +24915,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f861c1639d2254c3797ffd160a7dd2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  MusicEvent: 2
 --- !u!65 &1746750121
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24946,8 +24945,8 @@ Transform:
   m_GameObject: {fileID: 1746750119}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.35558376, z: -0, w: 0.93464446}
-  m_LocalPosition: {x: -104.3, y: -45.7, z: -8.1}
-  m_LocalScale: {x: 449.53802, y: 200, z: 339.57483}
+  m_LocalPosition: {x: -94.2, y: -45.7, z: 9.5}
+  m_LocalScale: {x: 411.59204, y: 200, z: 382.02167}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

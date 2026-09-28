@@ -48,6 +48,7 @@ public partial class PlayerFsm
                 IncrementCombo();
                 ReplaceAnimatorTrigger("Wallrun");
                 OnPlayerFootstep();
+                PlaySlipSound();
             })
             .OnExitFrom(PlayerFsmTrigger.Jump, _ =>
             {

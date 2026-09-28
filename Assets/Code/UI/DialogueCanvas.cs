@@ -53,6 +53,7 @@ public class DialogueCanvas : MonoBehaviour
 
     public void AdvanceDialogue()
     {
+        PlaySound();
         _currentTextIndex++;
         if (currentDialogueController != null) currentDialogueController.ProgressionSignal(_currentTextIndex);
         if (currentDialogueController != null && _currentTextIndex + currentDialogueController.textStartOffset >= currentDialogueController.dialogues[currentDialogueController.currentDialogueIndex].texts.Count)
@@ -73,6 +74,7 @@ public class DialogueCanvas : MonoBehaviour
     public void StartDialogue(DialogueController controller)
     {
         StartCoroutine(Coroutine());
+        PlaySound();
         IEnumerator Coroutine()
         {
             var delay = controller.canvasDelay + controller.dialogues[controller.currentDialogueIndex].canvasDelayOffset;
@@ -87,5 +89,10 @@ public class DialogueCanvas : MonoBehaviour
     public Vector3 ControllerPosition()
     {
         return currentDialogueController.transform.position;
+    }
+
+    public void PlaySound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/ProgressDialogue"), gameObject);
     }
 }

@@ -13,6 +13,8 @@ public partial class PlayerFsm
                 _inputBuffer.ConsumeBuffer("Jump");
                 FMODUnity.RuntimeManager.PlayOneShotAttached(jumpFmodEvent, gameObject);
                 OnPlayerFootstep();
+                
+                PlaySlipSound();
 
             })
             .OnExitFrom(FsmTrigger.Timeout, _ =>

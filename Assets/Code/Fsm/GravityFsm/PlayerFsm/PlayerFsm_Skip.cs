@@ -30,6 +30,7 @@ public partial class PlayerFsm
                 _momentum = 13f;
                 IncrementCombo();
                 _inputBuffer.ConsumeBuffer("Jump");
+                PlaySlipSound();
                 FMODUnity.RuntimeManager.PlayOneShotAttached(skipFmodEvent, gameObject);
             })
             .OnEntryFrom(FsmTrigger.Timeout, _ => { YVelocity = SkipYVelocity; });

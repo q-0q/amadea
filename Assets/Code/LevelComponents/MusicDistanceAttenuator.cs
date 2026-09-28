@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public static class MusicDistanceAttenuatorRegistry
 {
     public static List<MusicDistanceAttenuator> Attenuators = new();
@@ -10,6 +11,7 @@ public static class MusicDistanceAttenuatorRegistry
 public class MusicDistanceAttenuator : MonoBehaviour
 {
 
+    public static bool IsCoroutineActive = false;
     public float minDistance = 30f;
 
     public float maxDistance = 40f;

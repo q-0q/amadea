@@ -829,7 +829,7 @@ public partial class PlayerFsm
     private void OnPlayerFootstep()
     {
         OnPlayerFootstepEvent?.Invoke();
-        StartCoroutine(QueueFootstep());
+        StartCoroutine(QueueFootstep(0));
         _timeSinceLastFootstep = 0f;
 
     }
@@ -841,6 +841,8 @@ public partial class PlayerFsm
     
     private IEnumerator QueueFootstep(float minimumDelay = 0)
     {
+
+        var doRustle = Machine.IsInState(PlayerFsmState.Grounded);
         
         yield return new WaitForFixedUpdate(); // basically just delay a frame to handle race conditions between the updating of the parent transform and the entry of some substate
         var maximumWaitTime = 0.5f;
@@ -853,12 +855,17 @@ public partial class PlayerFsm
                 var renderer = parentTransform.GetComponentInChildren<MeshRenderer>();
                 if (renderer == null) yield break;
                 var parentMaterialName = renderer.material.name;
-                if (parentMaterialName.Contains("Snow") || parentMaterialName.Contains("Grass")) fmodMaterialLabel = "Snow";
+                if (parentMaterialName.Contains("Snow") || parentMaterialName.Contains("Grass") || parentMaterialName.Contains("Sand"))
+                {
+                    if(doRustle) FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/FoliageRustle"), gameObject);
+                    fmodMaterialLabel = "Snow";
+                };
                 if (parentMaterialName.Contains("Metal")) fmodMaterialLabel = "Metal";
                 if (parentMaterialName.Contains("Combo")) fmodMaterialLabel = "Glass";
                 if (parentMaterialName.Contains("Ice")) fmodMaterialLabel = "Glass";
                 FMODUnity.RuntimeManager.StudioSystem.setParameterByNameWithLabel("PlayerFootstepMaterial", fmodMaterialLabel);
                 FMODUnity.RuntimeManager.PlayOneShotAttached(footstepFmodEvent, gameObject);
+                
                 yield break;
             }
             t += Time.deltaTime;
@@ -1068,7 +1075,9 @@ public partial class PlayerFsm
 
     private void UpdateMusicDistanceAttenuation()
     {
-
+        
+        if (MusicDistanceAttenuator.IsCoroutineActive) return;
+        
         var newDistance = 0f;
         var scalar = 1.0f;
         foreach (var attenuator in MusicDistanceAttenuatorRegistry.Attenuators)
@@ -1468,6 +1477,11 @@ public partial class PlayerFsm
     public float GetTimeSinceRespawn()
     {
         return _timeSinceRespawn;
+    }
+
+    private void PlaySlipSound()
+    {
+        FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/PlayerSlip"), gameObject);
     }
     
     
