@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using Cinemachine;
-using Code.Misc;
+using FMOD;
+using FMOD.Studio;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Util = Code.Misc.Util;
 
 public class SentryProjectile : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class SentryProjectile : MonoBehaviour
 
     private CinemachineImpulseSource _impulse;
     private GameObject _deathCollider;
+    private EventInstance _ambientInstance;
     
     public void SetDirection(Vector3 direction)
     {
@@ -38,6 +41,12 @@ public class SentryProjectile : MonoBehaviour
         _impulse = GetComponentInChildren<CinemachineImpulseSource>();
         _deathCollider = GetComponentInChildren<PlayerDeathCollider>().gameObject;
         _deathCollider.SetActive(false);
+        _ambientInstance =
+            FMODUnity.RuntimeManager.CreateInstance(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/SentryProjectileSynth"));
+        
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_ambientInstance, gameObject);
+        _ambientInstance.start();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -51,7 +60,7 @@ public class SentryProjectile : MonoBehaviour
     {
         if (_impacted) return;
         _lifetime += Time.deltaTime;
-
+        
         var toPlayer = PlayerFsm.Singleton.transform.position - transform.position;
         // _direction = Vector3.RotateTowards(_direction, toPlayer, 1f * Time.deltaTime, 1000f).normalized;
         
@@ -99,8 +108,16 @@ public class SentryProjectile : MonoBehaviour
                     QueryTriggerInteraction.Ignore)) PlayerFsm.Singleton.InvokePlayerDeath();
         }
         
+        FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/SentryProjectileRubble"), gameObject);
+        FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/SentryProjectileImpact"), gameObject);
+        _ambientInstance.stop(STOP_MODE.ALLOWFADEOUT);
         Util.InvokeSphereEffect(transform.position - Vector3.up, Vector3.one * 8f, 1.5f, 0.8f, -1f);
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
+    }
+
+    private void OnDisable()
+    {
+        _ambientInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
 }

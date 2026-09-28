@@ -276,11 +276,15 @@ public class TerminalNode : MonoBehaviour
                     StartCoroutine(IntakeCameraCoroutine());
                 }
                 while (_waitingForIntakeCamera) yield return null;
+                
                 yield return new WaitForSeconds(0.5f);
+                
+                FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/TerminalActivate"), _mainCanvas.gameObject);
 
                 // _visualSplineMaterial.SetFloat("_FillWeight", 1f);
                 // _arc1Renderer.material.SetFloat("_GlowWeight", 1f);
             }
+            
             
             
             t = 0;

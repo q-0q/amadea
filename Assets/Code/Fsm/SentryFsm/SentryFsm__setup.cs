@@ -1,4 +1,5 @@
 using System.Collections;
+using FMOD.Studio;
 using UnityEngine;
 
 public partial class SentryFsm
@@ -19,6 +20,10 @@ public partial class SentryFsm
         
         Machine.Configure(SentryFsmState.Wake)
             .Permit(FsmTrigger.Timeout, SentryFsmState.Tracking)
+            .OnEntry(_ =>
+            {
+                // FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/SentryAggro"), eye.gameObject);
+            })
             .OnExitFrom(FsmTrigger.Timeout, _ =>
             {
                 
@@ -31,6 +36,14 @@ public partial class SentryFsm
             .OnEntry(_ =>
             {
                 _laserEnd.SetActive(true);
+                FMODUnity.RuntimeManager.AttachInstanceToGameObject(_trackingInstance, eye.gameObject);
+                FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/SentryAggro"), eye.gameObject);
+                // _trackingInstance.start();
+            })
+            .OnExit(_ =>
+            {
+                _blinkingInstance.stop(STOP_MODE.ALLOWFADEOUT);
+                _trackingInstance.stop(STOP_MODE.ALLOWFADEOUT);
             });
         
         // Machine.Configure(SentryFsmState.Extrapolating)
@@ -73,6 +86,7 @@ public partial class SentryFsm
         yield return new WaitForSeconds(0.125f);
         for (int i = 0; i < count; i++)
         {
+            FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/SentryFire"), eye.gameObject);
             var obj = Instantiate(prefab, eye.position, Quaternion.identity);
             obj.GetComponent<SentryProjectile>().SetDirection(eye.forward);
             yield return new WaitForSeconds(0.15f);
@@ -85,7 +99,7 @@ public partial class SentryFsm
     {
         base.SetupStateMaps();
         
-        StateMapConfig.Duration.Add(SentryFsmState.Wake, 0.5f);
+        StateMapConfig.Duration.Add(SentryFsmState.Wake, 0.5f + wakeDurationOffset);
         // StateMapConfig.Duration.Add(SentryFsmState.Searching, 2.75f);
         StateMapConfig.Duration.Add(SentryFsmState.Tracking, 2f);
         // StateMapConfig.Duration.Add(SentryFsmState.Extrapolating, 1f);

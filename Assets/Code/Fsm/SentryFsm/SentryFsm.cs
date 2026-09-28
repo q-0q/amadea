@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.Identifiers;
 using Wasp;
+using Random = UnityEngine.Random;
 
 public partial class SentryFsm : Fsm
 {
@@ -33,6 +35,17 @@ public partial class SentryFsm : Fsm
         _lineRenderer.SetPosition(1, eye.position);
         _laserEnd = transform.Find("LaserEnd").gameObject;
         _laserEnd.SetActive(false);
+
+        _blinkingInstance =
+            FMODUnity.RuntimeManager.CreateInstance(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/SentryBlink"));
+        
+        _trackingInstance =
+            FMODUnity.RuntimeManager.CreateInstance(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/SentryTrack"));
+
+        wakeDurationOffset = Random.Range(0, 0.15f);
+
     }
 
     protected override void OnStart()
@@ -78,6 +91,10 @@ public partial class SentryFsm : Fsm
 
             if (TimeInCurrentState() > 1f && !_blinking && !passive)
             {
+                _trackingInstance.stop(STOP_MODE.ALLOWFADEOUT);
+                
+                FMODUnity.RuntimeManager.AttachInstanceToGameObject(_blinkingInstance, eye.gameObject);
+                _blinkingInstance.start();
                 _blinking = true;
                 _blinkTimer = 0f;
             };
@@ -138,6 +155,8 @@ public partial class SentryFsm : Fsm
 
     private void OnDisable()
     {
+
+        _blinkingInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
     
 }

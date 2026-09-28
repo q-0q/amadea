@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using Code.TriggerParams;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -35,6 +36,10 @@ public partial class SentryFsm
 
     private const float DownwardsBlindspotAngle = 30f;
     public float Range = 80f;
+    private float wakeDurationOffset;
+
+    private EventInstance _blinkingInstance;
+    private EventInstance _trackingInstance;
 
     private void OnTriggerProxyStay(Collider obj)
     {
