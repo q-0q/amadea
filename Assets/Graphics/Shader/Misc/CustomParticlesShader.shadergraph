@@ -215,6 +215,22 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "1fbbe762f8e74d239dc545eccfdeeab7",
+    "m_Id": -1903404640,
+    "m_DisplayName": "CPLMod",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_CPLMod",
+    "m_StageCapability": 2,
+    "m_Value": 1.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": [],
+    "m_LiteralMode": false
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "20578b11c7c04c5480f947b6e19a51b2",
     "m_Id": 3,
@@ -222,7 +238,7 @@
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Color",
-    "m_StageCapability": 3,
+    "m_StageCapability": 2,
     "m_Value": {
         "x": 0.0,
         "y": 0.0,
@@ -263,7 +279,7 @@
     "m_SlotType": 0,
     "m_Hidden": false,
     "m_ShaderOutputName": "_InputColor",
-    "m_StageCapability": 3,
+    "m_StageCapability": 2,
     "m_Value": {
         "x": 0.0,
         "y": 0.0,
@@ -490,7 +506,7 @@
     "m_SlotType": 0,
     "m_Hidden": false,
     "m_ShaderOutputName": "_DarknessMod",
-    "m_StageCapability": 3,
+    "m_StageCapability": 2,
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": [],
@@ -640,6 +656,9 @@
             "m_Id": "73efc78164854c648779316baf3b71ce"
         },
         {
+            "m_Id": "1fbbe762f8e74d239dc545eccfdeeab7"
+        },
+        {
             "m_Id": "20578b11c7c04c5480f947b6e19a51b2"
         }
     ],
@@ -655,12 +674,14 @@
     "m_PropertyGuids": [
         "e02d368b-6dba-494e-b3ea-4480bbd53c4f",
         "c440be9d-2527-462c-92e9-892823b3a868",
-        "f490468e-2448-4ac0-b0bf-13275ee99e83"
+        "f490468e-2448-4ac0-b0bf-13275ee99e83",
+        "9c2c6f50-1916-4594-be64-1738584b236f"
     ],
     "m_PropertyIds": [
         1713071161,
         -1035091701,
-        450704424
+        450704424,
+        -1903404640
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []

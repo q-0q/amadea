@@ -99,7 +99,7 @@ public class SentryProjectile : MonoBehaviour
         var radius = 5f;
         var toPlayer = PlayerFsm.Singleton.transform.position - transform.position;
         print(toPlayer.magnitude);
-        if (toPlayer.magnitude < radius)
+        if (toPlayer.magnitude < radius && !(PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Dead) || PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Dying)))
         {
             var origin = transform.position;
             // PlayerFsm.Singleton.InvokePlayerDeath();

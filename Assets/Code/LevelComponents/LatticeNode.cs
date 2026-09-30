@@ -1,6 +1,10 @@
 using System;
 using System.Collections;
+using FMOD.Studio;
+using FMODUnity;
 using UnityEngine;
+using Random = UnityEngine.Random;
+using STOP_MODE = FMOD.Studio.STOP_MODE;
 
 public class LatticeNode : MonoBehaviour
 {
@@ -20,10 +24,14 @@ public class LatticeNode : MonoBehaviour
 
     private Material _cellMaterial;
 
+    private EventInstance _highAmbience;
+
+    private EventReference _pingReference;
+
     private void Awake()
     {
         _on = false;
-        _collider = GetComponentInChildren<Collider>();
+        _collider = transform.Find("Cube").GetComponent<Collider>();
         _light = GetComponentInChildren<CustomPointLight>();
         _light.Color = _offLightColor;
         _material = _collider.transform.GetComponent<Renderer>().material;
@@ -31,7 +39,16 @@ public class LatticeNode : MonoBehaviour
         _onParticles = transform.Find("OnParticles").GetComponent<ParticleSystem>();
         _offParticles = transform.Find("OffParticles").GetComponent<ParticleSystem>();
         _offParticles.Play();
+
+        _highAmbience =
+            FMODUnity.RuntimeManager.CreateInstance(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/OuroHighAmbience"));
         
+        int offset = Random.Range(0, 1000);
+        _highAmbience.setTimelinePosition(offset);
+
+        _pingReference = FMODUnity.RuntimeManager.PathToEventReference("event:/LatticeNodePing");
+
     }
 
     private void OnEnable()
@@ -44,6 +61,8 @@ public class LatticeNode : MonoBehaviour
     {
         DroneFsm.OnDronePulsed -= OnDronePulsed;
         Lattice.OnLatticeCompleted -= OnLatticeCompleted;
+
+        _highAmbience.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
     private void OnDronePulsed(Vector3 dronePosition)
@@ -59,6 +78,7 @@ public class LatticeNode : MonoBehaviour
         _offParticles.Clear();
         _offParticles.Stop();
         _cellMaterial.SetFloat("_OnWeight", 1f);
+        FMODUnity.RuntimeManager.PlayOneShotAttached(_pingReference, gameObject);
         
     }
 
@@ -77,6 +97,11 @@ public class LatticeNode : MonoBehaviour
         _material.SetFloat("_CompleteWeight", 1f);
         StartCoroutine(GlowCoroutine());
         
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_highAmbience, gameObject);
+        FMODEventInstanceDistanceCuller.Singleton.Register(_highAmbience, transform, 60f);
+        
+        // _highAmbience.start();
+
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

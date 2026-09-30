@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FMOD.Studio;
+using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Lattice : MonoBehaviour
 {
@@ -21,6 +24,9 @@ public class Lattice : MonoBehaviour
 
     private List<Material> _cellMaterials;
     public GameObject ConsoleObject;
+    
+    private EventInstance _subAmbience;
+    private EventInstance _midAmbience;
 
     [Serializable]
     public class LatticeNodeConfig
@@ -36,6 +42,25 @@ private void Awake()
     _dialogue = ConsoleObject.GetComponentInChildren<DialogueController>();
     _completedNodes = 0;
     UpdateDialogue();
+    
+    _subAmbience =
+        FMODUnity.RuntimeManager.CreateInstance(
+            FMODUnity.RuntimeManager.PathToEventReference("event:/OuroSubAmbience"));
+        
+    FMODUnity.RuntimeManager.AttachInstanceToGameObject(_subAmbience, ConsoleObject);
+    
+    _midAmbience =
+        FMODUnity.RuntimeManager.CreateInstance(
+            FMODUnity.RuntimeManager.PathToEventReference("event:/OuroMidAmbience"));
+        
+    
+    
+    int offset = Random.Range(0, 1000);
+    _subAmbience.setTimelinePosition(offset);
+    _midAmbience.setTimelinePosition(offset);
+    
+    
+    _subAmbience.start();
 
     var padding = 9f;
     if (_base != null)
@@ -112,6 +137,9 @@ private void Start()
         _completedNodes = nodeConfigs.Count;
         StartCoroutine(CellCompleteCoroutine());
         UpdateDialogue();
+        
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_midAmbience, ConsoleObject);
+        _midAmbience.start();
     }
 }
 
@@ -131,6 +159,9 @@ private void ConfigureNodeAdjacency(GameObject instantiatedNode, bool left, bool
             SaveSystem.WritePersistentEvent(eventPrefix + id);
             OnLatticeCompleted?.Invoke(this, true);
             StartCoroutine(CellCompleteCoroutine());
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(_midAmbience, ConsoleObject);
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/LatticeComplete", gameObject);
+            _midAmbience.start();
         };
 
         UpdateDialogue();
@@ -160,5 +191,12 @@ private void ConfigureNodeAdjacency(GameObject instantiatedNode, bool left, bool
         {
             material.SetFloat("_CompleteWeight", 1f);
         }
+        
+    }
+
+    private void OnDisable()
+    {
+        _subAmbience.stop(STOP_MODE.ALLOWFADEOUT);
+        _midAmbience.stop(STOP_MODE.ALLOWFADEOUT);
     }
 }

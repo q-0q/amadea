@@ -312,6 +312,8 @@ public partial class PlayerFsm : GravityFsm
         _skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         _material = GetComponentInChildren<SkinnedMeshRenderer>().material;
         _impulse = GetComponentInChildren<CinemachineImpulseSource>();
+        
+        UpdateMusicDistanceAttenuation(true);
 
 
 

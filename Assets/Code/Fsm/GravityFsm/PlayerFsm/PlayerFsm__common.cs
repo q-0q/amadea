@@ -861,8 +861,9 @@ public partial class PlayerFsm
                     fmodMaterialLabel = "Snow";
                 };
                 if (parentMaterialName.Contains("Metal")) fmodMaterialLabel = "Metal";
-                if (parentMaterialName.Contains("Combo")) fmodMaterialLabel = "Glass";
+                if (parentMaterialName.Contains("Lattice")) fmodMaterialLabel = "Glass";
                 if (parentMaterialName.Contains("Ice")) fmodMaterialLabel = "Glass";
+                if (parentMaterialName.Contains("Light")) fmodMaterialLabel = "Glass";
                 FMODUnity.RuntimeManager.StudioSystem.setParameterByNameWithLabel("PlayerFootstepMaterial", fmodMaterialLabel);
                 FMODUnity.RuntimeManager.PlayOneShotAttached(footstepFmodEvent, gameObject);
                 
@@ -1073,26 +1074,29 @@ public partial class PlayerFsm
         }
     }
 
-    private void UpdateMusicDistanceAttenuation()
+    private void UpdateMusicDistanceAttenuation(bool snap = false)
     {
         
         if (MusicDistanceAttenuator.IsCoroutineActive) return;
         
-        var newDistance = 0f;
+        var attenuation = 0f;
         var scalar = 1.0f;
         foreach (var attenuator in MusicDistanceAttenuatorRegistry.Attenuators)
         {
-            var attenuation = Mathf.InverseLerp(attenuator.maxDistance, attenuator.minDistance,
+            var a = Mathf.InverseLerp(attenuator.maxDistance, attenuator.minDistance,
                 Vector3.Distance(transform.position, attenuator.transform.position));
             
-            if (attenuation <= 0.01f) continue;
+            if (a <= 0.01f) continue;
             scalar = attenuator.scalar;
-            newDistance = attenuation;
-            break;
+            attenuation = Mathf.Max(attenuation, a);
         }
 
         RuntimeManager.StudioSystem.getParameterByName("MusicDistance", out float currentDistance);
-        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("MusicDistance", Mathf.Lerp(currentDistance, newDistance * scalar, Time.deltaTime * 2f));
+
+        var finalValue = snap
+            ? attenuation * scalar
+            : Mathf.Lerp(currentDistance, attenuation * scalar, Time.deltaTime * 2f);
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("MusicDistance", finalValue);
     }
 
     private void HandleSlideTimer()

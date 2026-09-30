@@ -71,11 +71,19 @@ public class Lightbridge : MonoBehaviour
     private void OnEnable()
     {
         _interactable.OnInteracted += OnInteracted;
+        LightbridgeActivator.OnLightbridgeActivatorInteracted += OnActivator;
+    }
+
+    private void OnActivator()
+    {
+        _interactable.SetEnabled(true);
+        InteractableFx.gameObject.SetActive(true);
     }
 
     private void OnDisable()
     {
         _interactable.OnInteracted -= OnInteracted;
+        LightbridgeActivator.OnLightbridgeActivatorInteracted -= OnActivator;
     }
 
     private void OnInteracted()

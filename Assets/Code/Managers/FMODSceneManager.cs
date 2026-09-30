@@ -12,13 +12,16 @@ public class FMODSceneManager : MonoBehaviour
         Off,
         Awakening,
         Glyph,
-        Steppe
+        Steppe,
+        Ouro,
     }
 
     public enum AmbientEvent
     {
         Wind,
-        Cave
+        Cave,
+        Tech,
+        Deep
     }
     
     private static Dictionary<MusicEvent, EventInstance> _musicInstances;
@@ -56,12 +59,15 @@ public class FMODSceneManager : MonoBehaviour
             [MusicEvent.Awakening] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/M_Awakening")),
             [MusicEvent.Glyph] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/M_Glyph")),
             [MusicEvent.Steppe] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/M_Steppe")),
+            [MusicEvent.Ouro] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/M_Ouro")),
         };
         
         _ambientInstances = new Dictionary<AmbientEvent, EventInstance>
         {
             [AmbientEvent.Cave] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/CaveAmbience")),
             [AmbientEvent.Wind] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/WindAmbience")),
+            [AmbientEvent.Tech] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/TechAmbience")),
+            [AmbientEvent.Deep] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/DeepAmbience")),
         };
 
         _reverbControllerInstance =

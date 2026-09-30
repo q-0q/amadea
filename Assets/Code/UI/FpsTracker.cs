@@ -18,7 +18,7 @@ public class FpsTracker
     {
         float newFPS = 1.0f / Time.unscaledDeltaTime;
         fps = Mathf.Lerp(fps, newFPS, 0.005f);
-        _tmp.text = "FPS: " + ((int)fps);
+        _tmp.text = "FPS: " + ((int)fps) + " (" + (int)(fps * 100f / 120f) + "%)";
     }
 
     private void OnEnable()

@@ -20,6 +20,11 @@ public partial class DroneFsm
             }
         }
 
+        if (PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Dying))
+        {
+            Machine.Fire(DroneFsmTrigger.PlayerDied);
+        }
+
     }
     
     

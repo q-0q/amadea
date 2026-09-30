@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.Identifiers;
 using UnityEngine.InputSystem;
@@ -22,6 +23,7 @@ public partial class DroneFsm : Fsm
     {
         public static int StationInteract;
         public static int Pulse;
+        public static int PlayerDied;
     }
 
     protected override void OnAwake()
@@ -33,6 +35,8 @@ public partial class DroneFsm : Fsm
         _playerInput = GetComponent<PlayerInput>();
         _vibrator = transform.Find("Vibrator");
         _pulseParticles = GetComponentInChildren<ParticleSystem>();
+
+        _ambientInstance = FMODUnity.RuntimeManager.CreateInstance("event:/DroneAmbience");
 
     }
 
@@ -55,7 +59,14 @@ public partial class DroneFsm : Fsm
 
         if (Machine.IsInState(DroneFsmState.Storing))
         {
-            ReturnToIdlePosition(Mathf.Lerp(0f, 7f, Mathf.InverseLerp(0, 0.5f, TimeInCurrentState())));
+            ReturnToIdlePosition(Mathf.Lerp(0f, 7f, Mathf.InverseLerp(0, 0.75f, TimeInCurrentState())));
+        }
+        
+        
+        if (Machine.IsInState(DroneFsmState.Pulsing))
+        {
+            _ambientInstance.setParameterByName("DroneFilter",
+                Mathf.Lerp(1f, 0f, Mathf.InverseLerp(0, 0.5f, TimeInCurrentState())));
         }
         
         // if (Machine.IsInState(DroneFsmState.Ready) || Machine.IsInState(DroneFsmState.Deploying) || Machine.IsInState(DroneFsmState.Pulsing))
@@ -87,6 +98,7 @@ public partial class DroneFsm : Fsm
 
     private void OnDisable()
     {
+        _ambientInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
     
 }

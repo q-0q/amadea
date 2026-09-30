@@ -1577,10 +1577,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af58aa0dbe414c20b5a9cebe1ce5391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FMODSceneRequestor
-  StartEvents:
-  - FMODSceneEvent: 4
-    minimumPlayerY: -10000
-  StopEvents: 03000000
+  musicProgression: 0
+  MusicEvent: 1
+  AmbientEvents: 03000000
 --- !u!4 &398346470
 Transform:
   m_ObjectHideFlags: 0
@@ -2394,6 +2393,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687573297}
   m_Mesh: {fileID: -3983063591393173388, guid: e20639ecc13ac48d38bb93545415b4d3, type: 3}
+--- !u!1 &699729537
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 699729539}
+  - component: {fileID: 699729538}
+  m_Layer: 0
+  m_Name: CustomDarknessObserver (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &699729538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699729537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad5d292037946238db5392c915a7b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomDarknessObserver
+  radiusMultiplier: 600
+--- !u!4 &699729539
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699729537}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 207.5, y: 1.4, z: -1.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &741009531 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3721275706377627309, guid: ea60ce11015e14dc483c13e2541fd639,
@@ -3261,6 +3305,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 951160370}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &971081049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 971081051}
+  - component: {fileID: 971081050}
+  m_Layer: 0
+  m_Name: ReverbConfig
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &971081050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971081049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 134aa192fbece4505a5d57151f03062d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReverbConfig
+  ReverbType: Cave
+--- !u!4 &971081051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971081049}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 104.97881, y: 29.06025, z: 68.3101}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &973146255
 GameObject:
   m_ObjectHideFlags: 0
@@ -4538,6 +4627,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1366527025}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1407135316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1407135318}
+  - component: {fileID: 1407135317}
+  m_Layer: 0
+  m_Name: CustomDarknessObserver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1407135317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407135316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad5d292037946238db5392c915a7b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomDarknessObserver
+  radiusMultiplier: 600
+--- !u!4 &1407135318
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407135316}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 80.7, y: 1.4, z: 36.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1409392574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5376,7 +5510,7 @@ PrefabInstance:
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 131.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
@@ -7744,6 +7878,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1650427672}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1718843903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1718843905}
+  - component: {fileID: 1718843904}
+  m_Layer: 0
+  m_Name: CustomDarknessObserver (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1718843904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718843903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad5d292037946238db5392c915a7b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomDarknessObserver
+  radiusMultiplier: 600
+--- !u!4 &1718843905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718843903}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 79.5, y: 1.4, z: -42.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1739229724
 GameObject:
   m_ObjectHideFlags: 0
@@ -7857,6 +8036,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1739229724}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1743328832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1743328834}
+  - component: {fileID: 1743328833}
+  m_Layer: 0
+  m_Name: CustomDarknessObserver (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1743328833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743328832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad5d292037946238db5392c915a7b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomDarknessObserver
+  radiusMultiplier: 600
+--- !u!4 &1743328834
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743328832}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 207.5, y: 94.3, z: -1.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1803667551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8893,6 +9117,74 @@ MonoBehaviour:
   distanceLerpMax: 45
   distanceLerpPower: 0.5
   preventDistanceCulling: 0
+--- !u!1 &2141739934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2141739937}
+  - component: {fileID: 2141739935}
+  - component: {fileID: 2141739938}
+  m_Layer: 25
+  m_Name: CustomDarknessController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!65 &2141739935
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141739934}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 33554423
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 25, y: 20.67, z: 25}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &2141739937
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141739934}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.38268343, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: -208, y: 0, z: -52}
+  m_LocalScale: {x: 50, y: 55.62, z: 50}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+--- !u!114 &2141739938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141739934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3b8484594ff4518b809d8ff572d2ff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomDarknessController
+  Color: {r: 0, g: 0, b: 0, a: 1}
+  Priority: 1
 --- !u!1001 &2942373018213505560
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8970,6 +9262,7 @@ SceneRoots:
   - {fileID: 41048177}
   - {fileID: 1864767523}
   - {fileID: 1481020831}
+  - {fileID: 2141739937}
   - {fileID: 1161163748}
   - {fileID: 1224756293}
   - {fileID: 2115692449}
@@ -8985,3 +9278,8 @@ SceneRoots:
   - {fileID: 37018460}
   - {fileID: 350519107}
   - {fileID: 1297765639}
+  - {fileID: 1407135318}
+  - {fileID: 1718843905}
+  - {fileID: 699729539}
+  - {fileID: 1743328834}
+  - {fileID: 971081051}

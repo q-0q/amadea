@@ -24,12 +24,22 @@ public class LatticeCore : MonoBehaviour
     private Transform _cameraEnd;
     
     private const float SliceXZScale = 40f;
+
+
+    private EventInstance _subAmbience;
     
     private void Awake()
     {
         _camera = GetComponentInChildren<CinemachineVirtualCamera>();
         _cameraStart = transform.Find("Camera").Find("Start");
         _cameraEnd = transform.Find("Camera").Find("End");
+
+        _subAmbience =
+            FMODUnity.RuntimeManager.CreateInstance(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/OuroSubAmbience"));
+        
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_subAmbience, gameObject);
+        _subAmbience.start();
         
         _dialogue = GetComponentInChildren<DialogueController>();
         _currentLatticesCompleted = 0;
@@ -93,7 +103,7 @@ public class LatticeCore : MonoBehaviour
             {
                 yield return new WaitForSeconds(1f);
                 CutsceneManager.Singleton.SetPseudoCutsceneActive();
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(1f);
                 var t = 0f;
                 var d = 1.25f;
 
@@ -155,5 +165,7 @@ public class LatticeCore : MonoBehaviour
     private void OnDisable()
     {
         Lattice.OnLatticeCompleted -= OnLatticeCompleted;
+        
+        _subAmbience.stop(STOP_MODE.ALLOWFADEOUT);
     }
 }

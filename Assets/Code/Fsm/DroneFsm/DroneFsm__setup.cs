@@ -1,7 +1,8 @@
 using System.Collections;
-using Code.Misc;
 using DG.Tweening;
+using FMOD.Studio;
 using UnityEngine;
+using Util = Code.Misc.Util;
 
 public partial class DroneFsm
 {
@@ -21,11 +22,15 @@ public partial class DroneFsm
         
         Machine.Configure(DroneFsmState.Deploying)
             .Permit(DroneFsmTrigger.Timeout, DroneFsmState.Ready)
+            // .Permit(DroneFsmTrigger.PlayerDied, DroneFsmState.Storing)
             .OnEntry(_ =>
             {
                 _bobClock = 0f;
                 IsAnyDroneActive = true;
                 _previousTargetPosition = GetTargetFollowPosition();
+                
+                FMODUnity.RuntimeManager.AttachInstanceToGameObject(_ambientInstance, gameObject);
+                _ambientInstance.start();
             })
             .OnExit(_ =>
             {
@@ -34,6 +39,7 @@ public partial class DroneFsm
 
         Machine.Configure(DroneFsmState.Ready)
             .Permit(DroneFsmTrigger.StationInteract, DroneFsmState.Storing)
+            // .Permit(DroneFsmTrigger.PlayerDied, DroneFsmState.Storing)
             .Permit(DroneFsmTrigger.Pulse, DroneFsmState.Pulsing)
             .OnEntry(_ =>
             {
@@ -42,6 +48,7 @@ public partial class DroneFsm
         
         Machine.Configure(DroneFsmState.Pulsing)
             .Permit(DroneFsmTrigger.StationInteract, DroneFsmState.Storing)
+            // .Permit(DroneFsmTrigger.PlayerDied, DroneFsmState.Storing)
             .Permit(DroneFsmTrigger.Timeout, DroneFsmState.Ready)
             .OnEntry(_ =>
             {
@@ -58,8 +65,14 @@ public partial class DroneFsm
             .Permit(DroneFsmTrigger.Timeout, DroneFsmState.Idle)
             .OnEntry(_ =>
             {
+                
+                
                 IsAnyDroneActive = false;
                 if(TutorialCanvas.Singleton.GetCurrentAction() == "Interact") TutorialCanvas.Singleton.HideTutorialText();
+            })
+            .OnExit(_ =>
+            {
+                _ambientInstance.stop(STOP_MODE.ALLOWFADEOUT);
             });
 
     }

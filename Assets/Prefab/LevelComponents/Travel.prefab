@@ -161,6 +161,7 @@ Transform:
   - {fileID: 681794367893266651}
   - {fileID: 1743859645731215796}
   - {fileID: 3094375417317296238}
+  - {fileID: 7827944186273304077}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &4227623413897054521
@@ -291,6 +292,7 @@ MonoBehaviour:
   distanceLerpMin: 5
   distanceLerpMax: 15
   distanceLerpPower: 0.5
+  preventDistanceCulling: 0
 --- !u!1 &4913920233925648996
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,6 +345,7 @@ MonoBehaviour:
     - Pneumatic ready for use.
     - 'Configured destination: Ouro Station.'
     advanceDialogueIndex: 0
+    resetDialogueIndex: 0
     canvasDelayOffset: 0
   DialogueName: Pneumatic ingress
   LookAtOverride: {fileID: 0}
@@ -679,6 +682,7 @@ MonoBehaviour:
   distanceLerpMin: 5
   distanceLerpMax: 15
   distanceLerpPower: 0.5
+  preventDistanceCulling: 0
 --- !u!1 &8890148675486820533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1167,3 +1171,82 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1590812519492789622, guid: d2ccca23b7b6148879a1c9264fb833e1, type: 3}
+--- !u!1001 &1473957956843673168
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8652828549440016293}
+    m_Modifications:
+    - target: {fileID: 31072064279466280, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: m_Name
+      value: MusicDistanceAttenuator
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693086968420781063, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: minDistance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707425315118422109, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707425315118422109, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707425315118422109, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707425315118422109, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707425315118422109, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707425315118422109, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707425315118422109, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707425315118422109, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707425315118422109, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8707425315118422109, guid: 75e828f87cb674983a198e493e9956d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 75e828f87cb674983a198e493e9956d7, type: 3}
+--- !u!4 &7827944186273304077 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8707425315118422109, guid: 75e828f87cb674983a198e493e9956d7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1473957956843673168}
+  m_PrefabAsset: {fileID: 0}

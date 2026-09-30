@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,6 +29,10 @@ public class RotationDais : MonoBehaviour
     public bool restrictAxis = false;
     public Vector3 allowedAxis = Vector3.up;
 
+
+
+    private EventInstance _rotatorInstance;
+
     private void Awake()
     {
         _interactable = GetComponentInChildren<Interactable>();
@@ -39,6 +44,9 @@ public class RotationDais : MonoBehaviour
         _baseRotatorBobWorldPosition = _rotator.position;
         if (_childToRotator != null)_childToRotator.SetParent(_rotator);
         _setupComplete = false;
+
+        _rotatorInstance = FMODUnity.RuntimeManager.CreateInstance("event:/RotationDaisRotator");
+        
     }
 
     private void OnEnable()
@@ -49,6 +57,7 @@ public class RotationDais : MonoBehaviour
     private void OnDisable()
     {
         _interactable.OnInteracted -= OnInteracted;
+        _rotatorInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
     private void OnInteracted()
@@ -66,14 +75,16 @@ public class RotationDais : MonoBehaviour
             }
 
             _setupComplete = false;
+            _rotatorInstance.stop(STOP_MODE.ALLOWFADEOUT);
             return;
         }
         
         PlayerFsm.Singleton.Machine.Jump(PlayerFsm.PlayerFsmState.WalkToRotationDaisPosition);
         PlayerFsm.Singleton.walkToPositionTarget = _interactable.transform.position;
         PlayerFsm.Singleton.walkToPositionArrivalDistanceModifier = _interactable.arrivalDistanceModifier;
-        
 
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_rotatorInstance, _rotator.gameObject);
+        _rotatorInstance.start();
         
         _active = true;
     }
@@ -128,6 +139,10 @@ public class RotationDais : MonoBehaviour
             targetAxis, 
             acceleration * Time.deltaTime
         );
+
+        var p = _currentRotationVelocity.magnitude;
+        _rotatorInstance.setParameterByName("RotationSpeed",
+            p);
         
         _rotator.Rotate(_currentRotationVelocity * (maxSpeed * Time.deltaTime), Space.World);
         _ball.Rotate(_currentRotationVelocity * (maxSpeed * Time.deltaTime * 3f), Space.World);

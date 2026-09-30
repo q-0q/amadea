@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LatticeNodeMaterial
+  m_Name: LatticeNodeMaterial_Magic
   m_Shader: {fileID: -6465566751694194690, guid: 7260a6eeb53c6485fb2801bae57c37fd,
     type: 3}
   m_Parent: {fileID: 0}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using Code.TriggerParams;
 using DG.Tweening;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -26,6 +27,8 @@ public partial class DroneFsm
     public static bool IsAnyDroneActive;
 
     private float _bobClock;
+
+    private EventInstance _ambientInstance;
 
     private void OnTriggerProxyStay(Collider obj)
     {
