@@ -118,7 +118,6 @@ public partial class PlayerFsm
         StateMapConfig.Duration.Add(PlayerFsmState.ChestInteract, 0.5f);
         
         StateMapConfig.Duration.Add(PlayerFsmState.Tinsica, 0); // timeout exit condition is manually computed in trick.cs
-        StateMapConfig.Duration.Add(PlayerFsmState.TinsicaJumpsquat, 0.1f);
         
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.Dash, "Dash");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.Dashsquat, "Dashsquat");
@@ -195,7 +194,6 @@ public partial class PlayerFsm
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.ChestInteract, "DaisInteract");
         
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.Tinsica, "Tinsica");
-        StateMapConfig.AnimationTrigger.Add(PlayerFsmState.TinsicaJumpsquat, "TinsicaJumpsquat");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.TinsicaJump, "TinsicaJump");
 
         StateMapConfig.IsAbstract.Add(PlayerFsmState.Landable, true);

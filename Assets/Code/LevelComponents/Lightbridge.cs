@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using Code.Misc;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Util = Code.Misc.Util;
 
 public class Lightbridge : MonoBehaviour
 {
@@ -24,17 +25,29 @@ public class Lightbridge : MonoBehaviour
     
     public GameObject Fx;
 
+    public bool promptCamera = false;
+
 
     private CinemachineVirtualCamera _virtualCamera;
-    private Transform _cameraStart;
-    private Transform _cameraEnd;
+    private Transform _interactionCameraStart;
+    private Transform _interactionCameraEnd;
+    
+    private Transform _promptCameraStart;
+    private Transform _promptCameraEnd;
+
+    private EventInstance _subAmbience;
+    private EventInstance _midAmbience;
+    private EventInstance _highAmbience;
 
     private void Awake()
     {
         _virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
 
-        _cameraStart = transform.Find("Camera").Find("Start");
-        _cameraEnd = transform.Find("Camera").Find("End");
+        _interactionCameraStart = transform.Find("Camera").Find("InteractionStart");
+        _interactionCameraEnd = transform.Find("Camera").Find("InteractionEnd");
+        
+        _promptCameraStart = transform.Find("Camera").Find("PromptStart");
+        _promptCameraEnd = transform.Find("Camera").Find("PromptEnd");
         
         _interactable = GetComponentInChildren<Interactable>();
         _animator = GetComponentInChildren<Animator>();
@@ -47,6 +60,13 @@ public class Lightbridge : MonoBehaviour
         _stairColliderRenderer = _stairCollider.GetComponent<Renderer>();
         _stairCollider.enabled = false;
         _stairColliderRenderer.enabled = false;
+
+        _subAmbience = FMODUnity.RuntimeManager.CreateInstance("event:/OuroSubAmbience");
+        _midAmbience = FMODUnity.RuntimeManager.CreateInstance("event:/OuroMidAmbience");
+        _highAmbience = FMODUnity.RuntimeManager.CreateInstance("event:/OuroHighAmbience");
+        
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_subAmbience, _interactable.gameObject);
+        _subAmbience.start();
         
         Fx.SetActive(false);
 
@@ -61,6 +81,8 @@ public class Lightbridge : MonoBehaviour
             _colliderRenderer.enabled = true;
             _stairCollider.enabled = true;
             _stairColliderRenderer.enabled = true;
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(_highAmbience, Fx.gameObject);
+            _highAmbience.start();
         } else if (!SaveSystem.GetPersistentEventCompleted(activatorEvent))
         {
             _interactable.SetEnabled(false);
@@ -76,14 +98,66 @@ public class Lightbridge : MonoBehaviour
 
     private void OnActivator()
     {
-        _interactable.SetEnabled(true);
-        InteractableFx.gameObject.SetActive(true);
+        if (promptCamera) StartCoroutine(CameraCoroutine());
+        else
+        {
+            _interactable.SetEnabled(true);
+            InteractableFx.gameObject.SetActive(true);
+            
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(_midAmbience, _interactable.gameObject);
+            _midAmbience.start();
+        }
+
+        IEnumerator CameraCoroutine()
+        {
+            CutsceneManager.Singleton.SetPseudoCutsceneActive(true);
+            
+            _virtualCamera.Priority = 50;
+
+            var t = 0f;
+            var d = 2f;
+
+            _virtualCamera.transform.position = _promptCameraStart.position;
+            _virtualCamera.transform.rotation = _promptCameraStart.rotation;
+            
+            yield return new WaitForSeconds(0.75f);
+            
+            while (t < d)
+            {
+
+                var w = Util.SmoothLerp01(t / d);
+                
+                _virtualCamera.transform.position = Vector3.Lerp(_promptCameraStart.position, _promptCameraEnd.position, w);
+                _virtualCamera.transform.rotation = Quaternion.Lerp(_promptCameraStart.rotation, _promptCameraEnd.rotation, w);
+                
+                t += Time.deltaTime;
+                yield return null;
+            }
+            
+            _interactable.SetEnabled(true);
+            InteractableFx.gameObject.SetActive(true);
+            
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(_midAmbience, _interactable.gameObject);
+            _midAmbience.start();
+            
+            Util.InvokeSphereEffect(_interactable.transform.position - Vector3.up, Vector3.one * 6f, 1.25f, 0.8f, -0.5f);
+            
+            
+            yield return new WaitForSeconds(2.5f);
+            
+            _virtualCamera.Priority = -50;
+            CutsceneManager.Singleton.ClearPseudoCutsceneActive();
+        }
     }
 
     private void OnDisable()
     {
         _interactable.OnInteracted -= OnInteracted;
         LightbridgeActivator.OnLightbridgeActivatorInteracted -= OnActivator;
+
+        _subAmbience.stop(STOP_MODE.ALLOWFADEOUT);
+        _midAmbience.stop(STOP_MODE.ALLOWFADEOUT);
+        _highAmbience.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
     private void OnInteracted()
@@ -92,6 +166,7 @@ public class Lightbridge : MonoBehaviour
         SaveSystem.WritePersistentEvent(persistentEvent);
         _interactable.SetEnabled(false);
         InteractableFx.gameObject.SetActive(false);
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/LightbridgeChannel", gameObject);
 
         StartCoroutine(Coroutine());
         
@@ -105,8 +180,8 @@ public class Lightbridge : MonoBehaviour
             var t = 0f;
             var d = 3.25f;
 
-            _virtualCamera.transform.position = _cameraStart.position;
-            _virtualCamera.transform.rotation = _cameraStart.rotation;
+            _virtualCamera.transform.position = _interactionCameraStart.position;
+            _virtualCamera.transform.rotation = _interactionCameraStart.rotation;
             
             yield return new WaitForSeconds(1f);
             
@@ -115,8 +190,8 @@ public class Lightbridge : MonoBehaviour
 
                 var w = Util.SmoothLerp01(t / d);
                 
-                _virtualCamera.transform.position = Vector3.Lerp(_cameraStart.position, _cameraEnd.position, w);
-                _virtualCamera.transform.rotation = Quaternion.Lerp(_cameraStart.rotation, _cameraEnd.rotation, w);
+                _virtualCamera.transform.position = Vector3.Lerp(_interactionCameraStart.position, _interactionCameraEnd.position, w);
+                _virtualCamera.transform.rotation = Quaternion.Lerp(_interactionCameraStart.rotation, _interactionCameraEnd.rotation, w);
                 
                 t += Time.deltaTime;
                 yield return null;
@@ -129,6 +204,10 @@ public class Lightbridge : MonoBehaviour
             Fx.SetActive(true);
             Util.InvokeSphereEffect(Fx.transform.position - Vector3.up, Vector3.one * 25f, 1.25f, 0.8f, -9f);
             _colliderRenderer.enabled = true;
+            
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(_highAmbience, Fx.gameObject);
+            _highAmbience.start();
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/LatticeComplete", Fx.gameObject);
             
             _stairCollider.enabled = true;
             _stairColliderRenderer.enabled = true;

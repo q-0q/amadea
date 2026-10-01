@@ -215,7 +215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2224232700447401997}
   m_Layer: 0
-  m_Name: Start
+  m_Name: InteractionStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -380,6 +380,37 @@ MonoBehaviour:
   distanceLerpMax: 10
   distanceLerpPower: 0.5
   preventDistanceCulling: 0
+--- !u!1 &4238722313636718327
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7305085716767019937}
+  m_Layer: 0
+  m_Name: PromptStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7305085716767019937
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4238722313636718327}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: -26.300003, y: 7.95, z: -40.39999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3268525148271006204}
+  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!1 &4464643707131369372
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,7 +421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7706186830567347332}
   m_Layer: 0
-  m_Name: End
+  m_Name: InteractionEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -739,6 +770,8 @@ Transform:
   - {fileID: 6567636631582954513}
   - {fileID: 2224232700447401997}
   - {fileID: 7706186830567347332}
+  - {fileID: 7305085716767019937}
+  - {fileID: 7977824058236882052}
   m_Father: {fileID: 3911217419740109166}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7617340886739247168
@@ -813,6 +846,37 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 5928054342803492458}
+--- !u!1 &7662933164854104720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7977824058236882052}
+  m_Layer: 0
+  m_Name: PromptEnd
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7977824058236882052
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7662933164854104720}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.32137907, z: -0, w: 0.9469507}
+  m_LocalPosition: {x: -18.2, y: 6, z: -39.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3268525148271006204}
+  m_LocalEulerAnglesHint: {x: 0, y: 37.493, z: 0}
 --- !u!1 &7765018369309172888
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,6 +1044,7 @@ MonoBehaviour:
   BackEdge: {fileID: 3694597992139513656}
   ColliderTransform: {fileID: 8875659691452954822}
   Fx: {fileID: 893588392894907261}
+  promptCamera: 0
 --- !u!1 &8791544729702190718
 GameObject:
   m_ObjectHideFlags: 0

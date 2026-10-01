@@ -10,7 +10,10 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.PitonInteractable)
             .SubstateOf(PlayerFsmState.RopeSwingInteractable)
             .SubstateOf(PlayerFsmState.MinorLeylineInteractable)
-            .PermitIf(PlayerFsmTrigger.Jump, PlayerFsmState.Jumpsquat, _ => TimeInCurrentState() < CoyoteTime && !Machine.IsInState(PlayerFsmState.FallAfterDash) && !_wallsquattedSinceLeavingGround && !Machine.IsInState(PlayerFsmState.LongFall))
+            .SubstateOf(PlayerFsmState.TinsicaUsable)
+            .PermitIf(PlayerFsmTrigger.Jump, PlayerFsmState.Jumpsquat, _ => CoyoteTimeClause() && _timeSinceTinsicaExited > CoyoteTime)
+            .PermitIf(PlayerFsmTrigger.Jump, PlayerFsmState.TinsicaJump, _ => CoyoteTimeClause() && _timeSinceTinsicaExited < CoyoteTime && PlayerManaManager.Singleton.GetCurrentAvailableMana() >= 1, 2)
+            // careful about tinisica buffer permit weight whn adding air tricks in the future
             .Permit(PlayerFsmTrigger.StartUpdraft, PlayerFsmState.Updraft)
             .PermitIf(PlayerFsmTrigger.Attack, PlayerFsmState.ImpaleAir, CanImpale)
             .PermitIf(PlayerFsmTrigger.Attack, PlayerFsmState.GrappleStartup, CanGrapple, 1)
@@ -28,5 +31,10 @@ public partial class PlayerFsm
             })
             .SubstateOf(PlayerFsmState.Fall);
 
+    }
+
+    private bool CoyoteTimeClause()
+    {
+        return TimeInCurrentState() < CoyoteTime && !Machine.IsInState(PlayerFsmState.FallAfterDash) && !_wallsquattedSinceLeavingGround && !Machine.IsInState(PlayerFsmState.LongFall);
     }
 }

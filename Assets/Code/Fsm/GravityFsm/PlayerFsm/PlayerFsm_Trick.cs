@@ -46,6 +46,11 @@ public partial class PlayerFsm
         Machine.Configure(PlayerFsmState.TinsicaUsable)
             .PermitIf(PlayerFsmTrigger.Trick, PlayerFsmState.Tinsica, _ =>
             {
+                if (Machine.IsInState(PlayerFsmState.Fall))
+                {
+                    if (!CoyoteTimeClause()) return false;
+                    if (_timeSinceTinsicaExited < CoyoteTime) return false;
+                }
                 if (Machine.IsInState(PlayerFsmState.SlowVaultFinish) && TimeInCurrentState() < 0.1f) return false;
                 return PlayerManaManager.Singleton.GetCurrentAvailableMana() >= 1 && SaveSystem.GetTrick("Tinsica");
             });
@@ -81,24 +86,12 @@ public partial class PlayerFsm
                 LastUpwardsY = transform.position.y;
                 
                 PlayerManaManager.Singleton.Consume();
+            })
+            .OnExit(_ =>
+            {
+                _timeSinceTinsicaExited = 0f;
             });
         
-        Machine.Configure(PlayerFsmState.TinsicaJumpsquat)
-            .SubstateOf(GravityFsmState.Grounded)
-            .SubstateOf(PlayerFsmState.LockMomentum)
-            .Permit(FsmTrigger.Timeout, PlayerFsmState.TinsicaJump)
-            .OnEntry(_ =>
-            {
-                Animator.SetLayerWeight(1, 0);
-                _inputBuffer.ConsumeBuffer("Jump");
-                FMODUnity.RuntimeManager.PlayOneShotAttached(jumpFmodEvent, gameObject);
-                
-                OnPlayerFootstep();
-            })
-            .OnExitFrom(FsmTrigger.Timeout, _ =>
-            {
-                OnPlayerFootstep();
-            });
         
         Machine.Configure(PlayerFsmState.TinsicaJump)
             .SubstateOf(GravityFsmState.Aerial)

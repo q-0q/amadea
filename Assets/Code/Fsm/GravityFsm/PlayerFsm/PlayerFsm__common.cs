@@ -303,6 +303,7 @@ public partial class PlayerFsm
     private bool _dialogueIdle;
     private bool _isSurgeQueued;
     private float _timeSinceSurgeQueued;
+    private float _timeSinceTinsicaExited;
     public static event Action<String> OnItemCollected;
     private CinemachineImpulseSource _impulse;
 

@@ -78,6 +78,8 @@ public class PlayerManaIndicator : MonoBehaviour
         Vibrate();
 
         StartCoroutine(Coroutine());
+        
+        // FMODUnity.RuntimeManager.PlayOneShotAttached("event:/ManaRegen", PlayerFsm.Singleton.gameObject);
 
         IEnumerator Coroutine()
         {

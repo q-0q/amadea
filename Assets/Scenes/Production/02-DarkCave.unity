@@ -5434,7 +5434,7 @@ PrefabInstance:
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 131.63
       objectReference: {fileID: 0}
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
@@ -8356,7 +8356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FMODSceneRequestor
   musicProgression: 0
   MusicEvent: 0
-  AmbientEvents: 01000000
+  AmbientEvents: 03000000
 --- !u!4 &1914117255
 Transform:
   m_ObjectHideFlags: 0

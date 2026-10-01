@@ -139,7 +139,6 @@ public partial class PlayerFsm : GravityFsm
         public static int Tinsica;
         public static int TinsicaUsable;
         public static int TinsicaJump;
-        public static int TinsicaJumpsquat;
         
         public static int WalkToRotationDaisPosition;
         public static int RotationDaisInteract;
@@ -354,6 +353,7 @@ public partial class PlayerFsm : GravityFsm
         _timeSinceMinorLeyline += Time.deltaTime;
         _timeSinceMinorLeylineUp += Time.deltaTime;
         _timeSinceRespawn += Time.deltaTime;
+        _timeSinceTinsicaExited += Time.deltaTime;
         
         if (_comboTimer > ComboTimeoutDuration)
         {

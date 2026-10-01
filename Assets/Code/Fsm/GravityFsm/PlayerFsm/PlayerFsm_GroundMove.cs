@@ -48,6 +48,7 @@ public partial class PlayerFsm
             .Permit(GravityFsmTrigger.StartFrameAerial, PlayerFsmState.Fall)
             .Permit(PlayerFsmTrigger.Jump, PlayerFsmState.Jumpsquat)
             .PermitIf(PlayerFsmTrigger.Jump, PlayerFsmState.Skipsquat, _ => _timeSinceDashFinished <= SkipWindowDuration, 1)
+            .PermitIf(PlayerFsmTrigger.Jump, PlayerFsmState.TinsicaJump, _ => PlayerManaManager.Singleton.GetCurrentAvailableMana() >= 1 && _timeSinceTinsicaExited < CoyoteTime, 2)
             .PermitIf(PlayerFsmTrigger.HardTurn, PlayerFsmState.HardTurn, _=> _momentum > HardTurnMinimumMomentum)
             // .PermitIf(PlayerFsmTrigger.Dash, PlayerFsmState.Dashsquat, CanDash)
             .PermitIf(PlayerFsmTrigger.Attack, PlayerFsmState.ImpaleGround, CanImpale)
@@ -64,6 +65,10 @@ public partial class PlayerFsm
                 _wallsquattedSinceLeavingGround = false;
                 _dashSinceLeavingGround = false;
                 currentRopeSwing = null;
+            })
+            .OnExitFrom(GravityFsmTrigger.StartFrameAerial, _ =>
+            {
+                PlaySlipSound();
             });
         
         

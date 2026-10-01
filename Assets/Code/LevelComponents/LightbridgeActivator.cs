@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using Cinemachine;
-using Code.Misc;
+using FMOD.Studio;
 using UnityEngine;
+using Util = Code.Misc.Util;
 
 public class LightbridgeActivator : MonoBehaviour
 {
@@ -17,17 +18,23 @@ public class LightbridgeActivator : MonoBehaviour
 
     public Transform Fx;
 
+
+    private EventInstance _ambience;
+
     private void Awake()
     {
         _interactable = GetComponentInChildren<Interactable>();
         _virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
         _cameraStart = transform.Find("CameraStart");
         _cameraEnd = transform.Find("CameraEnd");
+        _ambience = FMODUnity.RuntimeManager.CreateInstance("event:/OuroHighAmbience");
 
         if (SaveSystem.GetPersistentEventCompleted(persistentEvent))
         {
             Fx.gameObject.SetActive(true);
             _interactable.SetEnabled(false);
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(_ambience, Fx.gameObject);
+            _ambience.start();
         }
     }
 
@@ -39,6 +46,7 @@ public class LightbridgeActivator : MonoBehaviour
     private void OnDisable()
     {
         _interactable.OnInteracted -= OnInteracted;
+        _ambience.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
     private void OnInteracted()
@@ -77,13 +85,18 @@ public class LightbridgeActivator : MonoBehaviour
             Util.InvokeSphereEffect(Fx.position - Vector3.up, Vector3.one * 25f, 1.25f, 0.8f, -9f);
             Fx.gameObject.SetActive(true);
             
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(_ambience, Fx.gameObject);
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/LatticeComplete", Fx.gameObject);
+            _ambience.start();
+            
             yield return new WaitForSeconds(3f);
             
             _virtualCamera.Priority = -50;
             CutsceneManager.Singleton.ClearPseudoCutsceneActive();
+            OnLightbridgeActivatorInteracted?.Invoke();
         }
         
-        OnLightbridgeActivatorInteracted?.Invoke();
+        
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

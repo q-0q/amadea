@@ -367,8 +367,8 @@ MonoBehaviour:
       Data4: -1769409114
     Path: event:/FireAmbience
   Event: 
-  EventPlayTrigger: 1
-  EventStopTrigger: 2
+  EventPlayTrigger: 11
+  EventStopTrigger: 12
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0
@@ -389,3 +389,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6759f7142c47425fbeb735e5c60525a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  OffsetRandomRangeMilliseconds: 4000

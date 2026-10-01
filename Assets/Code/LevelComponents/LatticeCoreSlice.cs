@@ -58,6 +58,7 @@ public class LatticeCoreSlice : MonoBehaviour
         material.SetFloat("_SolidWeight", 1f);
         material.SetFloat("_CompleteWeight", 1f);
         StartCoroutine(GlowCoroutine());
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/LatticeComplete", gameObject);
         
     }
 
