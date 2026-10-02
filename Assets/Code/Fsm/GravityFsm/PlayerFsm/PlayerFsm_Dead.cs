@@ -44,6 +44,7 @@ public partial class PlayerFsm
                 isSprinting = false;
                 _isSurgeQueued = false;
                 _deathParticles.PlayDeath();
+                
                 // _impulse.GenerateImpulse();
 
                 
@@ -88,7 +89,9 @@ public partial class PlayerFsm
                 YVelocity = 0;
                 // _skinnedMeshRenderer.transform.DOShakePosition(0.35f, 0.25f, 20);
                 _deathParticles.transform.position = transform.position;
+                _respawnParticles.transform.position = transform.position;
                 MakeAllRenderersInvisible();
+                _respawnParticles.PlayDeath();
             });
         
         
@@ -108,7 +111,7 @@ public partial class PlayerFsm
                 Animator.SetLayerWeight(1, 0);
                 Shader.SetGlobalFloat("_PlayerTintWeight", 1f);
                 Shader.SetGlobalFloat("_PlayerEvaporateClip", 1f);
-
+                
                 var initialPosition = transform.position;
                 transform.position = _safeGroundPosition;
                 OnPlayerTeleported?.Invoke(transform.position - initialPosition);

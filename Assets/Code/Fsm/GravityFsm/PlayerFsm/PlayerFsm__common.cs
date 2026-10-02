@@ -48,6 +48,7 @@ public partial class PlayerFsm
     private float _slideNormalExitTimer = 0f;
     private ParticleSystem _teleportParticles;
     private PlayerDeathParticles _deathParticles;
+    private RespawnParticles _respawnParticles;
     private bool isSprinting;
     private bool _isParentSlippery = false;
     private Vector3 _previousPositionDeltaNoTimescale;

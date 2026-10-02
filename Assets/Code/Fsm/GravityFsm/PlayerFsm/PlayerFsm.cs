@@ -285,6 +285,7 @@ public partial class PlayerFsm : GravityFsm
         _kiIndicatorParticles = transform.Find("Armature").GetComponentsInChildren<ParticleSystem>().Where(d => d.name == "PlayerFootParticles").ToList();
         _teleportParticles = transform.Find("TeleportParticles").GetComponent<ParticleSystem>();
         _deathParticles = transform.Find("DeathParticles").GetComponent<PlayerDeathParticles>();
+        _respawnParticles = GetComponentInChildren<RespawnParticles>();
         _splashParticles = transform.Find("SplashParticles").GetComponent<ParticleSystem>();
         _splashParticles.transform.SetParent(null);
         _teleportParticles.transform.SetParent(null);
