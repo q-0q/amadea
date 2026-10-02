@@ -11,6 +11,8 @@ public class RespawnParticles : MonoBehaviour
     private Renderer _haloRenderer;
     private CustomPointLight _light;
     private Color _baseLightColor;
+
+    private Vector3 _baseHaloLocalScale;
     
 
     private void Awake()
@@ -20,22 +22,22 @@ public class RespawnParticles : MonoBehaviour
         _haloRenderer = _particleSystem.transform.Find("Halo").GetComponent<Renderer>();
         _light = GetComponentInChildren<CustomPointLight>();
         _baseLightColor = _light.Color;
+        _baseHaloLocalScale = _haloRenderer.transform.localScale;
         SetValues(1f, 1f, 0f);
     }
 
     public void PlayDeath()
     {
-        StartCoroutine(Coroutine());
+        StartCoroutine(MainCoroutine());
+        StartCoroutine(ScaleCoroutine());
 
-        IEnumerator Coroutine()
+        IEnumerator MainCoroutine()
         {
             transform.position = PlayerFsm.Singleton.transform.position;
             
             
             yield return new WaitForSeconds(0.25f);
             _particleSystem.Play();
-
-
             
             var t = 0f;
             var d = 0.5f;
@@ -46,6 +48,7 @@ public class RespawnParticles : MonoBehaviour
                 var w = Util.SmoothLerp01(t / d);
                 SetValues(1f - w, 1f - w, w);
 
+                
                 t += Time.deltaTime;
                 yield return null;
             }
@@ -60,13 +63,38 @@ public class RespawnParticles : MonoBehaviour
                 var w = Util.SmoothLerp01(t / d);
                 w = (Mathf.Pow(w, 0.5f));
                 SetValues(w, w, 1f - w);
-
+                
                 t += Time.deltaTime;
                 yield return null;
             }
             
             _particleSystem.Stop();
             
+            
+        }
+        
+        IEnumerator ScaleCoroutine()
+        {
+            
+            
+            var newScale = _baseHaloLocalScale * 0.75f;
+            _haloRenderer.transform.localScale = newScale;
+            yield return new WaitForSeconds(0.75f);
+
+
+            
+            var t = 0f;
+            var d = 0.5f;
+            
+            
+            while (t < d)
+            {
+                var w = Util.SmoothLerp01(t / d);
+                w = (Mathf.Pow(w, 0.5f));
+                _haloRenderer.transform.localScale = Vector3.Lerp(newScale, _baseHaloLocalScale, w);
+                t += Time.deltaTime;
+                yield return null;
+            }
             
         }
     }
