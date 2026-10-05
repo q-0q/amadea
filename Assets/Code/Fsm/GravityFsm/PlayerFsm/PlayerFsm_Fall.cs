@@ -35,6 +35,6 @@ public partial class PlayerFsm
 
     private bool CoyoteTimeClause()
     {
-        return TimeInCurrentState() < CoyoteTime && !Machine.IsInState(PlayerFsmState.FallAfterDash) && !_wallsquattedSinceLeavingGround && !Machine.IsInState(PlayerFsmState.LongFall);
+        return (_timeSinceJumpBufferable < CoyoteTime);
     }
 }

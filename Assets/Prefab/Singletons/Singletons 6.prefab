@@ -43674,7 +43674,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6664012402507001246
 Transform:
   m_ObjectHideFlags: 0
@@ -43703,7 +43703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomFogObserver
   isPlayer: 0
-  radiusMultiplier: 1
+  radiusMultiplier: 0.1
 --- !u!1 &5991863201710531985
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,8 @@ using UnityEngine;
 public partial class PlayerFsm
 {
     private void GroundMoveOnUpdate()
-    { 
+    {
+        _timeSinceJumpBufferable = 0f;
         if (_playerInput.actions["Sprint"].IsPressed()) isSprinting = true;
         
         HandleInputMomentumChange();

@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PinkGrass
+  m_Shader: {fileID: -6465566751694194690, guid: 5c9e2eae3cd0548b4a64504cd92ce99b,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _EMISSION
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SampleTexture2D_e2c4242fa004445bbd47816c1f4d69d9_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 79259ec4630c34a3b83d4db88d3ba44c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture:
+        m_Texture: {fileID: 2800000, guid: 424eeece8b00443d6ba9edef43e9cc50, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Air: 0
+    - _AirEnabled: 0
+    - _AltColorPower: 2
+    - _AltColorScale: 0.5
+    - _HueRotation: 0
+    - _MaximumRotation: 50
+    - _MaximumTranslation: 1
+    - _PlayerCameraFlatDistance: 16
+    - _QueueControl: 1
+    - _QueueOffset: 0
+    - _Radius: 10
+    - _RadiusExponent: 4
+    - _Saturation: 1
+    - _ScreenSpaceReflection: 0
+    - _Smoothness: 0
+    - _SnowStrength: 0
+    - _UseTexture: 1
+    - _WindScale: 0.25
+    - _WindSpeed: 10
+    - _WindStrength: 4
+    m_Colors:
+    - _Add: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
+    - _AltColor: {r: 1, g: 0.50443953, b: 0.33490568, a: 1}
+    - _Color: {r: 1, g: 0.6084906, b: 0.6084906, a: 1}
+    - _Pivot: {r: 0, g: -1, b: 0, a: 0}
+    - _PlayerOffset: {r: 0, g: 3, b: 0, a: 0}
+    - _PlayerYOffset: {r: 0, g: 3, b: 0, a: 0}
+    - _SnowColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &9221574301907230843
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 10

@@ -268,6 +268,7 @@ public partial class PlayerFsm : GravityFsm
         _isSurgeQueued = false;
         Time.timeScale = 1f;
         _timeSinceBoostStarted = 100f;
+        _timeSinceBridgeBoost = 100f;
         _movementAnimationMirror = false;
         TryGetComponent(out _playerInput);
         _inputBuffer = new InputBuffer(_playerInput, 0.275f);
@@ -320,6 +321,7 @@ public partial class PlayerFsm : GravityFsm
         SaveSystem.UpdateScreenshot(0.3f);
         SnapToGround();
         StartCoroutine(SurgeTrailCoroutine());
+        StartCoroutine(BridgeTrailCoroutine());
     }
     
     protected override void OnStartComplete()
@@ -355,6 +357,7 @@ public partial class PlayerFsm : GravityFsm
         _timeSinceMinorLeylineUp += Time.deltaTime;
         _timeSinceRespawn += Time.deltaTime;
         _timeSinceTinsicaExited += Time.deltaTime;
+        _timeSinceJumpBufferable += Time.deltaTime;
         
         if (_comboTimer > ComboTimeoutDuration)
         {
@@ -608,7 +611,8 @@ public partial class PlayerFsm : GravityFsm
         }
         else if ((!Machine.IsInState(PlayerFsmState.Dying) && !Machine.IsInState(PlayerFsmState.Dead) &&
                   !Machine.IsInState(PlayerFsmState.Wallsquat) && Machine.IsInState(GravityFsmState.Grounded) &&
-                  !Machine.IsInState(PlayerFsm.PlayerFsmState.Jumpsquat)) || Machine.IsInState(PlayerFsmState.VaultHang))
+                  !Machine.IsInState(PlayerFsm.PlayerFsmState.Jumpsquat)) || Machine.IsInState(PlayerFsmState.VaultHang) 
+                                                                          || Machine.IsInState(PlayerFsmState.Tinsica))
         {
             freezeFmodInstance.stop(STOP_MODE.ALLOWFADEOUT);
             _freezeTimer = 0;

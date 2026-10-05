@@ -11,6 +11,7 @@ public partial class PlayerFsm
 
     private void TinsicaOnUpdate()
     {
+        _timeSinceJumpBufferable = 0f;
         var speedMod = Mathf.Lerp(1f, Mathf.Lerp(1.75f, 1f, Mathf.InverseLerp(0.2f, 0.45f, TimeInCurrentState())), 
             Mathf.InverseLerp(0.1f, 0.2f, TimeInCurrentState()));
         HandleCollisionMove(speedMod, false);

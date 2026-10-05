@@ -305,6 +305,8 @@ public partial class PlayerFsm
     private bool _isSurgeQueued;
     private float _timeSinceSurgeQueued;
     private float _timeSinceTinsicaExited;
+    private float _timeSinceJumpBufferable;
+    private float _timeSinceBridgeBoost;
     public static event Action<String> OnItemCollected;
     private CinemachineImpulseSource _impulse;
 
@@ -561,7 +563,9 @@ public partial class PlayerFsm
         var comboMultiplier = GetCurrentSurgeSpeedMultiplier();
         var boostMultiplier = GetCurrentBoostSpeedMultiplier();
         var miscMultiplier = GetCurrentMiscSpeedMultiplier();
-        var m = comboMultiplier * boostMultiplier * miscMultiplier;
+        var bridge = Mathf.Lerp(2f, 1f, Mathf.InverseLerp(0.5f, 1f, _timeSinceBridgeBoost));
+        var m = comboMultiplier * boostMultiplier * miscMultiplier * bridge;
+        
         return m;
     }
 
@@ -1000,6 +1004,10 @@ public partial class PlayerFsm
         { 
             _desiredWindRushFmodAmount = Mathf.Lerp(1f, 0.5f, Mathf.InverseLerp(2f, 4.5f, _timeSinceSurgeStarted));
         }
+        else if (_timeSinceBridgeBoost < 1f)
+        { 
+            _desiredWindRushFmodAmount = Mathf.Lerp(1f, 0.5f, Mathf.InverseLerp(0f, 1f, _timeSinceBridgeBoost));
+        }
         else if (Machine.IsInState(GravityFsmState.Aerial))
         {
             _desiredWindRushFmodAmount = Mathf.Lerp(0f, 1f, Mathf.InverseLerp(-8f, -55f, CurrentFallDistance()));
@@ -1418,6 +1426,7 @@ public partial class PlayerFsm
         BonusGravityModifier = _isSurging || _isSurgeQueued ? 0.85f : 1f;
         _timeSinceSurgeStarted += Time.deltaTime;
         _timeSinceSurgeQueued += Time.deltaTime;
+        _timeSinceBridgeBoost += Time.deltaTime;
         if (!_isSurgeQueued && !_isSurging) return;
         if (_isSurgeQueued && _timeSinceSurgeQueued > 0.15f && 
             !Machine.IsInState(PlayerFsmState.Tinsica) &&
@@ -1479,6 +1488,23 @@ public partial class PlayerFsm
             meshFilter.mesh = mesh;
         }
     }
+    
+    private IEnumerator BridgeTrailCoroutine()
+    {
+        while (true){
+            yield return new WaitForSeconds(Random.Range(0.06f, 0.05f));
+            if ((_timeSinceBridgeBoost > 0.5f)) continue;
+            var comboMeshPrefab = Resources.Load("Prefab/Fsm/PlayerComboMesh") as GameObject;
+            var position = _skinnedMeshRenderer.transform.position;
+            var rotation = _skinnedMeshRenderer.transform.rotation;
+            var mesh = new Mesh();
+            _skinnedMeshRenderer.BakeMesh(mesh);
+            var comboMeshObject = Instantiate(comboMeshPrefab, position,
+                rotation, null);
+            comboMeshObject.TryGetComponent(out MeshFilter meshFilter);
+            meshFilter.mesh = mesh;
+        }
+    }
 
     public float GetTimeSinceRespawn()
     {
@@ -1488,6 +1514,14 @@ public partial class PlayerFsm
     private void PlaySlipSound()
     {
         FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/PlayerSlip"), gameObject);
+    }
+
+
+    public void RefreshBridgeBoost()
+    {
+        if (_momentum < 6f || !isSprinting) return;
+        PlaySpeedLineParticlesForDuration(0.5f);
+        _timeSinceBridgeBoost = 0f;
     }
     
     

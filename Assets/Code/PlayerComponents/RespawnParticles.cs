@@ -84,7 +84,7 @@ public class RespawnParticles : MonoBehaviour
 
             
             var t = 0f;
-            var d = 0.5f;
+            var d = 0.25f;
             
             
             while (t < d)

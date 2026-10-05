@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3649246371717386658
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Trip3Top_PinkGrass
+  m_Shader: {fileID: -6465566751694194690, guid: 272247f0e3c064328b7a9e2ac3f8d0f8,
+    type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SidesColorSampleTexture:
+        m_Texture: {fileID: 2800000, guid: 1c1831f39955548d594cd80eb37d8c88, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SidesNoiseColorSampleTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SidesNoiseNormalSampleTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SidesNormalSampleTexture:
+        m_Texture: {fileID: 2800000, guid: deeb4ea5e2cd24b6baa25befcd59042f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopColorSampleTexture:
+        m_Texture: {fileID: 2800000, guid: c1e558bb4c061426d976d633100a81dc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopNormalSampleTexture:
+        m_Texture: {fileID: 2800000, guid: 14abe23471a7d4c848c274d70f9f9fb2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Dot: 0.1
+    - _ObjectSpace: 0
+    - _PlayerCameraFlatDistance: 16
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _SidesContrast: 1
+    - _SidesHueOffset: 0
+    - _SidesMetallic: 0.2
+    - _SidesNoiseContrast: 1
+    - _SidesNoiseHueOffset: 0
+    - _SidesNoiseLerpMax: -1
+    - _SidesNoiseLerpMin: -0.5
+    - _SidesNoiseMetallic: 0
+    - _SidesNoiseNoiseScale: 0.1
+    - _SidesNoiseNormalIntensity: 1
+    - _SidesNoiseSaturation: 0
+    - _SidesNoiseScale: 0.1
+    - _SidesNoiseSmoothness: 0
+    - _SidesNormalIntensity: 1
+    - _SidesSaturation: 1
+    - _SidesScale: 0.1
+    - _SidesSmoothness: 0
+    - _TopContrast: 1
+    - _TopHueOffset: 0
+    - _TopMetallic: 0
+    - _TopNormalIntensity: 0.75
+    - _TopSaturation: 0
+    - _TopScale: 0.05
+    - _TopSmoothness: 0.2
+    m_Colors:
+    - _DotVector: {r: 0, g: 1, b: 0, a: 0}
+    - _SidesAdd: {r: 0, g: 0, b: 0, a: 1}
+    - _SidesMultiply: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
+    - _SidesNoiseAdd: {r: 0, g: 0, b: 0, a: 1}
+    - _SidesNoiseMultiply: {r: 1, g: 1, b: 1, a: 1}
+    - _TopAdd: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
+    - _TopMultiply: {r: 1, g: 0.7122642, b: 0.7122642, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

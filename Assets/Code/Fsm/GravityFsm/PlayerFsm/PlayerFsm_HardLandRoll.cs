@@ -6,7 +6,7 @@ public partial class PlayerFsm
     private void HardLandRollOnUpdate()
     {
         Animator.SetLayerWeight(1, 0);
-        transform.position += ComputeCollisionMove(transform.forward * (HardLandRollForwardSpeed * GetCurrentSurgeSpeedMultiplier() * GetCurrentBoostSpeedMultiplier() * Time.deltaTime));
+        transform.position += ComputeCollisionMove(transform.forward * (HardLandRollForwardSpeed * ComputeAllMovementMultipliers() * Time.deltaTime));
         HandleTurning(AirControlTurningMultiplier, true, 0, true);
     }
 

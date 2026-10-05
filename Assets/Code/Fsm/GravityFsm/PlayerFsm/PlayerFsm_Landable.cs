@@ -61,7 +61,7 @@ public partial class PlayerFsm
             })
             .PermitIf(PlayerFsmTrigger.IsAboveLongFall, PlayerFsmState.LongFall, _ =>
             {
-                return CurrentFallDistance() < -5f && !Machine.IsInState(PlayerFsmState.DiveFall) && !Machine.IsInState(PlayerFsmState.RopeSwing) && !Machine.IsInState(PlayerFsmState.Swim)  && !Machine.IsInState(PlayerFsmState.Wallrun);
+                return CurrentFallDistance() < -5f && !Machine.IsInState(PlayerFsmState.DiveFall) && !Machine.IsInState(PlayerFsmState.RopeSwing) && !Machine.IsInState(PlayerFsmState.Swim)  && !Machine.IsInState(PlayerFsmState.Wallrun) && !Machine.IsInState(PlayerFsmState.Updraft);
             })
             .PermitIf(PlayerFsmTrigger.SwimTriggerRaycastHit, PlayerFsmState.SwimSurfaceRise, IsSwimTrigger);
 

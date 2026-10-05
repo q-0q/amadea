@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using FMOD.Studio;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Util = Code.Misc.Util;
@@ -94,6 +95,31 @@ public class Lightbridge : MonoBehaviour
     {
         _interactable.OnInteracted += OnInteracted;
         LightbridgeActivator.OnLightbridgeActivatorInteracted += OnActivator;
+        PlayerFsm.OnPlayerParentTransformChanged += OnPlayer;
+    }
+
+    private void OnPlayer(Transform t, float momentum, float yVelocity)
+    {
+        
+        
+        if (t == _collider.transform)
+        {
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/LatticeComplete", PlayerFsm.Singleton.gameObject);
+            StartCoroutine(Coroutine());
+        }
+
+        IEnumerator Coroutine()
+        {
+            var t = 0f;
+            var d = 0.5f;
+            while (t < d)
+            {
+                var w = t / d;
+                Shader.SetGlobalFloat("_PlayerTintWeight", 1f - w);
+                t += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
 
     private void OnActivator()
@@ -118,7 +144,7 @@ public class Lightbridge : MonoBehaviour
             var d = 2f;
 
             _virtualCamera.transform.position = _promptCameraStart.position;
-            _virtualCamera.transform.rotation = _promptCameraStart.rotation;
+            _virtualCamera.transform.rotation = _virtualCamera.transform.rotation = Quaternion.LookRotation(_promptCameraStart.forward, Vector3.up);;
             
             yield return new WaitForSeconds(0.75f);
             
@@ -128,7 +154,7 @@ public class Lightbridge : MonoBehaviour
                 var w = Util.SmoothLerp01(t / d);
                 
                 _virtualCamera.transform.position = Vector3.Lerp(_promptCameraStart.position, _promptCameraEnd.position, w);
-                _virtualCamera.transform.rotation = Quaternion.Lerp(_promptCameraStart.rotation, _promptCameraEnd.rotation, w);
+                _virtualCamera.transform.rotation = Quaternion.LookRotation(Vector3.Lerp(_promptCameraStart.forward, _promptCameraEnd.forward, w), Vector3.up);
                 
                 t += Time.deltaTime;
                 yield return null;
@@ -154,6 +180,7 @@ public class Lightbridge : MonoBehaviour
     {
         _interactable.OnInteracted -= OnInteracted;
         LightbridgeActivator.OnLightbridgeActivatorInteracted -= OnActivator;
+        PlayerFsm.OnPlayerParentTransformChanged -= OnPlayer;
 
         _subAmbience.stop(STOP_MODE.ALLOWFADEOUT);
         _midAmbience.stop(STOP_MODE.ALLOWFADEOUT);
@@ -181,7 +208,7 @@ public class Lightbridge : MonoBehaviour
             var d = 3.25f;
 
             _virtualCamera.transform.position = _interactionCameraStart.position;
-            _virtualCamera.transform.rotation = _interactionCameraStart.rotation;
+            _virtualCamera.transform.rotation = Quaternion.LookRotation(_interactionCameraStart.forward, Vector3.up);
             
             yield return new WaitForSeconds(1f);
             
@@ -191,7 +218,7 @@ public class Lightbridge : MonoBehaviour
                 var w = Util.SmoothLerp01(t / d);
                 
                 _virtualCamera.transform.position = Vector3.Lerp(_interactionCameraStart.position, _interactionCameraEnd.position, w);
-                _virtualCamera.transform.rotation = Quaternion.Lerp(_interactionCameraStart.rotation, _interactionCameraEnd.rotation, w);
+                _virtualCamera.transform.rotation = Quaternion.LookRotation(Vector3.Lerp(_interactionCameraStart.forward, _interactionCameraEnd.forward, w), Vector3.up);
                 
                 t += Time.deltaTime;
                 yield return null;
@@ -228,7 +255,8 @@ public class Lightbridge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        var playerParent = PlayerFsm.Singleton.parentTransform;
+        if (playerParent == _collider.transform) PlayerFsm.Singleton.RefreshBridgeBoost();
     }
 
     void UpdateCollider()
