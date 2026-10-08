@@ -6,6 +6,7 @@ public partial class PlayerFsm
     {
         if (Machine.IsInState(PlayerFsmState.Dash)) return;
         if (Machine.IsInState(PlayerFsmState.SurgeDash)) return;
+        if (Machine.IsInState(PlayerFsmState.Updraft)) return;
         Animator.SetFloat("SpeedMod", Mathf.Lerp(GroundMoveMinimumAnimatorSpeedMod, GroundMoveMaximumAnimatorSpeedMod, ComputeMomentumWeight()));
         SetAnimatorMomentum();
 

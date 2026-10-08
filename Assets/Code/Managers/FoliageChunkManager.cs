@@ -128,7 +128,7 @@ public class FoliageChunkManager : MonoBehaviour
 
     private static float ComputeWorldspaceRenderDistance(int level)
     {
-        return level * 12f + 200f;
+        return level * 12f + 500f;
     }
 
     void Update()

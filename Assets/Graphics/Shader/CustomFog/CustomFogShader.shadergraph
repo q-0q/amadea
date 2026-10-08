@@ -358,6 +358,22 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "5e85097c58f5484aa777f4612f3bed63",
+    "m_Id": -1903404640,
+    "m_DisplayName": "CPLMod",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_CPLMod",
+    "m_StageCapability": 2,
+    "m_Value": 1.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": [],
+    "m_LiteralMode": false
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalFullscreenSubTarget",
     "m_ObjectId": "70086c8af41f4fdc8969a7299dfa66a4"
 }
@@ -545,6 +561,9 @@
             "m_Id": "0377cdaff67d4c5dbdc10c8889f6afb6"
         },
         {
+            "m_Id": "5e85097c58f5484aa777f4612f3bed63"
+        },
+        {
             "m_Id": "e9efc62c0ff24616afe87ab7b697d7e2"
         }
     ],
@@ -560,12 +579,14 @@
     "m_PropertyGuids": [
         "395ee70e-2799-41c4-a01d-2b01482f1f15",
         "c440be9d-2527-462c-92e9-892823b3a868",
-        "f490468e-2448-4ac0-b0bf-13275ee99e83"
+        "f490468e-2448-4ac0-b0bf-13275ee99e83",
+        "9c2c6f50-1916-4594-be64-1738584b236f"
     ],
     "m_PropertyIds": [
         1823404671,
         -1035091701,
-        450704424
+        450704424,
+        -1903404640
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []

@@ -8,14 +8,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public partial class SavaphePitonUpperFsm
+public partial class SavapheSimpleFsm
 {
     // public BellController bell;
     private Interactable _interactable;
 
     private void OnBellInteracted()
     {
-        Machine.Fire(SavaphePitonUpperFsmTrigger.BellRung);
+        Machine.Fire(SavapheSimpleFsmTrigger.BellRung);
     }
 
 

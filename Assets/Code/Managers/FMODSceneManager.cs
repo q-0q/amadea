@@ -21,7 +21,8 @@ public class FMODSceneManager : MonoBehaviour
         Wind,
         Cave,
         Tech,
-        Deep
+        Deep,
+        Storm
     }
     
     private static Dictionary<MusicEvent, EventInstance> _musicInstances;
@@ -68,6 +69,7 @@ public class FMODSceneManager : MonoBehaviour
             [AmbientEvent.Wind] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/WindAmbience")),
             [AmbientEvent.Tech] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/TechAmbience")),
             [AmbientEvent.Deep] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/DeepAmbience")),
+            [AmbientEvent.Storm] = RuntimeManager.CreateInstance(FMODUnity.RuntimeManager.PathToEventReference("event:/StormAmbience")),
         };
 
         _reverbControllerInstance =

@@ -9269,7 +9269,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 753693679}
-  - component: {fileID: 753693678}
+  - component: {fileID: 753693680}
   m_Layer: 0
   m_Name: Savaphe
   m_TagString: Untagged
@@ -9277,18 +9277,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &753693678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 753693677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a8e141ef625460db987242cc7dbc59d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &753693679
 Transform:
   m_ObjectHideFlags: 0
@@ -9302,11 +9290,28 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1151302377}
   - {fileID: 1611519245}
   - {fileID: 1422325859}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -45.864, z: 0}
+--- !u!114 &753693680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753693677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fffe234c9bbd4562b44255d320542f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  animationTrigger: NotCrossedIdle
+  interactionEvent: savaphe-05
+  altDialogueEvent: 
+  removalEvent: barrier-ouro-1
+  defaultDialogueController: {fileID: 1422325861}
+  altDialogueController: {fileID: 0}
 --- !u!1001 &753859754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12760,12 +12765,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1151302376}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.5611336, z: -0, w: 0.8277252}
-  m_LocalPosition: {x: -0.02, y: -2.63, z: 1.34}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalRotation: {x: -0, y: 0.19427341, z: -0, w: 0.98094743}
+  m_LocalPosition: {x: 468.4644, y: 117.97, z: 70.28878}
+  m_LocalScale: {x: 0.74999994, y: 0.75, z: 0.74999994}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 753693679}
+  m_Father: {fileID: 1224756293}
   m_LocalEulerAnglesHint: {x: 0, y: 788.268, z: 0}
 --- !u!64 &1151302378
 MeshCollider:
@@ -14923,6 +14928,7 @@ Transform:
   - {fileID: 954697665}
   - {fileID: 337693822}
   - {fileID: 103935266}
+  - {fileID: 1151302377}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1225572802
@@ -17137,9 +17143,7 @@ MonoBehaviour:
   - texts:
     - Unfeathered.
     - I have been watching you.
-    - You still have quite the climb ahead.
-    - To complete the leyline network, you would need to reach the Summit. A task
-      barely possible.
+    - To complete the leyline network, you would need to reach the Summit.
     - Will you rise to the challenge?
     - I will watch with great interest.
     advanceDialogueIndex: 1
@@ -17147,10 +17151,15 @@ MonoBehaviour:
     canvasDelayOffset: 0
   - texts:
     - Ahead, across the chasm, is an old site of formidable industry.
-    - The technology there failed long ago. Technology that would make the upper
-      regions of the Mountain accessible to one like yourself.
-    - Your journey will take you into that dark place. Revive the systems there,
-      and we may perhaps meet again, further up the Mountain...
+    - The technology there failed long ago.
+    - Your journey will take you into that dark place.
+    - Revive the systems there, and we may perhaps meet again.
+    - Further up the Mountain.
+    advanceDialogueIndex: 1
+    resetDialogueIndex: 0
+    canvasDelayOffset: 0
+  - texts:
+    - Nusuth.
     advanceDialogueIndex: 0
     resetDialogueIndex: 0
     canvasDelayOffset: 0
@@ -18831,7 +18840,7 @@ PrefabInstance:
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 131.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}

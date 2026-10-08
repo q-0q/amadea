@@ -104,14 +104,14 @@ Material:
     - _TopNormalIntensity: 0.75
     - _TopSaturation: 0
     - _TopScale: 0.05
-    - _TopSmoothness: 0.2
+    - _TopSmoothness: 0
     m_Colors:
     - _DotVector: {r: 0, g: 1, b: 0, a: 0}
     - _SidesAdd: {r: 0, g: 0, b: 0, a: 1}
     - _SidesMultiply: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
     - _SidesNoiseAdd: {r: 0, g: 0, b: 0, a: 1}
     - _SidesNoiseMultiply: {r: 1, g: 1, b: 1, a: 1}
-    - _TopAdd: {r: 0.735849, g: 0.735849, b: 0.735849, a: 1}
-    - _TopMultiply: {r: 1, g: 0.7122642, b: 0.7122642, a: 1}
+    - _TopAdd: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
+    - _TopMultiply: {r: 1, g: 0.6367924, b: 0.6367924, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

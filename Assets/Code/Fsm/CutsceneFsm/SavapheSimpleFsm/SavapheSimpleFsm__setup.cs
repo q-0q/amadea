@@ -3,7 +3,7 @@ using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public partial class SavaphePitonUpperFsm
+public partial class SavapheSimpleFsm
 {
 
     public override void SetupMachine()
@@ -12,12 +12,12 @@ public partial class SavaphePitonUpperFsm
 
         Machine.Configure(CutsceneFsmState.Inactive);
 
-        Machine.Configure(SavaphePitonUpperFsmState.NotRung)
+        Machine.Configure(SavapheSimpleFsmState.NotRung)
             .SubstateOf(CutsceneFsmState.Inactive)
-            .Permit(SavaphePitonUpperFsmTrigger.BellRung, SavaphePitonUpperFsmState.Rung);
+            .Permit(SavapheSimpleFsmTrigger.BellRung, SavapheSimpleFsmState.Rung);
 
 
-        Machine.Configure(SavaphePitonUpperFsmState.Rung)
+        Machine.Configure(SavapheSimpleFsmState.Rung)
             .SubstateOf(CutsceneFsmState.Inactive)
             .OnEntry(_ =>
             {
@@ -29,7 +29,7 @@ public partial class SavaphePitonUpperFsm
     public override void SetupStateMaps()
     {
         base.SetupStateMaps();
-        StateMapConfig.AnimationTrigger.Add(SavaphePitonUpperFsmState.NotRung, "NotCrossedIdle");
-        StateMapConfig.AnimationTrigger.Add(SavaphePitonUpperFsmState.Rung, "NotCrossedDialogue");
+        StateMapConfig.AnimationTrigger.Add(SavapheSimpleFsmState.NotRung, "NotCrossedIdle");
+        StateMapConfig.AnimationTrigger.Add(SavapheSimpleFsmState.Rung, "NotCrossedDialogue");
     }
 }

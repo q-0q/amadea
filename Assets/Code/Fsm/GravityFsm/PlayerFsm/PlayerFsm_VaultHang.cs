@@ -25,6 +25,7 @@ public partial class PlayerFsm
             .Permit(FsmTrigger.Timeout, PlayerFsmState.SlowVaultFinish)
             .OnEntry(_ =>
             {
+                if (YVelocity < -10f) FMODUnity.RuntimeManager.PlayOneShotAttached(hardlandEventReference, gameObject);
                 _arrivedAtLedge = false;
                 LastUpwardsY = transform.position.y;
                 isSprinting = false;

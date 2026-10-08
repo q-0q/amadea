@@ -231,6 +231,7 @@ public partial class PlayerFsm
 
     private const float TrialTeleportStartupDuration = 0.5f;
     private const float TrialTeleportDuration = 1.5f;
+    public const float UpdraftDuration = 3.5f;
 
     private const float PitonMaximumWallInteractYVelocity = 5f;
 
@@ -280,6 +281,7 @@ public partial class PlayerFsm
     private EventInstance windRushFmodInstance;
     private EventInstance freezeFmodInstance;
     private EventInstance respawnAmbientInstance;
+    private EventInstance floatAmbientInstance;
     
     
     
@@ -595,6 +597,7 @@ public partial class PlayerFsm
 
     private void HandleCollisionMove(float modifier = 1f, bool updateMomentum = true, float slopeModifier = 1f)
     {
+        
         if (GameMenu.Singleton.IsMenuOpen()) return;
         var desiredMove = ApplyTractionNoTimescale(ComputeDesiredMoveWithoutTimescale() * modifier) * Time.deltaTime;
         
@@ -772,7 +775,7 @@ public partial class PlayerFsm
     
     private bool CanDash(TriggerParams? triggerParams)
     {
-        return (YVelocity < 6f || IsInGust) && !_dashSinceLeavingGround;
+        return (YVelocity < 6f || IsInGust || Machine.IsInState(PlayerFsmState.Updraft)) && !_dashSinceLeavingGround;
     }
 
     private void OnContactHitboxCollide()
@@ -1008,6 +1011,10 @@ public partial class PlayerFsm
         { 
             _desiredWindRushFmodAmount = Mathf.Lerp(1f, 0.5f, Mathf.InverseLerp(0f, 1f, _timeSinceBridgeBoost));
         }
+        else if (Machine.IsInState(PlayerFsmState.Updraft))
+        {
+            _desiredWindRushFmodAmount = Mathf.Lerp(0f, 1f, Mathf.InverseLerp(4f, 30f, Mathf.Abs(YVelocity)));
+        }
         else if (Machine.IsInState(GravityFsmState.Aerial))
         {
             _desiredWindRushFmodAmount = Mathf.Lerp(0f, 1f, Mathf.InverseLerp(-8f, -55f, CurrentFallDistance()));
@@ -1130,6 +1137,7 @@ public partial class PlayerFsm
 
     private void HandleRaycastKill()
     {
+        if (Machine.IsInState(PlayerFsmState.Updraft)) return;
         if (CurrentFallDistance() > -50f) return;
         var origin = transform.position + Vector3.up * 30f;
         if (Physics.SphereCast(origin, 15f, Vector3.down, out _, 130f, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore)) return;
@@ -1523,8 +1531,21 @@ public partial class PlayerFsm
         PlaySpeedLineParticlesForDuration(0.5f);
         _timeSinceBridgeBoost = 0f;
     }
-    
-    
 
-    
+
+    private void UpdateFmodFloatAmount()
+    {
+        var desiredAmount = 0f;
+        if (Machine.IsInState(PlayerFsmState.Updraft))
+        {
+            desiredAmount = Mathf.Lerp(0.4f, 1f, Mathf.InverseLerp(0, 15f, YVelocity));
+            desiredAmount = Mathf.Lerp(desiredAmount, 0f,
+                Mathf.InverseLerp(UpdraftDuration - 1.5f, UpdraftDuration, TimeInCurrentState()));
+        }
+
+        FMODUnity.RuntimeManager.StudioSystem.getParameterByName("FloatAmount", out var currentAmount);
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("FloatAmount",
+            Mathf.Lerp(currentAmount, desiredAmount, Time.deltaTime * 5f));
+
+    }
 }

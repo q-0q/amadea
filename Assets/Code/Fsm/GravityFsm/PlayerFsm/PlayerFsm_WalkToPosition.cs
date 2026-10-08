@@ -63,6 +63,20 @@ public partial class PlayerFsm
         Machine.Configure(PlayerFsmState.ChestInteract)
             .SubstateOf(PlayerFsmState.DisplaceFoliage)
             .Permit(FsmTrigger.Timeout, PlayerFsmState.IdleLong);
+        
+        
+        Machine.Configure(PlayerFsmState.WalkToGenericInteractable)
+            .SubstateOf(PlayerFsmState.WalkToPosition)
+            .Permit(PlayerFsmTrigger.ArriveAtWalkToPositionTarget, PlayerFsmState.GenericInteract);
+        
+        
+        Machine.Configure(PlayerFsmState.GenericInteract)
+            .SubstateOf(PlayerFsmState.DisplaceFoliage)
+            .SubstateOf(PlayerFsmState.Interactable)
+            .OnEntry(_ =>
+            {
+                if (currentInteractable != null) currentInteractable.TriggerHardInteraction();
+            });
     }
     
     private void WalkToSwitchPositionConfigure()

@@ -10,15 +10,15 @@ using UnityEngine.SceneManagement;
 using Wasp;
 using Util = Code.Misc.Util;
 
-public partial class SavaphePitonUpperFsm : CutsceneFsm
+public partial class SavapheSimpleFsm : CutsceneFsm
 {
-    public class SavaphePitonUpperFsmState : CutsceneFsmState
+    public class SavapheSimpleFsmState : CutsceneFsmState
     {
         public static int NotRung;
         public static int Rung;
     }
 
-    public class SavaphePitonUpperFsmTrigger : CutsceneFsm.CutsceneFsmTrigger
+    public class SavapheSimpleFsmTrigger : CutsceneFsm.CutsceneFsmTrigger
     {
         public static int BellRung;
     }
@@ -34,7 +34,7 @@ public partial class SavaphePitonUpperFsm : CutsceneFsm
     protected override void OnStart()
     {
         base.OnStart();
-        InitState = SavaphePitonUpperFsmState.NotRung;
+        InitState = SavapheSimpleFsmState.NotRung;
         
     }
     
@@ -53,8 +53,8 @@ public partial class SavaphePitonUpperFsm : CutsceneFsm
     {
         base.OnStartComplete();
         // Machine.Jump(SaveSystem.GetBell(bell.metaName)
-        //     ? SavaphePitonUpperFsmState.Rung
-        //     : SavaphePitonUpperFsmState.NotRung);
+        //     ? SavapheSimpleFsmState.Rung
+        //     : SavapheSimpleFsmState.NotRung);
     }
 
     protected override void OnStateChanged(TriggerParams triggerParams)

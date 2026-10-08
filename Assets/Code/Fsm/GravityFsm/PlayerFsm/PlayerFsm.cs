@@ -148,7 +148,9 @@ public partial class PlayerFsm : GravityFsm
         public static int SentryImmune;
         public static int WalkToTravelPosition;
         public static int Travel;
-        
+
+        public static int GenericInteract;
+        public static int WalkToGenericInteractable;
     }
 
     public class PlayerFsmTrigger : GravityFsmTrigger
@@ -215,6 +217,12 @@ public partial class PlayerFsm : GravityFsm
                 FMODUnity.RuntimeManager.PathToEventReference("event:/RespawnAmbient"));
         
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("RespawnAmbientAmount", 0f);
+        
+        floatAmbientInstance =
+            FMODUnity.RuntimeManager.CreateInstance(
+                FMODUnity.RuntimeManager.PathToEventReference("event:/FloatAmbient"));
+        
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("FloatAmount", 0f);
         
         SetPositionFromSaveData();
 
@@ -369,6 +377,7 @@ public partial class PlayerFsm : GravityFsm
         HandleSlideTimer();
         UpdateMusicDistanceAttenuation();
         UpdateFmodWindRushAmount();
+        UpdateFmodFloatAmount();
         HandleSpeedLines();
         HandleSteepAnimationLayers();
         HandleSurge();
@@ -763,6 +772,9 @@ public partial class PlayerFsm : GravityFsm
 
         FMODUnity.RuntimeManager.AttachInstanceToGameObject(respawnAmbientInstance, gameObject);
         respawnAmbientInstance.start();
+        
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(floatAmbientInstance, gameObject);
+        floatAmbientInstance.start();
     }
     
     private void OnDisable()
@@ -778,5 +790,6 @@ public partial class PlayerFsm : GravityFsm
         slipAmbientFmodInstance.stop(STOP_MODE.ALLOWFADEOUT);
         windRushFmodInstance.stop(STOP_MODE.ALLOWFADEOUT);
         respawnAmbientInstance.stop(STOP_MODE.ALLOWFADEOUT);
+        floatAmbientInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
 }

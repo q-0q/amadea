@@ -380,7 +380,7 @@
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Color",
-    "m_StageCapability": 3,
+    "m_StageCapability": 2,
     "m_Value": {
         "x": 0.0,
         "y": 0.0,
@@ -686,7 +686,7 @@
     "m_SlotType": 0,
     "m_Hidden": false,
     "m_ShaderOutputName": "_InputColor",
-    "m_StageCapability": 3,
+    "m_StageCapability": 2,
     "m_Value": {
         "x": 0.0,
         "y": 0.0,
@@ -1050,6 +1050,9 @@
             "m_Id": "9cff857cdd70497780abd8056747c693"
         },
         {
+            "m_Id": "c3187b455be2491ea3afd1a7e0d691d5"
+        },
+        {
             "m_Id": "17d26ea3d2e746c7b30354eea7cad751"
         }
     ],
@@ -1064,11 +1067,13 @@
     "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"78c52cac840e84462b74625535cd9639\",\n        \"type\": 3\n    }\n}",
     "m_PropertyGuids": [
         "c440be9d-2527-462c-92e9-892823b3a868",
-        "f490468e-2448-4ac0-b0bf-13275ee99e83"
+        "f490468e-2448-4ac0-b0bf-13275ee99e83",
+        "9c2c6f50-1916-4594-be64-1738584b236f"
     ],
     "m_PropertyIds": [
         -1035091701,
-        450704424
+        450704424,
+        -1903404640
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []
@@ -1415,7 +1420,7 @@
     "m_SlotType": 0,
     "m_Hidden": false,
     "m_ShaderOutputName": "_DarknessMod",
-    "m_StageCapability": 3,
+    "m_StageCapability": 2,
     "m_Value": 1.0,
     "m_DefaultValue": 0.0,
     "m_Labels": [],
@@ -1568,6 +1573,22 @@
     "m_StageCapability": 2,
     "m_Value": 0.0,
     "m_DefaultValue": 0.5,
+    "m_Labels": [],
+    "m_LiteralMode": false
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "c3187b455be2491ea3afd1a7e0d691d5",
+    "m_Id": -1903404640,
+    "m_DisplayName": "CPLMod",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_CPLMod",
+    "m_StageCapability": 2,
+    "m_Value": 1.0,
+    "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": false
 }

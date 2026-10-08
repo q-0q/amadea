@@ -142,6 +142,16 @@ public class GlyphController : MonoBehaviour
                 coords = "88\u00b072S 59\u00b012W",
                 elevation = "1240 m"
             }
+        },
+        
+                
+        { "valley", new AreaData()
+            {
+                subtitle = "The",
+                title = "Shattered Valley",
+                coords = "61\u00b014S 13\u00b051W",
+                elevation = "3280 m"
+            }
         }
     };
 

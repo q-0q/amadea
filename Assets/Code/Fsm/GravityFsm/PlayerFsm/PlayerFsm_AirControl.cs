@@ -20,9 +20,9 @@ public partial class PlayerFsm
         var animationTurnMod = 1f;
         if (Machine.IsInState(PlayerFsmState.Updraft))
         {
-            increaseMultiplier = Mathf.Lerp(0.1f, 0.8f, Mathf.InverseLerp(60f, 0f, YVelocity));
+            increaseMultiplier = 1f;
             // turningMultiplier = Mathf.Lerp(AirControlTurningMultiplier * 1.5f, AirControlTurningMultiplier, Mathf.InverseLerp(60f, 20f, YVelocity));
-            decreaseMultiplier *= 1.5f;
+            decreaseMultiplier *= 0.25f;
             forceForwardInput = false;
         }
         

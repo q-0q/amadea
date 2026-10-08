@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public partial class SavaphePitonUpperFsm
+public partial class SavapheSimpleFsm
 {
 
     public override void OnFireTriggers()

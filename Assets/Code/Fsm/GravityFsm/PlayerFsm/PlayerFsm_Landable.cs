@@ -9,6 +9,7 @@ public partial class PlayerFsm
         Machine.Configure(PlayerFsmState.Landable)
             .PermitIf(GravityFsmTrigger.StartFrameGrounded, PlayerFsmState.Landsquat, @params =>
             {
+                if (UpdraftLandableCheck()) return false;
                 if (YVelocity > 0.5f) return false;
                 if (WaterRaycast(out var swimRaycastParam))
                 {
@@ -23,6 +24,7 @@ public partial class PlayerFsm
             .PermitIf(GravityFsmTrigger.StartFrameGrounded, PlayerFsmState.HardLand,
                 _ =>
                 {
+                    if (UpdraftLandableCheck()) return false;
                     if (WaterRaycast(out var swimRaycastParam))
                     {
                         if (IsSwimTrigger(swimRaycastParam)) return false;
@@ -43,10 +45,12 @@ public partial class PlayerFsm
             .PermitIf(GravityFsmTrigger.StartFrameGrounded, PlayerFsmState.HardLandRoll,
                 _ =>
                 {
+                    if (UpdraftLandableCheck()) return false;
                     if (WaterRaycast(out var swimRaycastParam))
                     {
                         if (IsSwimTrigger(swimRaycastParam)) return false;
                     }
+                    if (Machine.IsInState(PlayerFsmState.Updraft)) return true; // MWAHAHAHAHA!!!
                     return (CurrentFallDistance() < HardLandAirDiff && _momentum > HardLandRollMinimumMomentum);
                 }, 4)
             
@@ -73,5 +77,11 @@ public partial class PlayerFsm
     {
         if (triggerParams is not RaycastHitParam raycastHitParam) return false;
         return raycastHitParam.kind == GroundKind.Tightrope;
+    }
+
+
+    private bool UpdraftLandableCheck()
+    {
+        return Machine.IsInState(PlayerFsmState.Updraft) && TimeInCurrentState() < 0.75f;
     }
 }
