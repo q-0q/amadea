@@ -507,8 +507,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -866.9999389648438,
-            "y": -382.4999694824219,
+            "x": -741.0,
+            "y": -160.0,
             "width": 138.0,
             "height": 77.0
         }
@@ -2105,7 +2105,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "_DarknessMod",
     "m_StageCapability": 2,
-    "m_Value": 1.0,
+    "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": false
@@ -2383,7 +2383,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "_CPLMod",
     "m_StageCapability": 2,
-    "m_Value": 0.0,
+    "m_Value": 1.0,
     "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": false
@@ -2684,9 +2684,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -581.4999389648438,
-            "y": -382.4999694824219,
-            "width": 208.00003051757813,
+            "x": -519.9998779296875,
+            "y": -448.9999694824219,
+            "width": 207.99993896484376,
             "height": 326.9999694824219
         }
     },
@@ -3110,7 +3110,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "_CPLMod",
     "m_StageCapability": 2,
-    "m_Value": 1.0,
+    "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": false

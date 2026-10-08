@@ -11,11 +11,11 @@ public class ColorPuzzleStation : MonoBehaviour
     private string _baseInteractableText;
     private CustomPointLight _light;
 
-    public static readonly Color Red = Color.red;
-    public static readonly Color Blue = Color.blue;
+    public static readonly Color Red = Color.salmon;
+    public static readonly Color Blue = Color.turquoise;
     public static readonly Color Yellow = Color.yellow;
-    public static readonly Color Green = Color.green;
-    public static readonly Color Purple = Color.purple;
+    public static readonly Color Green = Color.paleGreen;
+    public static readonly Color Purple = Color.plum;
 
     private int _currentColorIndex;
 

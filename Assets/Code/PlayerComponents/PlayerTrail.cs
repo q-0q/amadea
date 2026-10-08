@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerTrail : MonoBehaviour
@@ -6,10 +7,11 @@ public class PlayerTrail : MonoBehaviour
 
     private TrailRenderer _trailRenderer;
     private ParticleSystem _particles;
+    private bool _isStopping = false;
 
     private void Awake()
     {
-        _trailRenderer = GetComponent<TrailRenderer>();
+        _trailRenderer = GetComponentInChildren<TrailRenderer>();
         _trailRenderer.emitting = false;
         _particles = GetComponentInChildren<ParticleSystem>();
     }
@@ -27,15 +29,43 @@ public class PlayerTrail : MonoBehaviour
         {
             if (!_trailRenderer.emitting)
             {
+                _isStopping = false;
+                // _trailRenderer.Clear();
+                
+                _trailRenderer.material.color = Color.white;
                 _particles.Play();
                 _trailRenderer.emitting = true;
             }
         }
         else
         {
-            _particles.Stop();
-            _trailRenderer.emitting = false;
+            if (_trailRenderer.emitting)
+            {
+                StartCoroutine(StopTrail());
+            }
         }
         
+    }
+
+    private IEnumerator StopTrail()
+    {
+
+        float t = 0f;
+        float d = 1f;
+        _isStopping = true;
+        _trailRenderer.transform.SetParent(null);
+        while (t < d)
+        {
+            if (!_isStopping) break;
+            _trailRenderer.material.color = Color.white * (t / d);
+            yield return null;
+            t += Time.deltaTime;
+        }
+        
+        _particles.Stop();
+        _trailRenderer.emitting = false;
+        _trailRenderer.Clear();
+        _trailRenderer.transform.SetParent(transform);
+        _trailRenderer.transform.localPosition = Vector3.zero;
     }
 }
