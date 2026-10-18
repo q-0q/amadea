@@ -18,6 +18,7 @@ public class Lightbridge : MonoBehaviour
     public Transform BackEdge;
     
     public Transform ColliderTransform;
+    public Transform endLights;
     private Collider _collider;
     private Renderer _colliderRenderer;
 
@@ -70,6 +71,7 @@ public class Lightbridge : MonoBehaviour
         _subAmbience.start();
         
         Fx.SetActive(false);
+        endLights.gameObject.SetActive(false);
 
         if (SaveSystem.GetPersistentEventCompleted(persistentEvent))
         {
@@ -271,6 +273,9 @@ public class Lightbridge : MonoBehaviour
         {
             point = hit.point;
         }
+
+        endLights.gameObject.SetActive(true);
+        endLights.position = point;
 
         StretchBetweenPoints(ColliderTransform, BackEdge.position, point);
         _colliderRenderer.material.SetVector("_ForwardDirection", transform.forward);

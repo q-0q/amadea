@@ -136,7 +136,8 @@ public class CameraFollow : MonoBehaviour
         var playerYVelocity = PlayerFsm.Singleton.GetYVelocity();
         if (PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Updraft))
         {
-            newYOffset = Mathf.Lerp(-3f, 5f, Mathf.InverseLerp(0, 30f, playerYVelocity));
+            yLerp *= 2f;
+            newYOffset = Mathf.Lerp(-4f, 0f, Mathf.InverseLerp(-30f, 10f, playerYVelocity));
         }
         
         if (PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.MinorLeylineStartup) || PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.MinorLeylineActive))

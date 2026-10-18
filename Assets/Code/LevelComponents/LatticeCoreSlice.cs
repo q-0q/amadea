@@ -45,7 +45,7 @@ public class LatticeCoreSlice : MonoBehaviour
         
     }
 
-    public void MakeSliceCompleted()
+    public void MakeSliceCompleted(bool sound = true)
     {
         _renderer.enabled = true;
         _onParticles.Play();
@@ -58,7 +58,7 @@ public class LatticeCoreSlice : MonoBehaviour
         material.SetFloat("_SolidWeight", 1f);
         material.SetFloat("_CompleteWeight", 1f);
         StartCoroutine(GlowCoroutine());
-        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/LatticeComplete", gameObject);
+        if (sound) FMODUnity.RuntimeManager.PlayOneShotAttached("event:/LatticeComplete", gameObject);
         
     }
 

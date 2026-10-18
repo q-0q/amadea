@@ -299,6 +299,7 @@ public partial class PlayerFsm
     private const float BoostSpeedDuration = 2.75f;
     public static event Action OnPlayerCultTrialDeath;
     public static event Action<Vector3> OnPlayerTeleported;
+    public static event Action OnPositionSetFromSave;
     private const float SwimFreezeDuration = 2.5f;
 
     private float _dialogueEntryMomentum;
@@ -764,13 +765,15 @@ public partial class PlayerFsm
     
     private bool CanGrapple(TriggerParams? triggerParams)
     {
-        return PlayerWeaponFsm.Singleton.Machine.IsInState(PlayerWeaponFsm.PlayerWeaponFsmState.ImpaleStuck);
+        return false;
+        // return PlayerWeaponFsm.Singleton.Machine.IsInState(PlayerWeaponFsm.PlayerWeaponFsmState.ImpaleStuck);
     }
     
     private bool CanImpale(TriggerParams? triggerParams)
     {
-        var machine = PlayerWeaponFsm.Singleton.Machine;
-        return machine.IsInState(PlayerWeaponFsm.PlayerWeaponFsmState.Idle) || machine.IsInState(PlayerWeaponFsm.PlayerWeaponFsmState.ImpaleStartup);
+        return false;
+        // var machine = PlayerWeaponFsm.Singleton.Machine;
+        // return machine.IsInState(PlayerWeaponFsm.PlayerWeaponFsmState.Idle) || machine.IsInState(PlayerWeaponFsm.PlayerWeaponFsmState.ImpaleStartup);
     }
     
     private bool CanDash(TriggerParams? triggerParams)

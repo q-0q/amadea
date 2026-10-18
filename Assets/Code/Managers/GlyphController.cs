@@ -102,6 +102,20 @@ public class GlyphController : MonoBehaviour
                 isEndCap = true
                 
             } 
+        },
+        
+        { "float1", new TerminalData()
+            {
+                displayId = "04",
+                previousNode = "icy-canals-0-split",
+                // loreDialogue = new List<string>() { "Ouro Station is the only solar intake for the Mountain's lower regions.", "Light captured by Ouro Station feeds hardlight systems via the leyline network.", "In case of hardlight failures, Ouro Station's leyline connection and its internal core stability should both be monitored." },
+                mapSplineId = 3,
+                mapSplineStartT = 0.1f,
+                mapSplineEndT = 0.4f,
+                contributeToCount = true,
+                isEndCap = false
+                
+            } 
         }
     };
     
@@ -151,6 +165,15 @@ public class GlyphController : MonoBehaviour
                 title = "Shattered Valley",
                 coords = "61\u00b014S 13\u00b051W",
                 elevation = "3280 m"
+            }
+        },
+        
+        { "birthplace", new AreaData()
+            {
+                subtitle = "",
+                title = "Birthplace",
+                coords = "10\u00b083S 68\u00b02W",
+                elevation = "3103 m"
             }
         }
     };

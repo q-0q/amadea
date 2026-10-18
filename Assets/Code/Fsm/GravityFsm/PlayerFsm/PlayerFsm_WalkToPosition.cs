@@ -23,6 +23,14 @@ public partial class PlayerFsm
         Animator.SetFloat("SpeedMod", speedMod);
     }
 
+    private void FaceCurrentInteractableOnUpdate()
+    {
+        var lookAt = currentInteractable.transform;
+        var rotationTarget = lookAt.position - transform.position;
+        rotationTarget = new Vector3(rotationTarget.x, 0f, rotationTarget.z);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotationTarget, Vector3.up), Time.deltaTime * 10f);
+    }
+
     private void WalkToPositionConfigure()
     {
         Machine.Configure(PlayerFsmState.WalkToPosition)
@@ -73,6 +81,7 @@ public partial class PlayerFsm
         Machine.Configure(PlayerFsmState.GenericInteract)
             .SubstateOf(PlayerFsmState.DisplaceFoliage)
             .SubstateOf(PlayerFsmState.Interactable)
+            .SubstateOf(PlayerFsmState.FaceCurrentInteractable)
             .OnEntry(_ =>
             {
                 if (currentInteractable != null) currentInteractable.TriggerHardInteraction();

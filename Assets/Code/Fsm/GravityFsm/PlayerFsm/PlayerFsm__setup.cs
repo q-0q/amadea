@@ -33,7 +33,7 @@ public partial class PlayerFsm
         DashConfigure();
         ImpaleGroundConfigure();
         ImpaleAirConfigure();
-        GrappleStartupConfigure();
+        // GrappleStartupConfigure();
         GrappleFlipConfigure();
         GrappleFlipsquatConfigure();
         WallInteractableConfigure();

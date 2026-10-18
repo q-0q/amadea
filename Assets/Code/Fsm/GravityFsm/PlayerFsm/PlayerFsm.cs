@@ -151,6 +151,7 @@ public partial class PlayerFsm : GravityFsm
 
         public static int GenericInteract;
         public static int WalkToGenericInteractable;
+        public static int FaceCurrentInteractable;
     }
 
     public class PlayerFsmTrigger : GravityFsmTrigger
@@ -224,7 +225,7 @@ public partial class PlayerFsm : GravityFsm
         
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("FloatAmount", 0f);
         
-        SetPositionFromSaveData();
+        
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -263,6 +264,7 @@ public partial class PlayerFsm : GravityFsm
         }
 
         OnPlayerTeleported?.Invoke(transform.position - initialPosition);
+        OnPositionSetFromSave?.Invoke();
     }
 
     protected override void OnStart()
@@ -327,6 +329,7 @@ public partial class PlayerFsm : GravityFsm
 
 
         SaveSystem.UpdateScreenshot(0.3f);
+        SetPositionFromSaveData();
         SnapToGround();
         StartCoroutine(SurgeTrailCoroutine());
         StartCoroutine(BridgeTrailCoroutine());
@@ -517,7 +520,7 @@ public partial class PlayerFsm : GravityFsm
 
         if (Machine.IsInState(PlayerFsmState.GrappleStartup))
         {
-            GrappleStartupOnUpdate();
+            // GrappleStartupOnUpdate();
         }
         
         if (Machine.IsInState(PlayerFsmState.WalkToPosition))
@@ -685,6 +688,11 @@ public partial class PlayerFsm : GravityFsm
         if (Machine.IsInState(PlayerFsmState.MinorLeylineActive))
         {
             MinorLeylineActiveOnUpdate();
+        }
+        
+        if (Machine.IsInState(PlayerFsmState.FaceCurrentInteractable))
+        {
+            FaceCurrentInteractableOnUpdate();
         }
         
         if (Machine.IsInState(PlayerFsmState.Tinsica))

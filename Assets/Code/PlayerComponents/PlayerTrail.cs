@@ -54,6 +54,9 @@ public class PlayerTrail : MonoBehaviour
         float d = 1f;
         _isStopping = true;
         _trailRenderer.transform.SetParent(null);
+        _trailRenderer.emitting = false;
+        _particles.Stop();
+
         while (t < d)
         {
             if (!_isStopping) break;
@@ -62,8 +65,7 @@ public class PlayerTrail : MonoBehaviour
             t += Time.deltaTime;
         }
         
-        _particles.Stop();
-        _trailRenderer.emitting = false;
+
         _trailRenderer.Clear();
         _trailRenderer.transform.SetParent(transform);
         _trailRenderer.transform.localPosition = Vector3.zero;

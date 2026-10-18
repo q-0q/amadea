@@ -8,7 +8,7 @@ public partial class PlayerWeaponFsm
     private Vector3 _subTransformBaseLocalPosition;
     private Vector3 _impaleActiveTargetPosition;
     private CinemachineImpulseSource _impulseSource;
-    public static PlayerWeaponFsm Singleton;
+    // public static PlayerWeaponFsm Singleton;
     private const float IdleOrbitRadius = 3f;
     private const float IdleOrbitHeight = 3.5f;
     private const float IdlePositionLerpStrength = 3f;

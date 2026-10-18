@@ -180,6 +180,19 @@ public class CustomFogManager : MonoBehaviour
         Shader.SetGlobalVectorArray(PointsID, _observerPositions);
         Shader.SetGlobalInt(CountID, count);
     }
-    
 
+    private void OnEnable()
+    {
+        PlayerFsm.OnPlayerTeleported += OnPlayerTeleported;
+    }
+
+    private void OnDisable()
+    {
+        PlayerFsm.OnPlayerTeleported -= OnPlayerTeleported;
+    }
+
+    private void OnPlayerTeleported(Vector3 obj)
+    {
+        UpdateCurrentController(true);
+    }
 }

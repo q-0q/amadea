@@ -266,7 +266,7 @@ public class TerminalNode : MonoBehaviour
             float t;
             float d;
 
-            SaveSystem.WritePlayerInGamePosition(transform.position, "", transform.rotation.eulerAngles.y);
+            SaveSystem.WritePlayerInGamePosition(PlayerFsm.Singleton.transform.position, "", PlayerFsm.Singleton.transform.rotation.eulerAngles.y);
             
             if (isNew)
             {

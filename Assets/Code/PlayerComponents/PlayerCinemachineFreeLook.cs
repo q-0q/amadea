@@ -63,19 +63,7 @@ public class PlayerCinemachineFreeLook : MonoBehaviour
         _rampUpTime = 8f;
         
         
-        var xAngle = Vector3.SignedAngle(Vector3.forward, PlayerFsm.Singleton.transform.forward, Vector3.up);
-        _freeLook.m_XAxis.Value = xAngle;
-        
-        var highestPriorityZone = CameraFollow.HighestPriorityZoneAtPosition(PlayerFsm.Singleton.transform.position);
-        if (highestPriorityZone != null)
-        {
-            highestPriorityZone.GetCameraForward(PlayerFsm.Singleton.transform.position, out var y);
-            _freeLook.m_YAxis.Value = y;
-        }
-        
-        var saveData = SaveSystem.LoadCachedSaveData();
-        var positionIdTransform = Util.FindGamePositionById(saveData.playerInGamePositionId, out var cameraRotationOffset);
-        AddXAxisOffset(cameraRotationOffset);
+
     }
 
     private void Update()
@@ -124,6 +112,16 @@ public class PlayerCinemachineFreeLook : MonoBehaviour
         MetaSaveSystem.OnMetaSaveDataUpdated += OnMetaSaveDataUpdated;
         TestCutsceneFsm.OnIntroCutsceneGondolaTeleported += OnWarp;
         PlayerFsm.OnPlayerTeleported += OnWarp;
+        PlayerFsm.OnPositionSetFromSave += OnSetFromSave;
+    }
+
+    private void OnSetFromSave()
+    {
+        var xAngle = Vector3.SignedAngle(Vector3.forward, PlayerFsm.Singleton.transform.forward, Vector3.up);
+        _freeLook.m_XAxis.Value = xAngle;
+        var saveData = SaveSystem.LoadCachedSaveData();
+        var positionIdTransform = Util.FindGamePositionById(saveData.playerInGamePositionId, out var cameraRotationOffset);
+        AddXAxisOffset(cameraRotationOffset);    
     }
 
     private void OnDisable()
@@ -131,6 +129,7 @@ public class PlayerCinemachineFreeLook : MonoBehaviour
         MetaSaveSystem.OnMetaSaveDataUpdated -= OnMetaSaveDataUpdated;
         TestCutsceneFsm.OnIntroCutsceneGondolaTeleported -= OnWarp;
         PlayerFsm.OnPlayerTeleported -= OnWarp;
+        PlayerFsm.OnPositionSetFromSave -= OnSetFromSave;
     }
     
     private void OnMetaSaveDataUpdated(MetaSaveSystem.MetaSaveData metaSaveData)

@@ -130,7 +130,7 @@ public class LatticeCore : MonoBehaviour
 
             for (int i = 0; i < numCompleted; i++)
             {
-                _slices[i].GetComponent<LatticeCoreSlice>().MakeSliceCompleted();
+                _slices[i].GetComponent<LatticeCoreSlice>().MakeSliceCompleted(doCamera);
                 var t = _slices[i].transform;
                 t.localScale = new Vector3(SliceXZScale, _sliceHeight * 0.5f, SliceXZScale);
             }

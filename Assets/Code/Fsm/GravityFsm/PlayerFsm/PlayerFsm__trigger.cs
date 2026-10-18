@@ -142,12 +142,12 @@ public partial class PlayerFsm
             Machine.Fire(PlayerFsmTrigger.IsAboveLongFall);
         }
         
-        foreach (var neighbor in Physics.OverlapSphere(transform.position, 2.75f, LayerMask.GetMask("MinorLeylineTrigger"), QueryTriggerInteraction.Collide))
-        {
-            _currentMinorLeyline = neighbor.transform.parent.parent.GetComponent<MinorLeyline>();
-            _currentMinorLeylineTrigger = neighbor.transform;
-            Machine.Fire(PlayerFsmTrigger.MinorLeylineTrigger);
-        }
+        // foreach (var neighbor in Physics.OverlapSphere(transform.position, 2.75f, LayerMask.GetMask("MinorLeylineTrigger"), QueryTriggerInteraction.Collide))
+        // {
+        //     _currentMinorLeyline = neighbor.transform.parent.parent.GetComponent<MinorLeyline>();
+        //     _currentMinorLeylineTrigger = neighbor.transform;
+        //     Machine.Fire(PlayerFsmTrigger.MinorLeylineTrigger);
+        // }
     }
 
     private bool PressRaycast(out RaycastHit hit)

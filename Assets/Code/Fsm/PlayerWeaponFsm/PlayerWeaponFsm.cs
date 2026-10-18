@@ -42,7 +42,7 @@ public partial class PlayerWeaponFsm : Fsm
     {
         base.OnAwake();
 
-        Singleton = this;
+        // Singleton = this;
     }
 
 

@@ -35,7 +35,7 @@ public partial class PlayerFsm
 
 
         var multiplier = Mathf.Lerp(2f, 1.65f, Mathf.InverseLerp(2f, 30f, YVelocity));
-        multiplier = Mathf.Lerp(multiplier, 1f,
+        multiplier = Mathf.Lerp(multiplier, 1.45f,
             Mathf.InverseLerp(UpdraftDuration - 1f, UpdraftDuration, TimeInCurrentState()));
         
         HandleCollisionMove(multiplier);

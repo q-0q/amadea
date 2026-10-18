@@ -1382,6 +1382,22 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "201a3f9dbbd342cf885c376d10b2321d",
+    "m_Id": -1903404640,
+    "m_DisplayName": "CPLMod",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "_CPLMod",
+    "m_StageCapability": 2,
+    "m_Value": 1.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": [],
+    "m_LiteralMode": false
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.InverseLerpNode",
     "m_ObjectId": "236077e0005b44ddb1958e4d175701ce",
     "m_Group": {
@@ -2198,6 +2214,9 @@
             "m_Id": "fa7af2063c6b4f079b0ac46062a9c3de"
         },
         {
+            "m_Id": "201a3f9dbbd342cf885c376d10b2321d"
+        },
+        {
             "m_Id": "3e554bf839454eb68586b74350054469"
         }
     ],
@@ -2212,11 +2231,13 @@
     "m_SerializedSubGraph": "{\n    \"subGraph\": {\n        \"fileID\": -5475051401550479605,\n        \"guid\": \"78c52cac840e84462b74625535cd9639\",\n        \"type\": 3\n    }\n}",
     "m_PropertyGuids": [
         "c440be9d-2527-462c-92e9-892823b3a868",
-        "f490468e-2448-4ac0-b0bf-13275ee99e83"
+        "f490468e-2448-4ac0-b0bf-13275ee99e83",
+        "9c2c6f50-1916-4594-be64-1738584b236f"
     ],
     "m_PropertyIds": [
         -1035091701,
-        450704424
+        450704424,
+        -1903404640
     ],
     "m_Dropdowns": [],
     "m_DropdownSelectedEntries": []

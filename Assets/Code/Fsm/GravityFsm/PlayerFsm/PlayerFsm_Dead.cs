@@ -92,6 +92,7 @@ public partial class PlayerFsm
                 _respawnParticles.transform.position = transform.position;
                 MakeAllRenderersInvisible();
                 _respawnParticles.PlayDeath();
+
             });
         
         

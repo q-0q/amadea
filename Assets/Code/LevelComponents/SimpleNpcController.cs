@@ -17,7 +17,7 @@ public class SimpleNpcController : MonoBehaviour
     public DialogueController altDialogueController;
 
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (removalEvent != ""){
             if (SaveSystem.GetPersistentEventCompleted(removalEvent))
@@ -44,7 +44,7 @@ public class SimpleNpcController : MonoBehaviour
 
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         if (defaultDialogueController != null)
             defaultDialogueController.GetComponent<Interactable>().OnInteracted += OnDialogueInteracted;
@@ -53,7 +53,7 @@ public class SimpleNpcController : MonoBehaviour
             altDialogueController.GetComponent<Interactable>().OnInteracted += OnDialogueInteracted;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         if (defaultDialogueController != null)
             defaultDialogueController.GetComponent<Interactable>().OnInteracted -= OnDialogueInteracted;
@@ -67,15 +67,4 @@ public class SimpleNpcController : MonoBehaviour
         if (interactionEvent != "") SaveSystem.WritePersistentEvent(interactionEvent);
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

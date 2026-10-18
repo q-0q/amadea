@@ -22,7 +22,7 @@ public partial class DroneFsm
         
         Machine.Configure(DroneFsmState.Deploying)
             .Permit(DroneFsmTrigger.Timeout, DroneFsmState.Ready)
-            // .Permit(DroneFsmTrigger.PlayerDied, DroneFsmState.Storing)
+            .Permit(DroneFsmTrigger.LatticeCompleted, DroneFsmState.Storing)
             .OnEntry(_ =>
             {
                 _bobClock = 0f;
@@ -39,7 +39,7 @@ public partial class DroneFsm
 
         Machine.Configure(DroneFsmState.Ready)
             .Permit(DroneFsmTrigger.StationInteract, DroneFsmState.Storing)
-            // .Permit(DroneFsmTrigger.PlayerDied, DroneFsmState.Storing)
+            .Permit(DroneFsmTrigger.LatticeCompleted, DroneFsmState.Storing)
             .Permit(DroneFsmTrigger.Pulse, DroneFsmState.Pulsing)
             .OnEntry(_ =>
             {
@@ -48,7 +48,7 @@ public partial class DroneFsm
         
         Machine.Configure(DroneFsmState.Pulsing)
             .Permit(DroneFsmTrigger.StationInteract, DroneFsmState.Storing)
-            // .Permit(DroneFsmTrigger.PlayerDied, DroneFsmState.Storing)
+            .Permit(DroneFsmTrigger.LatticeCompleted, DroneFsmState.Storing)
             .Permit(DroneFsmTrigger.Timeout, DroneFsmState.Ready)
             .OnEntry(_ =>
             {

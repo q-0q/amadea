@@ -23,6 +23,7 @@ public class DialogueController : MonoBehaviour
     public List<Dialogue> dialogues;
     public string DialogueName = "Unnamed dialogue";
     private Interactable _interactable;
+    public event Action OnPreCompleted;
     public event Action OnCompleted;
     public event Action<int> OnProgressed;
     public Transform LookAtOverride;
@@ -60,6 +61,7 @@ public class DialogueController : MonoBehaviour
     public void Completed()
     {
         var dialogueIndex = currentDialogueIndex;
+        OnPreCompleted?.Invoke();
         if (dialogues[dialogueIndex].advanceDialogueIndex) currentDialogueIndex++;
         if (dialogues[dialogueIndex].resetDialogueIndex) currentDialogueIndex = 0;
         OnCompleted?.Invoke();

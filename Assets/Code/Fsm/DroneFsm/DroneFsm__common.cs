@@ -126,11 +126,16 @@ private void FollowPlayer()
 
     private void ReturnToIdlePosition(float speed)
     {
-        transform.position =
-            Vector3.Lerp(transform.position, _station.GetDronePosition().position, Time.deltaTime * speed);
+        transform.position = Vector3.MoveTowards(transform.position, _station.GetDronePosition().position,
+            Time.deltaTime * speed);
 
         transform.rotation =
             Quaternion.Slerp(transform.rotation, _station.GetDronePosition().rotation, Time.deltaTime * 5f);
     }
 
+    private void OnLatticeCompleted(Lattice arg1, bool arg2)
+    {
+        if (!arg2) return;
+        Machine.Fire(DroneFsmTrigger.LatticeCompleted);
+    }
 }

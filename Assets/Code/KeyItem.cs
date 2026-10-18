@@ -184,6 +184,82 @@ public static class KeyItemRegistry
             },
             GetUseConfirmation = () => ""
         });
+        
+        
+        KeyItemRegistrations.Add("OuroJunk0", new KeyItemRegistration()
+        {
+            displayName = "Dusty Tech",
+            description = "An old, unimpressive piece of hardlight machinery found in Ouro Station.",
+            MeshGameObject = Resources.Load("Prefab/KeyItems/UrnFragment") as GameObject,
+            Sprite = null,
+            GetUseDescription  = OuroBandit.ItemUseDescription,
+            GetCanUse = () => false,
+            onUse = () =>
+            {
+
+            },
+            GetUseConfirmation = () => ""
+        });
+        
+        KeyItemRegistrations.Add("OuroJunk1", new KeyItemRegistration()
+        {
+            displayName = "Dusty Tech",
+            description = "An old, unimpressive piece of hardlight machinery found in Ouro Station.",
+            MeshGameObject = Resources.Load("Prefab/KeyItems/UrnFragment") as GameObject,
+            Sprite = null,
+            GetUseDescription  = OuroBandit.ItemUseDescription,
+            GetCanUse = () => false,
+            onUse = () =>
+            {
+
+            },
+            GetUseConfirmation = () => ""
+        });
+        
+        KeyItemRegistrations.Add("OuroJunk2", new KeyItemRegistration()
+        {
+            displayName = "Dusty Tech",
+            description = "An old, unimpressive piece of hardlight machinery found in Ouro Station.",
+            MeshGameObject = Resources.Load("Prefab/KeyItems/UrnFragment") as GameObject,
+            Sprite = null,
+            GetUseDescription = OuroBandit.ItemUseDescription,
+            GetCanUse = () => false,
+            onUse = () =>
+            {
+
+            },
+            GetUseConfirmation = () => ""
+        });
+        
+        KeyItemRegistrations.Add("OuroJunk3", new KeyItemRegistration()
+        {
+            displayName = "Dusty Tech",
+            description = "An old, unimpressive piece of hardlight machinery found in Ouro Station.",
+            MeshGameObject = Resources.Load("Prefab/KeyItems/UrnFragment") as GameObject,
+            Sprite = null,
+            GetUseDescription = OuroBandit.ItemUseDescription,
+            GetCanUse = () => false,
+            onUse = () =>
+            {
+
+            },
+            GetUseConfirmation = () => ""
+        });
+        
+        KeyItemRegistrations.Add("Bandana", new KeyItemRegistration()
+        {
+            displayName = "Bandana",
+            description = "A coarsely spun cotton kerchief, popularly worn by merchants and privateers.\n\nGiven by Makepeace Marlow for helping him salvage old tech in Ouro Station.",
+            MeshGameObject = Resources.Load("Prefab/KeyItems/UrnFragment") as GameObject,
+            Sprite = null,
+            GetUseDescription = () => "Puts on the bandana.",
+            GetCanUse = () => false,
+            onUse = () =>
+            {
+
+            },
+            GetUseConfirmation = () => ""
+        });
     }
 }
 

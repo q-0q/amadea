@@ -23,7 +23,7 @@ public partial class DroneFsm : Fsm
     {
         public static int StationInteract;
         public static int Pulse;
-        public static int PlayerDied;
+        public static int LatticeCompleted;
     }
 
     protected override void OnAwake()
@@ -59,7 +59,7 @@ public partial class DroneFsm : Fsm
 
         if (Machine.IsInState(DroneFsmState.Storing))
         {
-            ReturnToIdlePosition(Mathf.Lerp(0f, 7f, Mathf.InverseLerp(0, 0.75f, TimeInCurrentState())));
+            ReturnToIdlePosition(Mathf.Lerp(0f, 100f, Mathf.InverseLerp(0, 0.75f, TimeInCurrentState())));
         }
         
         
@@ -94,11 +94,13 @@ public partial class DroneFsm : Fsm
 
     private void OnEnable()
     {
+        Lattice.OnLatticeCompleted += OnLatticeCompleted;
     }
 
     private void OnDisable()
     {
         _ambientInstance.stop(STOP_MODE.ALLOWFADEOUT);
+        Lattice.OnLatticeCompleted -= OnLatticeCompleted;
     }
     
 }
