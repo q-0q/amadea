@@ -223,6 +223,20 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
+                    "m_Id": "8bca30bd77db4d579ee88fe0b3d5a5c1"
+                },
+                "m_SlotId": 4
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "d9b8962235dc4b168d862e6bf8cf181e"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
                     "m_Id": "c07ef42b72184b008362ac2060d00572"
                 },
                 "m_SlotId": 0
@@ -364,7 +378,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "X",
     "m_StageCapability": 3,
-    "m_Value": 3.0,
+    "m_Value": 1.5,
     "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": false
@@ -1528,7 +1542,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Vector1_1B8B9078",
     "m_StageCapability": 3,
-    "m_Value": 0.75,
+    "m_Value": 2.0,
     "m_DefaultValue": 0.0,
     "m_Labels": [],
     "m_LiteralMode": false
@@ -1781,7 +1795,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Y",
     "m_StageCapability": 3,
-    "m_Value": 3.0,
+    "m_Value": 1.5,
     "m_DefaultValue": 0.0,
     "m_Labels": [
         "Y"
@@ -1847,7 +1861,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Z",
     "m_StageCapability": 3,
-    "m_Value": 3.0,
+    "m_Value": 1.5,
     "m_DefaultValue": 0.0,
     "m_Labels": [
         "Z"

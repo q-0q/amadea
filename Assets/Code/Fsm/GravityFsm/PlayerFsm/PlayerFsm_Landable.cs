@@ -9,6 +9,7 @@ public partial class PlayerFsm
         Machine.Configure(PlayerFsmState.Landable)
             .PermitIf(GravityFsmTrigger.StartFrameGrounded, PlayerFsmState.Landsquat, @params =>
             {
+                if (DolphintLandableCheck()) return false;
                 if (UpdraftLandableCheck()) return false;
                 if (YVelocity > 0.5f) return false;
                 if (WaterRaycast(out var swimRaycastParam))
@@ -19,7 +20,7 @@ public partial class PlayerFsm
                 return !IsSlideTrigger(@params);
             })
             .PermitIf(GravityFsmTrigger.StartFrameGrounded, PlayerFsmState.Skipsquat,
-                _ => Machine.IsInState(PlayerFsmState.FallAfterDash) && _inputBuffer.IsBuffered("Jump"),
+                _ => (Machine.IsInState(PlayerFsmState.FallAfterDash) && _inputBuffer.IsBuffered("Jump")),
                 3) // ANTI PATTERN
             .PermitIf(GravityFsmTrigger.StartFrameGrounded, PlayerFsmState.HardLand,
                 _ =>
@@ -83,5 +84,10 @@ public partial class PlayerFsm
     private bool UpdraftLandableCheck()
     {
         return Machine.IsInState(PlayerFsmState.Updraft) && TimeInCurrentState() < 0.75f;
+    }
+    
+    private bool DolphintLandableCheck()
+    {
+        return Machine.IsInState(PlayerFsmState.DolphinB) && TimeInCurrentState() < 0.25f;
     }
 }

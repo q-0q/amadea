@@ -139,6 +139,9 @@ public partial class PlayerFsm : GravityFsm
         public static int Tinsica;
         public static int TinsicaUsable;
         public static int TinsicaJump;
+        public static int DolphinUsable;
+        public static int DolphinA;
+        public static int DolphinB;
         
         public static int WalkToRotationDaisPosition;
         public static int RotationDaisInteract;
@@ -152,6 +155,9 @@ public partial class PlayerFsm : GravityFsm
         public static int GenericInteract;
         public static int WalkToGenericInteractable;
         public static int FaceCurrentInteractable;
+
+
+        
     }
 
     public class PlayerFsmTrigger : GravityFsmTrigger
@@ -703,6 +709,17 @@ public partial class PlayerFsm : GravityFsm
         if (Machine.IsInState(PlayerFsmState.TinsicaJump))
         {
             TinsicaJumpOnUpdate();
+        }
+        
+        if (Machine.IsInState(PlayerFsmState.DolphinA))
+        {
+            DolphinAOnUpdate();
+        }
+        
+                
+        if (Machine.IsInState(PlayerFsmState.DolphinB))
+        {
+            DolphinBOnUpdate();
         }
 
         

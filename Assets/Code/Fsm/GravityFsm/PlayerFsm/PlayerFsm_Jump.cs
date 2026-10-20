@@ -16,6 +16,7 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.PitonInteractable)
             .SubstateOf(PlayerFsmState.RopeSwingInteractable)
             .SubstateOf(PlayerFsmState.MinorLeylineInteractable)
+            // .SubstateOf(PlayerFsmState.DolphinUsable)
             .PermitIf(PlayerFsmTrigger.Attack, PlayerFsmState.ImpaleAir, CanImpale)
             .PermitIf(PlayerFsmTrigger.Attack, PlayerFsmState.GrappleStartup, CanGrapple, 1)
             .Permit(PlayerFsmTrigger.StartUpdraft, PlayerFsmState.Updraft)

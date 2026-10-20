@@ -19,6 +19,7 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.WallInteractable)
             .SubstateOf(PlayerFsmState.PitonInteractable)
             .SubstateOf(PlayerFsmState.RopeSwingInteractable)
+            // .SubstateOf(PlayerFsmState.DolphinUsable)
             .Permit(FsmTrigger.Timeout, PlayerFsmState.FallAfterDash)
             .PermitIf(GravityFsmTrigger.StartFrameGrounded, PlayerFsmState.Skipsquat, _ => _inputBuffer.IsBuffered("Jump"), 1)
             .PermitIf(GravityFsmTrigger.StartFrameGrounded, PlayerFsmState.LandsquatAfterDash, _ => YVelocity < 0.5)

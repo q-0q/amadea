@@ -20,7 +20,7 @@ public class GlyphController : MonoBehaviour
         public int mapSplineId;
         public float mapSplineStartT;
         public float mapSplineEndT;
-        public string writeAdditionalKey = "";
+        public List<string> writeAdditionalKeys = new List<string>();
         public bool contributeToCount = true;
         public bool isEndCap = false;
     }
@@ -70,7 +70,7 @@ public class GlyphController : MonoBehaviour
             {
                 displayId = "02",
                 previousNode = "tutorial-1",
-                writeAdditionalKey = "icy-canals-0-split",
+                writeAdditionalKeys = new List<string>() { "icy-canals-0-split"},
                 loreDialogue = new List<string>() { "The Steppe's natural aquifers feed the coolant systems of the relay hub and its inner chambers.", "Additionally, the unusual mineral content of the water has been found to actually increase signal conductivity.", "The line to Ouro Station thus uses relatively low power, despite the distance and altitude gain." },
                 mapSplineId = 0,
                 mapSplineStartT = 0.4f,
@@ -81,7 +81,7 @@ public class GlyphController : MonoBehaviour
         { "icy-canals-0-split", new TerminalData()
             {
                 displayId = "02",
-                previousNode = "tutorial-1",
+                previousNode = "icy-canals-0",
                 loreDialogue = new List<string>() {  },
                 mapSplineId = 3,
                 mapSplineStartT = 0f,

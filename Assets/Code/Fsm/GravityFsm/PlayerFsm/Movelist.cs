@@ -17,6 +17,7 @@ namespace Code.Fsm.GravityFsm.PlayerFsm
     
         public string useInput;
         public string useClause;
+        public string requiredTrick;
     }
 
     public static class MovelistRegistry
@@ -105,7 +106,8 @@ namespace Code.Fsm.GravityFsm.PlayerFsm
                 lore = "By expelling energy into their palms, Lotus Monks balance qi evenly across their bodies.",
                 cost = 1,
                 useInput = "Trick",
-                useClause = "while on the ground"
+                useClause = "while on the ground",
+                requiredTrick = "Tinsica",
             });
         
             TrickMovelistRegistrations.Add("TinsicaJump", new MovelistRegistration()
@@ -116,7 +118,20 @@ namespace Code.Fsm.GravityFsm.PlayerFsm
                 lore = "Motion is the plucking of a string.",
                 cost = 1,
                 useInput = "Jump",
-                useClause = "while in a Tinsica"
+                useClause = "while in a Tinsica",
+                requiredTrick = "Tinsica",
+            });
+            
+            TrickMovelistRegistrations.Add("Dolphin", new MovelistRegistration()
+            {
+                MovelistRegistrationType = MovelistRegistrationType.Trick,
+                displayName = "Helix Jump",
+                description = "A twisting surge of energy that launches through the air.",
+                lore = "The light bends around you.",
+                cost = 1,
+                useInput = "Trick",
+                useClause = "while in a Skip",
+                requiredTrick = "Dolphin",
             });
             
         }

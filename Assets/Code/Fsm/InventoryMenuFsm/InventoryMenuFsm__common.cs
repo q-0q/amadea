@@ -117,6 +117,14 @@ public partial class InventoryMenuFsm
         
         foreach (var (item, registration) in MovelistRegistry.TrickMovelistRegistrations)
         {
+
+            var requiredTrick = registration.requiredTrick;
+            if (requiredTrick != "")
+            {
+                if (!SaveSystem.GetTrick(requiredTrick)) continue;
+            }
+            
+            
             data.Add(new InventoryListItem.InventoryListItemData()
             {
                 description = registration.description,

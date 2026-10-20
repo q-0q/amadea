@@ -22,7 +22,7 @@ public partial class PlayerFsm
         {
             increaseMultiplier = 1f;
             // turningMultiplier = Mathf.Lerp(AirControlTurningMultiplier * 1.5f, AirControlTurningMultiplier, Mathf.InverseLerp(60f, 20f, YVelocity));
-            decreaseMultiplier *= 0.25f;
+            decreaseMultiplier *= 0.75f;
             forceForwardInput = false;
         }
         
@@ -45,6 +45,12 @@ public partial class PlayerFsm
             // increaseMultiplier = Mathf.Lerp(0.1f, 0.8f, Mathf.InverseLerp(60f, 0f, YVelocity));
             // turningMultiplier = Mathf.Lerp(AirControlTurningMultiplier * 1.5f, AirControlTurningMultiplier, Mathf.InverseLerp(60f, 20f, YVelocity));
             animationTurnMod = 0.1f;
+        }
+        
+        if (Machine.IsInState(PlayerFsmState.DolphinB))
+        {
+
+            decreaseMultiplier *= 0.1f;
         }
         
         if (_momentum < 8f)

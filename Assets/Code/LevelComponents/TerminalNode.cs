@@ -293,8 +293,10 @@ public class TerminalNode : MonoBehaviour
             while (current != "")
             {
                 SaveSystem.WriteTerminalNode(current);
-                var writeAdditionalKey = GlyphController.TerminalRegistry[current].writeAdditionalKey;
-                if (writeAdditionalKey != "") SaveSystem.WriteTerminalNode(writeAdditionalKey);
+                foreach (var additionalKey in GlyphController.TerminalRegistry[current].writeAdditionalKeys)
+                {
+                    if (additionalKey != "") SaveSystem.WriteTerminalNode(additionalKey);
+                }
                 current = GlyphController.TerminalRegistry[current].previousNode;
             }
             

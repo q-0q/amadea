@@ -17143,7 +17143,8 @@ MonoBehaviour:
   - texts:
     - Unfeathered.
     - I have been watching you.
-    - To complete the leyline network, you would need to reach the Summit.
+    - To complete the <color=#6EEDFF>leyline</color> network, you would need to reach
+      the Summit.
     - Will you rise to the challenge?
     - I will watch with great interest.
     advanceDialogueIndex: 1

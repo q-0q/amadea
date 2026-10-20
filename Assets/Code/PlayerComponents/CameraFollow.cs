@@ -152,7 +152,7 @@ public class CameraFollow : MonoBehaviour
             newYOffset += slopeOffset;
         }
         
-        yLerp = Mathf.Lerp(yLerp, yLerp * 5f, Mathf.InverseLerp(-5f, -15f, playerYVelocity));
+        yLerp = Mathf.Lerp(yLerp, yLerp * 10f, Mathf.InverseLerp(-5f, -15f, playerYVelocity));
         _currentYOffset = Mathf.Lerp(_currentYOffset, newYOffset, Time.deltaTime * 2f);
         pos += Vector3.up * _currentYOffset;
 

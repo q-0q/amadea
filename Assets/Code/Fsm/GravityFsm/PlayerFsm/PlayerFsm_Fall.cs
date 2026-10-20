@@ -11,6 +11,7 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.RopeSwingInteractable)
             .SubstateOf(PlayerFsmState.MinorLeylineInteractable)
             .SubstateOf(PlayerFsmState.TinsicaUsable)
+            // .SubstateOf(PlayerFsmState.DolphinUsable)
             .PermitIf(PlayerFsmTrigger.Jump, PlayerFsmState.Jumpsquat, _ => CoyoteTimeClause() && _timeSinceTinsicaExited > CoyoteTime)
             .PermitIf(PlayerFsmTrigger.Jump, PlayerFsmState.TinsicaJump, _ => CoyoteTimeClause() && _timeSinceTinsicaExited < CoyoteTime && PlayerManaManager.Singleton.GetCurrentAvailableMana() >= 1, 2)
             // careful about tinisica buffer permit weight whn adding air tricks in the future

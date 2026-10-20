@@ -33,12 +33,48 @@ public partial class PlayerFsm
             MoveYOntoLedgeLinear(0f, ledgeMountSpeed);
         }    
     }
+    
+
 
     private void TinsicaJumpOnUpdate()
     {
         Animator.SetLayerWeight(1, 0);
         _momentum = Mathf.Max(_momentum, TinsicaEntryMomentum);
         transform.position += ComputeCollisionMove(transform.forward * (Time.deltaTime * 5f));
+    }
+    
+    
+    private void DolphinAOnUpdate()
+    {
+
+        var startupDuration = 0.1f;
+        var hopDuration = 0.25f;
+        var hopStartYVelocity = 25f;
+        var hopEndYVelocity = 7f;
+        var hopStartSpeed = 4f;
+        var hopEndSpeed = 3.5f;
+        // YVelocity = Mathf.Lerp(hopStartYVelocity, hopEndYVelocity, Mathf.InverseLerp(startupDuration, startupDuration + hopDuration, TimeInCurrentState()));
+        // YVelocity = Mathf.Lerp(0f, YVelocity, Mathf.InverseLerp(startupDuration, startupDuration + 0.1f, TimeInCurrentState()));
+        
+        YVelocity = Mathf.Lerp(0f, 20f, Mathf.InverseLerp(startupDuration, startupDuration + 0.05f, TimeInCurrentState()));
+        
+        var speedMod = Mathf.Lerp(hopStartSpeed, hopEndSpeed, Mathf.InverseLerp(0f, 0.25f, TimeInCurrentState()));
+        speedMod = Mathf.Lerp(0.35f, speedMod, Mathf.InverseLerp(startupDuration, startupDuration + 0.05f, TimeInCurrentState()));
+
+        _momentum = MaxMomentum;
+        HandleCollisionMove(speedMod, false);
+        HandleTurning(1f, false, 0f, false, 0.25f);
+        
+        
+        var animatorSpeedMod = Mathf.Lerp(GroundMoveMinimumAnimatorSpeedMod, GroundMoveMaximumAnimatorSpeedMod, ComputeMomentumWeight()) *
+                               (_isSurging ? 1.5f : 1f); // same as SetAnimatorSpeedMod() but whtout boost
+        Animator.SetFloat("SpeedMod", animatorSpeedMod);
+        
+    }
+
+    private void DolphinBOnUpdate()
+    {
+        transform.position += ComputeCollisionMove(transform.forward * (Time.deltaTime * 13f));
     }
     
     private void TrickConfigure()
@@ -54,7 +90,7 @@ public partial class PlayerFsm
                 }
                 if (Machine.IsInState(PlayerFsmState.SlowVaultFinish) && TimeInCurrentState() < 0.1f) return false;
                 return PlayerManaManager.Singleton.GetCurrentAvailableMana() >= 1 && SaveSystem.GetTrick("Tinsica");
-            });
+            }, 5);
         
         Machine.Configure(PlayerFsmState.Tinsica)
             // .SubstateOf(GravityFsmState.Grounded)
@@ -101,6 +137,7 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.PitonInteractable)
             .PermitIf(PlayerFsmTrigger.Dash, PlayerFsmState.Dashsquat, CanDash)
             .SubstateOf(PlayerFsmState.WallInteractable)
+            .SubstateOf(PlayerFsmState.DolphinUsable)
             .PermitIf(GravityFsmTrigger.StartFrameGrounded, PlayerFsmState.LandsquatAfterDash, @params => !IsSlideTrigger(@params) && YVelocity < 0.5f && _momentum > 5f, 1)
             // .PermitIf(PlayerFsmTrigger.IsAboveWater, PlayerFsmState.DiveFall, _ =>
             // {
@@ -121,6 +158,56 @@ public partial class PlayerFsm
                 PlayerManaManager.Singleton.Consume();
                 OnPlayerFootstep();
                 YVelocity = 21f;
+            });
+        
+        
+        
+        
+        
+        Machine.Configure(PlayerFsmState.DolphinUsable)
+            .PermitIf(PlayerFsmTrigger.Trick, PlayerFsmState.DolphinA, _ =>
+            {
+                return PlayerManaManager.Singleton.GetCurrentAvailableMana() >= 1 && SaveSystem.GetTrick("Dolphin");
+            });
+        
+        Machine.Configure(PlayerFsmState.DolphinA)
+            .SubstateOf(PlayerFsmState.Landable)
+            .SubstateOf(PlayerFsmState.Aerial)
+            .Permit(FsmTrigger.Timeout, PlayerFsmState.DolphinB)
+            .OnEntry(_ =>
+            {
+                // _currentLedgePosition = transform.position;
+                _inputBuffer.ConsumeBuffer("Trick");
+                StartCoroutine(TrickTintCoroutine(0));
+                _playerTrickParticles.InvokeTinsica();
+                FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/Trick"), gameObject);
+                FMODUnity.RuntimeManager.PlayOneShotAttached(dashWhooshEventReference, gameObject);
+                _momentum = Mathf.Max(_momentum, TinsicaEntryMomentum);
+                
+                LastUpwardsY = transform.position.y;
+                
+                PlayerManaManager.Singleton.Consume();
+            })
+            .OnExit(_ =>
+            {
+                
+            });
+        
+        Machine.Configure(PlayerFsmState.DolphinB)
+            .SubstateOf(GravityFsmState.Aerial)
+            .SubstateOf(PlayerFsmState.Landable)
+            .SubstateOf(PlayerFsmState.AirControl)
+            .SubstateOf(PlayerFsmState.PitonInteractable)
+            .SubstateOf(PlayerFsmState.WallInteractable)
+            .PermitIf(PlayerFsmTrigger.Dash, PlayerFsmState.Dashsquat, CanDash)
+            // .Permit(FsmTrigger.Timeout, PlayerFsmState.Fall)
+            .OnEntry(_ =>
+            {
+
+            })
+            .OnExit(_ =>
+            {
+                
             });
     }
 

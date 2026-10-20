@@ -11,11 +11,11 @@ public partial class PlayerFsm
         
         var bobOffset = Mathf.Lerp(5, -5f, Mathf.InverseLerp(-1f, 1f, Mathf.Sin(Time.time * 2.5f)));
 
-        float targetYVelocity = _playerInput.actions["Jump"].IsPressed() ? 20f : -30f;
+        float targetYVelocity = _playerInput.actions["Jump"].IsPressed() ? 25f : -30f;
         targetYVelocity = Mathf.Lerp(targetYVelocity, -30f,
             Mathf.InverseLerp(UpdraftDuration - 2f, UpdraftDuration, TimeInCurrentState()));
         
-        targetYVelocity = Mathf.Lerp(40f, targetYVelocity, Mathf.InverseLerp(0f, 1f, TimeInCurrentState()));
+        targetYVelocity = Mathf.Lerp(50f, targetYVelocity, Mathf.InverseLerp(0f, 1f, TimeInCurrentState()));
         float lerpStrength = targetYVelocity > YVelocity ? 8f : 3f;
         YVelocity = Mathf.Lerp(YVelocity, targetYVelocity + bobOffset, Time.deltaTime * lerpStrength);
         
@@ -34,8 +34,8 @@ public partial class PlayerFsm
 
 
 
-        var multiplier = Mathf.Lerp(2f, 1.65f, Mathf.InverseLerp(2f, 30f, YVelocity));
-        multiplier = Mathf.Lerp(multiplier, 1.45f,
+        var multiplier = Mathf.Lerp(2f, 1.45f, Mathf.InverseLerp(2f, 40f, YVelocity));
+        multiplier = Mathf.Lerp(multiplier, 1.75f,
             Mathf.InverseLerp(UpdraftDuration - 1f, UpdraftDuration, TimeInCurrentState()));
         
         HandleCollisionMove(multiplier);
@@ -48,7 +48,8 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.AirControl)
             .SubstateOf(PlayerFsmState.WallInteractable)
             .SubstateOf(PlayerFsmState.Landable)
-            .Permit(FsmTrigger.Timeout, PlayerFsmState.Fall)
+            // .SubstateOf(PlayerFsmState.DolphinUsable)
+            // .Permit(FsmTrigger.Timeout, PlayerFsmState.Fall)
             .PermitIf(PlayerFsmTrigger.Dash, PlayerFsmState.Dashsquat, CanDash)
             .OnEntry(_ =>
             {
