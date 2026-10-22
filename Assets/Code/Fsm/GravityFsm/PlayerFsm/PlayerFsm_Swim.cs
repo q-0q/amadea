@@ -35,11 +35,12 @@ public partial class PlayerFsm
     
     private void SwimSurfaceRiseOnUpdate()
     {
+        var desiredYVelocity = 25f;
+        
         if (WaterRaycast(out var swimRaycastParam))
         {
-            var desiredYVelocity = Mathf.Lerp(0f, 25f, Mathf.InverseLerp(4f, -0.80f, swimRaycastParam.distance));
-            YVelocity = Mathf.Lerp(YVelocity, desiredYVelocity,
-                Time.deltaTime * Mathf.Lerp(1f, 20f, Mathf.InverseLerp(0, 0.45f, TimeInCurrentState())));
+            desiredYVelocity = Mathf.Lerp(0f, 25f, Mathf.InverseLerp(4f, -0.80f, swimRaycastParam.distance));
+
             
             
             if (swimRaycastParam.WaterHazardType == WaterHazardType.Type.InstantDrown)
@@ -48,6 +49,9 @@ public partial class PlayerFsm
                     Time.deltaTime * Mathf.Lerp(2f, 10f, Mathf.InverseLerp(0, 0.5f, TimeInCurrentState())));
             };
         }
+        
+        YVelocity = Mathf.Lerp(YVelocity, desiredYVelocity,
+            Time.deltaTime * Mathf.Lerp(1f, 20f, Mathf.InverseLerp(0, 0.45f, TimeInCurrentState())));
         
         HandleCollisionMove(Mathf.Lerp(0.1925f, 0.0925f * 0.75f, Mathf.InverseLerp(0, 0.4f, TimeInCurrentState())));
     }

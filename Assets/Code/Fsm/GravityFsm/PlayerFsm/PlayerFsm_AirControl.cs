@@ -49,7 +49,7 @@ public partial class PlayerFsm
         
         if (Machine.IsInState(PlayerFsmState.DolphinB))
         {
-
+            turningMultiplier *= 0.25f;
             decreaseMultiplier *= 0.1f;
         }
         

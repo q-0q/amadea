@@ -16,6 +16,8 @@ public class DialogueCanvas : MonoBehaviour
     public DialogueController currentDialogueController;
     private int _currentTextIndex = 0;
 
+    private bool _isCanvasDelayActive = false;
+
     public float TimeSinceDialogueClosed = 100f;
 
     private void Awake()
@@ -38,7 +40,7 @@ public class DialogueCanvas : MonoBehaviour
     {
         TimeSinceDialogueClosed += Time.deltaTime;
         
-        if (currentDialogueController != null && !GameMenu.Singleton.IsMenuOpen() && !PhotoManager.Singleton.IsActive())
+        if (currentDialogueController != null && !GameMenu.Singleton.IsMenuOpen() && !PhotoManager.Singleton.IsActive() && !_isCanvasDelayActive)
         {
             _canvasGroup.alpha = Mathf.Lerp(_canvasGroup.alpha, 1, Time.unscaledDeltaTime * 15f);
             _tmpText.text = currentDialogueController.dialogues[currentDialogueController.currentDialogueIndex].texts[_currentTextIndex + currentDialogueController.textStartOffset];
@@ -53,6 +55,7 @@ public class DialogueCanvas : MonoBehaviour
 
     public void AdvanceDialogue()
     {
+        if (_isCanvasDelayActive) return;
         PlaySound();
         _currentTextIndex++;
         if (currentDialogueController != null) currentDialogueController.ProgressionSignal(_currentTextIndex);
@@ -74,14 +77,17 @@ public class DialogueCanvas : MonoBehaviour
     public void StartDialogue(DialogueController controller)
     {
         StartCoroutine(Coroutine());
-        PlaySound();
+
         IEnumerator Coroutine()
         {
             var delay = controller.canvasDelay + controller.dialogues[controller.currentDialogueIndex].canvasDelayOffset;
             StartCoroutine(PlayerCinemachineFreeLook.Singleton.PreventYRecenterForDuration(delay));
-            yield return new WaitForSeconds(delay);
             currentDialogueController = controller;
             _currentTextIndex = 0;
+            _isCanvasDelayActive = true;
+            yield return new WaitForSeconds(delay);
+            PlaySound();
+            _isCanvasDelayActive = false;
         }
         
     }

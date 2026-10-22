@@ -52,8 +52,9 @@ public class CameraFollow : MonoBehaviour
         PlayerFsm.OnPlayerTeleported += OnWarp;
         PlayerFsm.OnPlayerRespawn += OnRespawn;
         CutsceneManager.OnOverwriteCameraFollowEnded += OnShaderPositionReset;
+        PlayerFsm.OnPlayerUpdateFinished += OnPlayerUpdateFinished;
     }
-
+    
     private void OnRespawn()
     {
         transform.position = PlayerFsm.Singleton.transform.position;
@@ -65,6 +66,7 @@ public class CameraFollow : MonoBehaviour
         PlayerFsm.OnPlayerTeleported -= OnWarp;
         PlayerFsm.OnPlayerRespawn -= OnRespawn;
         CutsceneManager.OnOverwriteCameraFollowEnded -= OnShaderPositionReset;
+        PlayerFsm.OnPlayerUpdateFinished -= OnPlayerUpdateFinished;
     }
 
     private void OnWarp(Vector3 delta)
@@ -73,7 +75,7 @@ public class CameraFollow : MonoBehaviour
         Shader.SetGlobalVector("_CameraFollowWorldPosition", transform.position);
     }
     
-    private void LateUpdate()
+    private void OnPlayerUpdateFinished()
     {
         // if (PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.TrialTeleport))
         // {

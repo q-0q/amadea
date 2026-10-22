@@ -103,6 +103,7 @@ public partial class PlayerFsm
     public static event Action<Vector3, float, float> OnPlayerRippleGenerated;
     public static event Action<Vector3, float, float> OnPlayerWakeGenerated;
     public static event Action OnPlayerFootstepEvent;
+    public static event Action OnPlayerUpdateFinished;
 
     private const float SwimSurfaceRippleTimer = 0.08f;
     private bool _swimSurfaceRippleQueued = false;
@@ -247,6 +248,7 @@ public partial class PlayerFsm
 
     private const float TinsicaDuration = 0.75f;
     private const float TinsicaEntryMomentum = 9.5f;
+    public const float DolphinYVelocity = 27f;
 
 
     private const float KiMomentumThreshhold = 11.5f;
@@ -312,6 +314,7 @@ public partial class PlayerFsm
     private float _timeSinceBridgeBoost;
     public static event Action<String> OnItemCollected;
     private CinemachineImpulseSource _impulse;
+    
 
 
     private bool IsHitValidFlank(RaycastHit hit, bool left)
@@ -366,8 +369,7 @@ public partial class PlayerFsm
 
         if (_arrivedAtLedge && !Machine.IsInState(PlayerFsmState.Tinsica)) return true; // or, just return true to allow continued lerping without updating value
         
-        var delta = _currentLedgePosition.y - transform.position.y;
-        if (delta * Time.deltaTime <= LedgeArrivalDistance) _arrivedAtLedge = true;
+
         
         var wallDistance = 5f;
         var back = 1f;
@@ -397,6 +399,9 @@ public partial class PlayerFsm
         if (upwardsOnly && hit.point.y < transform.position.y) return false;
 
         _currentLedgePosition = hit.point;
+        var delta = _currentLedgePosition.y - transform.position.y;
+        if (delta * Time.deltaTime <= LedgeArrivalDistance) _arrivedAtLedge = true;
+        
         return true;
     }
     
@@ -1018,6 +1023,14 @@ public partial class PlayerFsm
         {
             _desiredWindRushFmodAmount = Mathf.Lerp(0f, 1f, Mathf.InverseLerp(4f, 30f, Mathf.Abs(YVelocity)));
         }
+        else if (Machine.IsInState(PlayerFsmState.DolphinA))
+        {
+            _desiredWindRushFmodAmount = Mathf.Lerp(0f, 0.8f, Mathf.InverseLerp(0.1f, 0.125f, TimeInCurrentState()));
+        }
+        else if (Machine.IsInState(PlayerFsmState.DolphinB) && TimeInCurrentState() < 0.5f)
+        {
+            _desiredWindRushFmodAmount = Mathf.Lerp(0.8f, 0f, Mathf.InverseLerp(0f, 0.5f, TimeInCurrentState()));
+        }
         else if (Machine.IsInState(GravityFsmState.Aerial))
         {
             _desiredWindRushFmodAmount = Mathf.Lerp(0f, 1f, Mathf.InverseLerp(-8f, -55f, CurrentFallDistance()));
@@ -1179,7 +1192,7 @@ public partial class PlayerFsm
         swimRaycastParam.WaterHazardType = WaterHazardType.Type.None;
         var origin = transform.position + Vector3.up * 5f;
         var maxDistance = 10f;
-        if (Physics.Raycast(origin, Vector3.down, out var hit, maxDistance, LayerMask.GetMask("Water")))
+        if (Physics.Raycast(origin, Vector3.down, out var hit, maxDistance, LayerMask.GetMask("Water"), QueryTriggerInteraction.Collide))
         {
             swimRaycastParam.WaterHazardType = HazardHelper(hit.point, hit.transform.gameObject);
             swimRaycastParam.point = hit.point;

@@ -52,14 +52,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _End: 10
+    - _End: 8
     - _FogMix: 1
     - _PierceFog: 0
+    - _Power: 4
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Start: 0
     - _w: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Color: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

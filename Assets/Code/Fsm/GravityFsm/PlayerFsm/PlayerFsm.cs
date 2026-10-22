@@ -410,7 +410,8 @@ public partial class PlayerFsm : GravityFsm
             GroundMoveOnUpdate();
         }
 
-        if ((Machine.IsInState(PlayerFsmState.Grounded)) && !Machine.IsInState(PlayerFsmState.Wallrun) && !Machine.IsInState(PlayerFsmState.WallrunJumpsquat))
+        if ((Machine.IsInState(PlayerFsmState.Grounded)) && !Machine.IsInState(PlayerFsmState.Wallrun) && !Machine.IsInState(PlayerFsmState.WallrunJumpsquat) && !Machine.IsInState(PlayerFsmState.Skipsquat) && !Machine.IsInState(PlayerFsmState.LandsquatAfterDash) && !
+                ((Machine.IsInState(PlayerFsmState.HardLandRoll) || Machine.IsInState(PlayerFsmState.HardLand)) && TimeInCurrentState() < 0.2f) && _timeSinceTinsicaExited > CoyoteTime)
         {
             if (parentTransform != null)
             {
@@ -743,6 +744,8 @@ public partial class PlayerFsm : GravityFsm
         base.OnUpdate();
         
         _previousPositionDeltaNoTimescale = (transform.position - previousPosition) / Time.deltaTime;
+        
+        OnPlayerUpdateFinished?.Invoke();
     }
 
     private bool HitstopOnUpdate()
@@ -762,7 +765,7 @@ public partial class PlayerFsm : GravityFsm
     
     private void OnStateChangedCompleted(TriggerParams obj)
     {
-        // print(InheritableEnum.GetFieldNameByValue(Machine.State(), typeof(PlayerFsmState)));
+        print(InheritableEnum.GetFieldNameByValue(Machine.State(), typeof(PlayerFsmState)));
         var trigger = StateMapConfig.AnimationTrigger.GetStrict(this);
         ReplaceAnimatorTrigger(trigger);
         if (trigger == "GroundMove") Animator.SetTrigger("GroundMoveSteep");
