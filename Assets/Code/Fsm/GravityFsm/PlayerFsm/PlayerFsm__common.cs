@@ -104,6 +104,8 @@ public partial class PlayerFsm
     public static event Action<Vector3, float, float> OnPlayerWakeGenerated;
     public static event Action OnPlayerFootstepEvent;
     public static event Action OnPlayerUpdateFinished;
+    public static event Action<string> OnPlayerTrickTrailStartRequested;
+    public static event Action<string> OnPlayerTrickTrailEndRequested;
 
     private const float SwimSurfaceRippleTimer = 0.08f;
     private bool _swimSurfaceRippleQueued = false;
@@ -249,6 +251,7 @@ public partial class PlayerFsm
     private const float TinsicaDuration = 0.75f;
     private const float TinsicaEntryMomentum = 9.5f;
     public const float DolphinYVelocity = 27f;
+    public const float AltDolphinYVelocity = 19f;
 
 
     private const float KiMomentumThreshhold = 11.5f;
@@ -314,7 +317,8 @@ public partial class PlayerFsm
     private float _timeSinceBridgeBoost;
     public static event Action<String> OnItemCollected;
     private CinemachineImpulseSource _impulse;
-    
+    private float _timeSinceSkipsquatExited;
+    public static event Action OnPlayerDeathGroundImmune;
 
 
     private bool IsHitValidFlank(RaycastHit hit, bool left)
@@ -1563,5 +1567,20 @@ public partial class PlayerFsm
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("FloatAmount",
             Mathf.Lerp(currentAmount, desiredAmount, Time.deltaTime * 5f));
 
+    }
+
+
+    private void DeathGroundImmuneOneshotHandler()
+    {
+        StartCoroutine(Coroutine());
+        IEnumerator Coroutine()
+        {
+            yield return null;
+            if (parentTransform != null)
+            {
+                parentTransform.TryGetComponent(out PlayerDeathGround deathGround);
+                if (deathGround != null) FMODUnity.RuntimeManager.PlayOneShotAttached("event:/DeathGroundImmune", PlayerFsm.Singleton.gameObject);
+            }
+        }
     }
 }

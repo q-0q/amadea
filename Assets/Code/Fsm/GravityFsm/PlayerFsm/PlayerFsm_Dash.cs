@@ -28,7 +28,9 @@ public partial class PlayerFsm
             .OnEntry(_ =>
             {
 
-                _playerDashParticles.InvokeDash();
+                // _playerDashParticles.InvokeDash();
+                
+                OnPlayerTrickTrailStartRequested?.Invoke("Dash");
                 isSprinting = true;
                 IncrementCombo();
                 YVelocity = 0;
@@ -40,6 +42,7 @@ public partial class PlayerFsm
             {
                 _momentum = 13f;
                 _timeSinceDashFinished = 0f;
+                OnPlayerTrickTrailEndRequested?.Invoke("Dash");
             });
     }
 }

@@ -101,4 +101,9 @@ public class DialogueCanvas : MonoBehaviour
     {
         FMODUnity.RuntimeManager.PlayOneShotAttached(FMODUnity.RuntimeManager.PathToEventReference("event:/ProgressDialogue"), gameObject);
     }
+
+    public int GetTextIndex()
+    {
+        return _currentTextIndex;
+    }
 }

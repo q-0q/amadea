@@ -23,6 +23,11 @@ public partial class PlayerFsm
                 LastUpwardsY = transform.position.y;
                 OnPlayerFootstep();
                 PlaySlipSound();
+                DeathGroundImmuneOneshotHandler();
+            })
+            .OnExit(_ =>
+            {
+                _timeSinceSkipsquatExited = 0f;
             });
     }
 }

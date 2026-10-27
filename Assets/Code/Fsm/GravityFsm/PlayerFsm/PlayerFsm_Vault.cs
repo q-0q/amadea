@@ -57,17 +57,18 @@ public partial class PlayerFsm
         Machine.Configure(PlayerFsmState.DashVault)
             .PermitIf(FsmTrigger.Timeout, PlayerFsmState.Skip, _ => _inputBuffer.IsBuffered("Jump", 0.25f), 2)
             // .PermitIf(FsmTrigger.Timeout, PlayerFsmState.Skip, _ => _inputBuffer.IsBuffered("Jump", 0.25f), 2)
-            .SubstateOf(PlayerFsmState.TinsicaUsable)
+            // .SubstateOf(PlayerFsmState.DolphinUsable)
             .SubstateOf(PlayerFsmState.Vault)
             .OnEntry(_ =>
             {
-                
+                DeathGroundImmuneOneshotHandler();
                 // _currentLedgePosition = transform.position;
             })
             .OnExit(_ =>
             {
                 _momentum = MaxMomentum;
                 isSprinting = true;
+                _timeSinceSkipsquatExited = 0f;
                 
                 // var originYOffset = -0.1f;
                 // var originForwardOffset = -2f;

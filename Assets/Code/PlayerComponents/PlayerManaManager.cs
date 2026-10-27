@@ -52,7 +52,7 @@ public class PlayerManaManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var obj = Instantiate(manaPrefab, _flipHolder);
-            obj.transform.localPosition = new Vector3(-5.5f, (spacing * i) - (spacing * count * 0.5f) + 2f, 0);
+            obj.transform.localPosition = new Vector3(-6.5f, (spacing * i) - (spacing * count * 0.5f) + 2f, 0);
             _manaIndicators.Add(obj.GetComponent<PlayerManaIndicator>());
         }
     }
@@ -61,7 +61,7 @@ public class PlayerManaManager : MonoBehaviour
     void Update()
     {
         var angle = Vector3.SignedAngle(PlayerFsm.Singleton.transform.forward, Camera.main.transform.forward, Vector3.up);
-        _flipHolder.transform.localScale = new Vector3(angle > 0 ? 1f : -1f, 1f, 1f);
+        _flipHolder.transform.localScale = new Vector3(angle > 5f ? 1f : -1f, 1f, 1f); // bias to one side to prvent flickering when running straight away from/ towards camera
         if (_currentMana < _maxMana) _replenishTimer += Time.deltaTime;
         
         if (_replenishTimer >= ReplenishCooldown)

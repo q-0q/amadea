@@ -142,6 +142,8 @@ public partial class PlayerFsm : GravityFsm
         public static int DolphinUsable;
         public static int DolphinA;
         public static int DolphinB;
+        public static int DolphinC;
+        public static int DolphinD;
         
         public static int WalkToRotationDaisPosition;
         public static int RotationDaisInteract;
@@ -157,7 +159,7 @@ public partial class PlayerFsm : GravityFsm
         public static int FaceCurrentInteractable;
 
 
-        
+
     }
 
     public class PlayerFsmTrigger : GravityFsmTrigger
@@ -285,6 +287,7 @@ public partial class PlayerFsm : GravityFsm
         Time.timeScale = 1f;
         _timeSinceBoostStarted = 100f;
         _timeSinceBridgeBoost = 100f;
+        _timeSinceSkipsquatExited = 100f;
         _movementAnimationMirror = false;
         TryGetComponent(out _playerInput);
         _inputBuffer = new InputBuffer(_playerInput, 0.275f);
@@ -375,6 +378,7 @@ public partial class PlayerFsm : GravityFsm
         _timeSinceRespawn += Time.deltaTime;
         _timeSinceTinsicaExited += Time.deltaTime;
         _timeSinceJumpBufferable += Time.deltaTime;
+        _timeSinceSkipsquatExited += Time.deltaTime;
         
         if (_comboTimer > ComboTimeoutDuration)
         {
@@ -410,13 +414,27 @@ public partial class PlayerFsm : GravityFsm
             GroundMoveOnUpdate();
         }
 
-        if ((Machine.IsInState(PlayerFsmState.Grounded)) && !Machine.IsInState(PlayerFsmState.Wallrun) && !Machine.IsInState(PlayerFsmState.WallrunJumpsquat) && !Machine.IsInState(PlayerFsmState.Skipsquat) && !Machine.IsInState(PlayerFsmState.LandsquatAfterDash) && !
+        if ((Machine.IsInState(PlayerFsmState.Grounded)) && !Machine.IsInState(PlayerFsmState.Wallrun) && !Machine.IsInState(PlayerFsmState.Tinsica) && !Machine.IsInState(PlayerFsmState.WallrunJumpsquat) && !Machine.IsInState(PlayerFsmState.Skipsquat) && !Machine.IsInState(PlayerFsmState.LandsquatAfterDash) && !
                 ((Machine.IsInState(PlayerFsmState.HardLandRoll) || Machine.IsInState(PlayerFsmState.HardLand)) && TimeInCurrentState() < 0.2f) && _timeSinceTinsicaExited > CoyoteTime)
         {
             if (parentTransform != null)
             {
                 parentTransform.TryGetComponent(out PlayerDeathGround deathGround);
                 if (deathGround != null) InvokePlayerDeath();
+            }
+        }
+        else
+        {
+            if (parentTransform != null)
+            {
+                parentTransform.TryGetComponent(out PlayerDeathGround deathGround);
+                if (deathGround != null)
+                {
+                    if (Machine.IsInState(PlayerFsmState.Skipsquat) || Machine.IsInState(PlayerFsmState.Tinsica) || Machine.IsInState(PlayerFsmState.DashVault) )
+                    {
+                        OnPlayerDeathGroundImmune?.Invoke();
+                    }
+                }
             }
         }
         
@@ -721,6 +739,16 @@ public partial class PlayerFsm : GravityFsm
         if (Machine.IsInState(PlayerFsmState.DolphinB))
         {
             DolphinBOnUpdate();
+        }
+        
+        if (Machine.IsInState(PlayerFsmState.DolphinC))
+        {
+            DolphinCOnUpdate();
+        }
+        
+        if (Machine.IsInState(PlayerFsmState.DolphinD))
+        {
+            DolphinDOnUpdate();
         }
 
         

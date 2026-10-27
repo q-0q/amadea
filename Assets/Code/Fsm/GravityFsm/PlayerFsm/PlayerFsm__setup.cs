@@ -119,8 +119,10 @@ public partial class PlayerFsm
         StateMapConfig.Duration.Add(PlayerFsmState.ChestInteract, 0.5f);
         
         StateMapConfig.Duration.Add(PlayerFsmState.Tinsica, 0); // timeout exit condition is manually computed in trick.cs
-        StateMapConfig.Duration.Add(PlayerFsmState.DolphinA, 0.15f);
+        StateMapConfig.Duration.Add(PlayerFsmState.DolphinA, 0.1f);
         StateMapConfig.Duration.Add(PlayerFsmState.DolphinB, 0.45f);
+        StateMapConfig.Duration.Add(PlayerFsmState.DolphinC, 0.075f);
+        StateMapConfig.Duration.Add(PlayerFsmState.DolphinD, 0.45f);
         
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.Dash, "Dash");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.Dashsquat, "Dashsquat");
@@ -202,6 +204,8 @@ public partial class PlayerFsm
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.TinsicaJump, "TinsicaJump");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.DolphinA, "DolphinA");
         StateMapConfig.AnimationTrigger.Add(PlayerFsmState.DolphinB, "DolphinB");
+        StateMapConfig.AnimationTrigger.Add(PlayerFsmState.DolphinC, "DolphinC");
+        StateMapConfig.AnimationTrigger.Add(PlayerFsmState.DolphinD, "DolphinD");
 
         StateMapConfig.IsAbstract.Add(PlayerFsmState.Landable, true);
         StateMapConfig.IsAbstract.Add(PlayerFsmState.ForceWallRotation, true);
@@ -225,6 +229,7 @@ public partial class PlayerFsm
         StateMapConfig.GravityStrengthMod.Add(PlayerFsmState.SurgeDash, 0.75f);
         StateMapConfig.GravityStrengthMod.Add(PlayerFsmState.TinsicaJump, 0.55f);
         StateMapConfig.GravityStrengthMod.Add(PlayerFsmState.DolphinB, 0.75f);
+        StateMapConfig.GravityStrengthMod.Add(PlayerFsmState.DolphinD, 0.75f);
         
         
         StateMapConfig.LockSpringCollider.Add(PlayerFsmState.Landsquat, true);

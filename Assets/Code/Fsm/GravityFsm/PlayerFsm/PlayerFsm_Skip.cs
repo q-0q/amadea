@@ -26,13 +26,17 @@ public partial class PlayerFsm
             .PermitIf(GravityFsmTrigger.StartFrameGrounded, PlayerFsmState.LandsquatAfterDash, @params => !IsSlideTrigger(@params) && YVelocity < 0.5f && _momentum > 5f, 1)
             .OnEntry(_ =>
             {
-                _playerDashParticles.InvokeSkip();
+                OnPlayerTrickTrailStartRequested?.Invoke("Skip");
                 FMODUnity.RuntimeManager.PlayOneShotAttached(skipWhooshEventReference, gameObject);
                 _momentum = 13f;
                 IncrementCombo();
                 _inputBuffer.ConsumeBuffer("Jump");
                 PlaySlipSound();
                 FMODUnity.RuntimeManager.PlayOneShotAttached(skipFmodEvent, gameObject);
+            })
+            .OnExit(_ =>
+            {
+                OnPlayerTrickTrailEndRequested?.Invoke("Skip");
             })
             .OnEntryFrom(FsmTrigger.Timeout, _ => { YVelocity = SkipYVelocity; });
         
