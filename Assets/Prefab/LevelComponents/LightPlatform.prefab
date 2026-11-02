@@ -53,6 +53,7 @@ MonoBehaviour:
   RotationalStiffness: 90
   RotationalDamping: 5
   BobOffset: 0
+  BobStrength: 0
 --- !u!114 &22544993261565437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +114,7 @@ MonoBehaviour:
   distanceLerpMin: 0
   distanceLerpMax: 26
   distanceLerpPower: 0.5
+  preventDistanceCulling: 0
 --- !u!1 &5865430462011303266
 GameObject:
   m_ObjectHideFlags: 0

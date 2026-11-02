@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class DiamberCallTrigger : MonoBehaviour
@@ -26,6 +27,7 @@ public class DiamberCallTrigger : MonoBehaviour
 
     private void OnTrigger(Collider other)
     {
+        if (!SaveSystem.GetAllItems().Contains("Map")) return;
         if (SaveSystem.GetPersistentEventCompleted(persistentEvent)) return;
         if(!PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Interactable)) return;
         SaveSystem.WritePersistentEvent(persistentEvent);

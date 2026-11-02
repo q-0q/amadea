@@ -50,5 +50,9 @@ public partial class SentryFsm
 
         return true;
     }
-    
+
+    private void OnPlayerCultTrialDeath()
+    {
+        Machine.Jump(SentryFsm.SentryFsmState.Idle);
+    }
 }

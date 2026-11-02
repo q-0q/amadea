@@ -59,6 +59,7 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.SlideInteractable)
             .OnEntry(_ =>
             {
+
                 _wallsquattedSinceLeavingGround = false;
                 _dashSinceLeavingGround = false;
                 _previousWallrunSide = FlankType.None;

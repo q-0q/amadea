@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Code.Fsm.GravityFsm.PlayerFsm;
 using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -160,7 +161,23 @@ public static class KeyItemRegistry
             description = "A tiny wooden square engraved with a floral pattern.",
             MeshGameObject = Resources.Load("Prefab/KeyItems/UrnFragment") as GameObject,
             Sprite = null,
-            GetUseDescription = () => "Increases Ki reserves.",
+            GetUseDescription = () => "Increases <color=#" + MovelistRegistry.TrickColor +  ">Ki</color> reserves by 1.",
+            GetCanUse = () => false,
+            onUse = () =>
+            {
+
+            },
+            GetUseConfirmation = () => ""
+        });
+        
+        
+        KeyItemRegistrations.Add("Mana1", new KeyItemRegistration()
+        {
+            displayName = "Ivory Lotus Charm",
+            description = "A small bone tablet engraved with a floral pattern. Tiny bells have been wired through holes along one of its edges.",
+            MeshGameObject = Resources.Load("Prefab/KeyItems/UrnFragment") as GameObject,
+            Sprite = null,
+            GetUseDescription = () => "Increases <color=#" + MovelistRegistry.TrickColor +  ">Ki</color> reserves by 1.",
             GetCanUse = () => false,
             onUse = () =>
             {

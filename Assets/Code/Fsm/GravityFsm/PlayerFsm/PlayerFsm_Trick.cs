@@ -351,6 +351,11 @@ public partial class PlayerFsm
         SaveSystem.WriteTrick(trick);
         OnTrickAcquired?.Invoke(trick);
     }
+
+    public bool GetIsTinsicaCoyoteStatus()
+    {
+        return _timeSinceTinsicaExited < CoyoteTime;
+    }
 }
 
 

@@ -49,13 +49,14 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.WallInteractable)
             .SubstateOf(PlayerFsmState.Landable)
             // .SubstateOf(PlayerFsmState.DolphinUsable)
-            // .Permit(FsmTrigger.Timeout, PlayerFsmState.Fall)
+            .Permit(FsmTrigger.Timeout, PlayerFsmState.Fall)
             .PermitIf(PlayerFsmTrigger.Dash, PlayerFsmState.Dashsquat, CanDash)
             .OnEntry(_ =>
             {
                 // _movementAnimationMirror = !_movementAnimationMirror;
                 // var flip = _movementAnimationMirror ? 0 : 1f;
                 // Animator.SetFloat("Flip", flip);
+                PlayerManaManager.Singleton.RestoreAll();
                 LastUpwardsY = transform.position.y;
                 OnPlayerEnterUpdraft?.Invoke();
                 _previousWallrunSide = FlankType.None;

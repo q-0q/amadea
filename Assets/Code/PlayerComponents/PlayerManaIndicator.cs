@@ -104,6 +104,16 @@ public class PlayerManaIndicator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Dying) ||
+            PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Dead) ||
+            PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Respawn))
+        {
+            _hullRenderer.material.SetFloat("_Alpha", 0f);
+            _indicatorRenderer.material.SetFloat("_Alpha", 0f);
+            return;
+        }
+        
         if (_consumedManaTime >= _maxManaTime)
         {
             _hullRenderer.material.SetFloat("_Alpha", 1f);
@@ -111,7 +121,7 @@ public class PlayerManaIndicator : MonoBehaviour
         }
         else
         {
-            var a = 1f - Mathf.InverseLerp(_maxManaTime + 0.8f, _maxManaTime + 0.9f, Time.time);
+            var a = 1f - Mathf.InverseLerp(_maxManaTime + 0.6f, _maxManaTime + 0.7f, Time.time);
             _hullRenderer.material.SetFloat("_Alpha", a);
             _indicatorRenderer.material.SetFloat("_Alpha", a);
         }

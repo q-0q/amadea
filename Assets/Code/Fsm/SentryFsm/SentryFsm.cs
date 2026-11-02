@@ -151,11 +151,12 @@ public partial class SentryFsm : Fsm
 
     private void OnEnable()
     {
+        PlayerFsm.OnPlayerCultTrialDeath += OnPlayerCultTrialDeath;
     }
 
     private void OnDisable()
     {
-
+        PlayerFsm.OnPlayerCultTrialDeath -= OnPlayerCultTrialDeath;
         _blinkingInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
     

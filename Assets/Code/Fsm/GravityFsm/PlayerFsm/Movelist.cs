@@ -82,7 +82,7 @@ namespace Code.Fsm.GravityFsm.PlayerFsm
                 lore = "",
                 cost = 0,
                 useInput = "Jump",
-                useClause = "immediately after landing from Flipdash"
+                useClause = "just after landing from Flipdash"
             });
             
             BasicMovelistRegistrations.Add("Wallrun", new MovelistRegistration()

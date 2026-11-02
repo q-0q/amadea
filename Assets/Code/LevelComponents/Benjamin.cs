@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Bandit : MonoBehaviour
+public class Benjamin : MonoBehaviour
 {
 
     private DialogueController _dialogueController;
@@ -9,7 +9,6 @@ public class Bandit : MonoBehaviour
     private void Awake()
     {
         _dialogueController = GetComponentInChildren<DialogueController>();
-        if (SaveSystem.GetPersistentEventCompleted("glyph-travel-gate")) gameObject.SetActive(false);
     }
 
     private void OnEnable()

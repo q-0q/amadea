@@ -39,7 +39,7 @@ public class FloatTrigger : MonoBehaviour
     private void OnTrigger(Collider obj)
     {
         
-        if (PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Respawn)) return;
+        if (PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Respawn) || PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Dead) || PlayerFsm.Singleton.Machine.IsInState(PlayerFsm.PlayerFsmState.Dying)) return;
         if (PlayerFsm.Singleton.GetTimeSinceRespawn() < 2f) return;
         
         Util.InvokeSphereEffect(transform.position - Vector3.up, Vector3.one * 8f, 1.25f, 0.8f, -0.5f);

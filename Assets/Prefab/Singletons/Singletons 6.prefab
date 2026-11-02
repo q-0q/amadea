@@ -23189,7 +23189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237718675737592044}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.079180114, y: 0.00003856008, z: 0.0000030628078, w: 0.9968603}
+  m_LocalRotation: {x: -0.079180114, y: 0.000038671482, z: 0.0000030716565, w: 0.9968603}
   m_LocalPosition: {x: 4.1000004, y: 0, z: 16.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -25450,7 +25450,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 60, y: 60, z: 60}
+  m_Size: {x: 10000, y: 10000, z: 10000}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1244453105326023318
 MonoBehaviour:
@@ -25467,7 +25467,7 @@ MonoBehaviour:
   Priority: -10
   Color: {r: 0, g: 0.6784314, b: 0.25882354, a: 1}
   DepthMin: 20
-  DepthMax: 120
+  DepthMax: 200
   DepthPower: 1.5
   MaxDepthFactor: 1
   NearLowerBlanketMin: -50
@@ -33546,7 +33546,7 @@ MonoBehaviour:
     canvasDelayOffset: -2
   DialogueName: Far presence
   LookAtOverride: {fileID: 0}
-  CameraY: 0.7
+  CameraY: 0.55
   canvasDelay: 2
   cameraFollowOffsetLerp: 0
 --- !u!1 &3381055116515846187
@@ -34450,7 +34450,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 60, y: 60, z: 60}
+  m_Size: {x: 10000, y: 10000, z: 10000}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6204945471338656423
 MonoBehaviour:
@@ -60094,7 +60094,7 @@ MonoBehaviour:
     canvasDelayOffset: 0
   DialogueName: Far presence
   LookAtOverride: {fileID: 0}
-  CameraY: 0.7
+  CameraY: 0.55
   canvasDelay: 0.25
   cameraFollowOffsetLerp: 0
 --- !u!1 &5827111792743555712
@@ -60611,7 +60611,7 @@ MonoBehaviour:
     canvasDelayOffset: 0
   DialogueName: Far presence
   LookAtOverride: {fileID: 0}
-  CameraY: 0.5
+  CameraY: 0.55
   canvasDelay: 0
   cameraFollowOffsetLerp: 0
 --- !u!1 &6033597001724672353
@@ -66089,7 +66089,7 @@ MonoBehaviour:
     canvasDelayOffset: 0
   DialogueName: Far presence
   LookAtOverride: {fileID: 0}
-  CameraY: 0.7
+  CameraY: 0.55
   canvasDelay: 0.25
   cameraFollowOffsetLerp: 0
 --- !u!1 &6309188336980417047

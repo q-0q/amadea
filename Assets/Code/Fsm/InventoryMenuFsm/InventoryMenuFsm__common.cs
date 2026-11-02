@@ -111,7 +111,7 @@ public partial class InventoryMenuFsm
         
         data.Add(new InventoryListItem.InventoryListItemData()
         {
-            dividerText = "<color=#" + MovelistRegistry.TrickColor +  ">Lotus Forms</color>",
+            dividerText = "<color=#" + MovelistRegistry.TrickColor +  ">- Lotus Forms ------------</color>",
             UseType = InventoryListItem.UseType.None
         });
         
@@ -139,7 +139,7 @@ public partial class InventoryMenuFsm
         
         data.Add(new InventoryListItem.InventoryListItemData()
         {
-            dividerText = "Basic actions",
+            dividerText = "- Basic actions ------------",
             UseType = InventoryListItem.UseType.None
         });
         

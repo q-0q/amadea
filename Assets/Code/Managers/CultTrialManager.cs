@@ -103,6 +103,10 @@ public class CultTrialManager : MonoBehaviour
 
     private void Update()
     {
+
+        _activeFogController.transform.position = PlayerFsm.Singleton.transform.position;
+        _curseFogController.transform.position = PlayerFsm.Singleton.transform.position;
+        
         if (_timerTicking)
         {
             _timer += Time.deltaTime;

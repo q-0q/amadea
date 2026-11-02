@@ -89,6 +89,7 @@ public partial class PlayerFsm
                 OnPlayerFootstep();
                 _previousPositionDeltaNoTimescale *= 0.35f;
                 _momentum = 0;
+                PlayerManaManager.Singleton.RestoreAll();
             });
         
     }

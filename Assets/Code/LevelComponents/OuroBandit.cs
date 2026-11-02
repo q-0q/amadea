@@ -21,18 +21,17 @@ public class OuroBandit : SimpleNpcController
         base.Awake();
 
         _dialogue = GetComponentInChildren<DialogueController>();
-        OnSaveDataUpdated(null);
-        
-        if (SaveSystem.GetAllItems().Contains("Bandana")) Destroy(gameObject);
+        CheckForQuestCompleted(null);
     }
     protected override void OnEnable()
     {
         base.OnEnable();
-        SaveSystem.OnSaveDataUpdated += OnSaveDataUpdated;
-        _dialogue.OnPreCompleted += OnDialogue;
+        _dialogue.OnPreCompleted += OnDialoguePreCompleted;
+        _dialogue.OnCompleted += OnDialogueCompleted;
+        SaveSystem.OnSaveDataUpdated += CheckForQuestCompleted;
     }
 
-    private void OnDialogue()
+    private void OnDialoguePreCompleted()
     {
         if (_dialogue.currentDialogueIndex == 1)
         {
@@ -47,11 +46,18 @@ public class OuroBandit : SimpleNpcController
             }
             
             PlayerFsm.Singleton.CollectItem("Bandana");
+            SaveSystem.WritePersistentEvent("ouro-bandit-completed");
         }
         
+        
+    }
+    
+    private void OnDialogueCompleted()
+    {
+        CheckForQuestCompleted(null);
     }
 
-    private void OnSaveDataUpdated(SaveSystem.SaveData obj)
+    private void CheckForQuestCompleted(SaveSystem.SaveData _)
     {
         
         foreach (var item in items)
@@ -59,14 +65,15 @@ public class OuroBandit : SimpleNpcController
             if (!SaveSystem.GetAllItems().Contains(item)) return;
         }
 
-        if (SaveSystem.GetPersistentEventCompleted(expositionEvent)) _dialogue.currentDialogueIndex = 3;
+        if (SaveSystem.GetPersistentEventCompleted(expositionEvent) && _dialogue.currentDialogueIndex == 2) _dialogue.currentDialogueIndex = 3;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        SaveSystem.OnSaveDataUpdated -= OnSaveDataUpdated;
-        _dialogue.OnPreCompleted -= OnDialogue;
+        SaveSystem.OnSaveDataUpdated -= CheckForQuestCompleted;
+        _dialogue.OnPreCompleted -= OnDialoguePreCompleted;
+        _dialogue.OnCompleted -= OnDialogueCompleted;
     }
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created

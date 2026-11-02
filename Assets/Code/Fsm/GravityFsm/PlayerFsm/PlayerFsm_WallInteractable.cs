@@ -10,6 +10,7 @@ public partial class PlayerFsm
             .PermitIf(PlayerFsmTrigger.FaceLedge, PlayerFsmState.Vault, CanVault, 1)
             .PermitIf(PlayerFsmTrigger.FaceLedge, PlayerFsmState.MediumVaultHang, _ =>
             {
+                if (Machine.IsInState(PlayerFsmState.Updraft) && TimeInCurrentState() < 0.5f) return false;
                 if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out var hit, 5f, GetEnvironmentalLayermask()))
                 {
                     var deltaY = hit.point.y - transform.position.y;
@@ -32,6 +33,7 @@ public partial class PlayerFsm
 
     private bool CanVault(TriggerParams t)
     {
+        if (Machine.IsInState(PlayerFsmState.Updraft) && TimeInCurrentState() < 0.5f) return false;
         if (CutsceneManager.Singleton.IsCutscenePlayerDisabled()) return false;
         if (Machine.IsInState(PlayerFsmState.PitonFlip) && YVelocity > PitonMaximumWallInteractYVelocity) return false;
         if (Machine.IsInState(PlayerFsmState.GroundMove)) return true;
@@ -40,6 +42,7 @@ public partial class PlayerFsm
 
     private bool WallsquatVelocityChecker()
     {
+        if (Machine.IsInState(PlayerFsmState.Updraft) && TimeInCurrentState() < 0.5f) return false;
         if (Machine.IsInState(PlayerFsmState.PitonFlip)) return YVelocity < PitonMaximumWallInteractYVelocity;
         return YVelocity < WallsquatMinimumYVelocity || IsInGust && _timeSinceMinorLeyline > 0.2f;
     }

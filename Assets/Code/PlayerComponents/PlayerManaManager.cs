@@ -12,7 +12,7 @@ public class PlayerManaManager : MonoBehaviour
     private Transform _flipHolder;
     private List<PlayerManaIndicator> _manaIndicators;
 
-    private const float ReplenishCooldown = 1.3f;
+    private const float ReplenishCooldown = 0.5f;
     private float _replenishTimer = 0f;
 
     public static event Action OnPlayerMaxMana;
@@ -62,16 +62,19 @@ public class PlayerManaManager : MonoBehaviour
     {
         var angle = Vector3.SignedAngle(PlayerFsm.Singleton.transform.forward, Camera.main.transform.forward, Vector3.up);
         _flipHolder.transform.localScale = new Vector3(angle > 5f ? 1f : -1f, 1f, 1f); // bias to one side to prvent flickering when running straight away from/ towards camera
-        if (_currentMana < _maxMana) _replenishTimer += Time.deltaTime;
-        
-        if (_replenishTimer >= ReplenishCooldown)
+        if (_currentMana < _maxMana)
         {
-            _currentMana++;
-            _manaIndicators[_currentMana - 1].Replenish();
-            _replenishTimer = 0;
-            
-            if (_currentMana == _maxMana) OnPlayerMaxMana?.Invoke();
+            if (PlayerFsm.Singleton.Machine.IsInState(GravityFsm.GravityFsmState.Grounded)) _replenishTimer += Time.deltaTime;
         }
+        
+        // if (_replenishTimer >= ReplenishCooldown)
+        // {
+        //     _currentMana++;
+        //     _manaIndicators[_currentMana - 1].Replenish();
+        //     _replenishTimer = 0;
+        //     
+        //     if (_currentMana == _maxMana) OnPlayerMaxMana?.Invoke();
+        // }
 
         var xzLerp = 30f;
         var yLerp = 8f;
@@ -89,7 +92,7 @@ public class PlayerManaManager : MonoBehaviour
         if (_currentMana < 1) return;
         OnPlayerConsumedMana?.Invoke();
         _manaIndicators[_currentMana - 1].Consume();
-        _replenishTimer = 0.25f;
+        _replenishTimer = 0f;
         _currentMana--;
     }
     
@@ -118,5 +121,18 @@ public class PlayerManaManager : MonoBehaviour
         }
 
         return count;
+    }
+
+    public void RestoreAll()
+    {
+        if (PlayerFsm.Singleton.GetIsTinsicaCoyoteStatus()) return;
+        if (_currentMana == _maxMana) return;
+        
+        foreach (var indicator in _manaIndicators)
+        {
+            indicator.Replenish();
+            _currentMana = _maxMana;
+            OnPlayerMaxMana?.Invoke();
+        }
     }
 }

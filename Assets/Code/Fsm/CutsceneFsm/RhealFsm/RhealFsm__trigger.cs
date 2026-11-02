@@ -8,18 +8,14 @@ public partial class RhealFsm
     {
         base.OnFireTriggers();
     }
-
-    private void OnInteracted()
-    {
-        Machine.Fire(RhealFsmTrigger.OnInteracted);
-    }
     
-    private void OnDialogueCompleted()
+    
+    private void TinsicaDialogueCompleted()
     {
-        Machine.Fire(RhealFsmTrigger.OnDialogueCompleted);
-        if (_dialogueController.currentDialogueIndex == 3)
+        if (_tinsicaDialogueController.currentDialogueIndex == 3)
         {
             PlayerFsm.Singleton.AcquireTrick("Tinsica");
+            SaveSystem.WriteRhealTrickLearnedPositionInstance(_positionInstance);
         }
     }
 }

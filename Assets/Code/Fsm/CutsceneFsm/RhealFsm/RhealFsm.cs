@@ -20,18 +20,32 @@ public partial class RhealFsm : CutsceneFsm
 
     public class RhealFsmTrigger : CutsceneFsm.CutsceneFsmTrigger
     {
-        public static int OnInteracted;
-        public static int OnDialogueCompleted;
+
     }
 
     protected override void OnAwake()
     {
         base.OnAwake();
-        _interactable = GetComponentInChildren<Interactable>();
-        _dialogueController = GetComponentInChildren<DialogueController>();
+        _tinsicaDialogueController = transform.Find("TinsicaDialogue").GetComponent<DialogueController>();
+        _altDialogueController = transform.Find("AltDialogue").GetComponent<DialogueController>();
+        
         Animator = GetComponentInChildren<Animator>();
 
-        if (SaveSystem.GetTrick("Tinsica")) _dialogueController.currentDialogueIndex = 3;
+        _positionInstance = GetComponentInChildren<AdvancementController>().InstancePositionId;
+
+
+        if (!SaveSystem.GetTrick("Tinsica") || SaveSystem.GetRhealTrickLearnedPositionInstance() == _positionInstance)
+        {
+            if (_altDialogueController != null) _altDialogueController.gameObject.SetActive(false);
+            if (SaveSystem.GetTrick("Tinsica")) _tinsicaDialogueController.currentDialogueIndex = 3;
+        }
+
+        if (SaveSystem.GetTrick("Tinsica") && SaveSystem.GetRhealTrickLearnedPositionInstance() != _positionInstance)
+        {
+            _tinsicaDialogueController.gameObject.SetActive(false);
+        }
+        
+        
 
     }
 
@@ -66,15 +80,13 @@ public partial class RhealFsm : CutsceneFsm
 
     private void OnEnable()
     {
-        _interactable.OnInteracted += OnInteracted;
-        _dialogueController.OnCompleted += OnDialogueCompleted;
-        _dialogueController.OnProgressed += OnDialogueProgressed;
+        _tinsicaDialogueController.OnCompleted += TinsicaDialogueCompleted;
+        _tinsicaDialogueController.OnProgressed += TinsicaDialogueProgressed;
     }
 
     private void OnDisable()
     {
-        _interactable.OnInteracted -= OnInteracted;
-        _dialogueController.OnCompleted -= OnDialogueCompleted;
-        _dialogueController.OnProgressed -= OnDialogueProgressed;
+        _tinsicaDialogueController.OnCompleted -= TinsicaDialogueCompleted;
+        _tinsicaDialogueController.OnProgressed -= TinsicaDialogueProgressed;
     }
 }

@@ -751,6 +751,12 @@ public partial class PlayerFsm : GravityFsm
             DolphinDOnUpdate();
         }
 
+
+        if (Machine.IsInState(PlayerFsmState.GroundMove))
+        {
+            PlayerManaManager.Singleton.RestoreAll();
+        }
+
         
         if (_playerInput.actions["Reset"].WasPerformedThisFrame())
         {

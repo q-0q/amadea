@@ -151,7 +151,7 @@ public class RotationDais : MonoBehaviour
         _ball.position = _baseBallWorldPosition + ballWorldSpaceOffset;
         
         Vector3 rotatorBobWorldspaceOffset = new Vector3(0f, Mathf.Sin(1.5f * Time.time) * 0.75f * (bob ? 1f : 0f), 0f);
-        _rotatorBob.position = _baseRotatorBobWorldPosition + rotatorBobWorldspaceOffset;
+        // _rotatorBob.position = _baseRotatorBobWorldPosition + rotatorBobWorldspaceOffset;
         
     }
 }

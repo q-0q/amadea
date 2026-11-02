@@ -10,12 +10,8 @@ public partial class RhealFsm
     {
         base.SetupMachine();
 
-        Machine.Configure(RhealFsmState.Idle)
-            .Permit(RhealFsmTrigger.OnInteracted, RhealFsmState.Speaking);
-        
-        Machine.Configure(RhealFsmState.Idle)
-            .Permit(RhealFsmTrigger.OnDialogueCompleted, RhealFsmState.Idle);
-        
+        Machine.Configure(RhealFsmState.Idle);
+
 
     }
 

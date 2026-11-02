@@ -85,6 +85,7 @@ public class SaveSystem : MonoBehaviour
         public List<string> tricks;
         public float playTime;
         public string gameVersion;
+        public int rhealTrickLearnedPositionInstance;
         
             
 
@@ -112,6 +113,7 @@ public class SaveSystem : MonoBehaviour
             bitDeposits = new List<string>();
             tricks = new List<string>();
             gameVersion = "";
+            rhealTrickLearnedPositionInstance = -1;
 
         }
     }
@@ -461,6 +463,19 @@ public class SaveSystem : MonoBehaviour
         SaveData data = LoadCachedSaveData();
         if (data.tricks == null) return false;
         return data.tricks.Contains(trick);
+    }
+
+    public static void WriteRhealTrickLearnedPositionInstance(int positionInstance)
+    {
+        SaveData data = LoadCachedSaveData();
+        data.rhealTrickLearnedPositionInstance = positionInstance;
+        WriteSaveData(data);
+    }
+
+    public static int GetRhealTrickLearnedPositionInstance()
+    {
+        SaveData data = LoadCachedSaveData();
+        return data.rhealTrickLearnedPositionInstance;
     }
     
     

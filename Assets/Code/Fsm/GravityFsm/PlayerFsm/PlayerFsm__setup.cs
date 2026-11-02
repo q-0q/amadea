@@ -100,7 +100,7 @@ public partial class PlayerFsm
         StateMapConfig.Duration.Add(PlayerFsmState.Dying2, 0.5f);
         StateMapConfig.Duration.Add(PlayerFsmState.Dead, 0.7f);
         StateMapConfig.Duration.Add(PlayerFsmState.Respawn, 0.85f);
-        StateMapConfig.Duration.Add(PlayerFsmState.Updraft, UpdraftDuration + 2f);
+        StateMapConfig.Duration.Add(PlayerFsmState.Updraft, UpdraftDuration + 10f);
         
         StateMapConfig.Duration.Add(PlayerFsmState.FallAfterSlideLateral, 0.25f);
         StateMapConfig.Duration.Add(PlayerFsmState.StepStart, 0.075f);

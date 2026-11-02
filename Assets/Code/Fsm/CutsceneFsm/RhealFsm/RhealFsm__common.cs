@@ -10,12 +10,13 @@ using UnityEngine.Serialization;
 
 public partial class RhealFsm
 {
-    private Interactable _interactable;
-    private DialogueController _dialogueController;
+    private DialogueController _tinsicaDialogueController;
+    private DialogueController _altDialogueController;
     private const string PersistentEvent = "c1-snail-quest";
+    private int _positionInstance;
 
     
-    private void OnDialogueProgressed(int textIndex)
+    private void TinsicaDialogueProgressed(int textIndex)
     {
 
     }

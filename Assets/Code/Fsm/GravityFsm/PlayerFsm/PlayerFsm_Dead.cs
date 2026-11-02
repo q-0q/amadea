@@ -30,6 +30,7 @@ public partial class PlayerFsm
     {
         Machine.Configure(PlayerFsmState.Dying)
             .Permit(PlayerFsmTrigger.Timeout, PlayerFsmState.Dead)
+
             .SubstateOf(PlayerFsmState.DisplaceFoliage)
             .SubstateOf(PlayerFsmState.SentryImmune)
             .OnEntry(_ =>
@@ -37,25 +38,26 @@ public partial class PlayerFsm
                 FMODUnity.RuntimeManager.PlayOneShot(deathFmodEvent);
                 Time.timeScale = 1f;
                 YVelocity = 0;
-                
+
                 Shader.SetGlobalColor("_PlayerTintColor", Color.white);
                 Animator.StartPlayback();
                 Animator.enabled = false;
                 isSprinting = false;
                 _isSurgeQueued = false;
                 _deathParticles.PlayDeath();
-                
+
                 // _impulse.GenerateImpulse();
 
-                
+
                 EndSurge();
-                
+
                 StartCoroutine(SoundCoroutine());
+
                 IEnumerator SoundCoroutine()
                 {
-                    
+
                     yield return new WaitForSeconds(0.75f);
-                    
+
                     var t = 0f;
                     var d = 0.75f;
                     while (t < d)
@@ -66,7 +68,7 @@ public partial class PlayerFsm
                     }
 
                     // yield return new WaitForSeconds(0.35f);
-                    
+
                     t = 0f;
                     d = 2f;
                     while (t < d)
@@ -75,14 +77,16 @@ public partial class PlayerFsm
                         t += Time.deltaTime;
                         yield return null;
                     }
-                    
+
                     FMODUnity.RuntimeManager.StudioSystem.setParameterByName("RespawnAmbientAmount", 0f);
                 }
-                
+
             });
         
         Machine.Configure(PlayerFsmState.Dead)
             .Permit(FsmTrigger.Timeout, PlayerFsmState.Respawn)
+            .PermitIf(PlayerFsmTrigger.Timeout, PlayerFsmState.HardLand, _ => CultTrialManager.Singleton.isCurseEnabled,
+                5)
             .SubstateOf(PlayerFsmState.SentryImmune)
             .OnEntry(_ =>
             {
@@ -92,8 +96,24 @@ public partial class PlayerFsm
                 _respawnParticles.transform.position = transform.position;
                 MakeAllRenderersInvisible();
                 _respawnParticles.PlayDeath();
+                PlayerManaManager.Singleton.RestoreAll();
 
-            });
+            })
+            .OnExit(_ =>
+            {
+                if (CultTrialManager.Singleton.isCurseEnabled)
+                {
+                    Animator.StopPlayback();
+                    Animator.enabled = true;
+                    SetPositionFromSaveData();
+                    Machine.Jump(PlayerFsm.PlayerFsmState.HardLand);
+                    OnPlayerCultTrialDeath?.Invoke();
+                    Shader.SetGlobalFloat("_PlayerTintWeight", 0f);
+                    Shader.SetGlobalFloat("_PlayerEvaporateClip", 0f);
+                    MakeAllRenderersVisible();
+                    Animator.SetLayerWeight(1, 0);
+                }
+            });;
         
         
         Machine.Configure(PlayerFsmState.Respawn)
@@ -102,6 +122,7 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.SentryImmune)
             .OnEntry(_ =>
             {
+                
                 _timeSinceRespawn = 0;
                 _momentum = 0;
                 LastUpwardsY = transform.position.y;

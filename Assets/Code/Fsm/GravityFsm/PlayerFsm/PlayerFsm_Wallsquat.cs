@@ -32,6 +32,7 @@ public partial class PlayerFsm
                 LastUpwardsY = transform.position.y;
                 _wallsquattedSinceLeavingGround = true;
                 OnPlayerFootstep();
+                PlaySlipSound();
                 FMODUnity.RuntimeManager.PlayOneShotAttached(landFmodEvent, gameObject);
                 _momentum = 12f;
             })
@@ -40,6 +41,10 @@ public partial class PlayerFsm
                 YVelocity = 0;
             })
             .OnExitFrom(PlayerFsmTrigger.FaceOpen, _ => { _momentum = 0; })
-            .OnExitFrom(FsmTrigger.Timeout, _ => { _momentum = 0; });
+            .OnExitFrom(FsmTrigger.Timeout, _ =>
+            {
+                _momentum = 0;
+                PlaySlipSound();
+            });
     }
 }

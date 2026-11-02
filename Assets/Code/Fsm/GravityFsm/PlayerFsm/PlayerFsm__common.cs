@@ -1093,10 +1093,10 @@ public partial class PlayerFsm
         {
             CultTrialManager.Singleton.ReplenishCurseDuration(false);
             CultTrialManager.Singleton.isCurseTicking = false;
-            SetPositionFromSaveData();
-            Machine.Jump(PlayerFsm.PlayerFsmState.HardLand);
-            OnPlayerCultTrialDeath?.Invoke();
-            return;
+            // SetPositionFromSaveData();
+            // Machine.Jump(PlayerFsm.PlayerFsmState.HardLand);
+            // OnPlayerCultTrialDeath?.Invoke();
+            // return;
         }
         
         Machine.Jump(PlayerFsmState.Dying);

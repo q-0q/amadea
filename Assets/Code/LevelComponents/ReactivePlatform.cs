@@ -57,8 +57,15 @@ public class ReactivePlatform : MonoBehaviour
     private Vector3 initialLocalPosition;
     private Quaternion initialLocalRotation;
     public float BobOffset = 0;
+    public float BobStrength = 1f;
 
     private void Awake()
+    {
+
+    }
+
+
+    private void Start()
     {
         initialLocalPosition = transform.localPosition;
         initialLocalRotation = transform.localRotation;
@@ -85,7 +92,7 @@ public class ReactivePlatform : MonoBehaviour
         rotationOffsetEuler += angularVelocity * dt;
 
         // Apply transforms relative to initial state
-        transform.localPosition = initialLocalPosition + positionOffset + (Vector3.up * (Mathf.Sin(Time.time * 2f + BobOffset) * 0.5f));
+        transform.localPosition = initialLocalPosition + positionOffset + Vector3.up * (Mathf.Sin(Time.time * 2f + BobOffset) * 0.5f * BobStrength);
         transform.localRotation = initialLocalRotation * Quaternion.Euler(rotationOffsetEuler);
     }
 
@@ -103,7 +110,7 @@ public class ReactivePlatform : MonoBehaviour
             // Torque = r x F
             // Offset vector from object origin to impact point
             Vector3 offset = impactPosition - transform.position;
-            offset = offset.normalized * Mathf.Min(offset.magnitude, 5f);
+            // offset = offset.normalized * Mathf.Min(offset.magnitude, 5f);
 
             // Torque approaches zero as impact position approaches center
             Vector3 torqueImpulse = Vector3.Cross(offset, force);
