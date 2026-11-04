@@ -65,7 +65,7 @@ public abstract partial class GravityFsm
         var sphereCastMaxDistance = raycastLength * f * 2f;
         var sphereSpherecastDirection = -Vector3.up;
         
-        Debug.DrawRay(sphereCastOrigin, sphereSpherecastDirection * sphereCastMaxDistance, Color.magenta);
+        // Debug.DrawRay(sphereCastOrigin, sphereSpherecastDirection * sphereCastMaxDistance, Color.magenta);
         
         if (Physics.SphereCast(sphereCastOrigin, 0.35f, sphereSpherecastDirection,
                 out hit,

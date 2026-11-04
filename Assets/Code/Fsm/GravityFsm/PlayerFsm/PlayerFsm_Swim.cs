@@ -19,9 +19,8 @@ public partial class PlayerFsm
         SetAnimatorMomentum();
         SetAnimatorSpeedMod();
 
-        if (!WaterRaycast(out var swimRaycastParam)) return;
-        if (!swimRaycastParam.obj.TryGetComponent(out WaterHazardType waterHazardType)) return;
-        if (waterHazardType.type != WaterHazardType.Type.Freeze)
+        if (!SwimRaycast(out var swimRaycastParam)) return;
+        if (swimRaycastParam.WaterHazardType != WaterHazardType.Type.Freeze)
         {
             _freezeTimer = 0;
             freezeFmodInstance.stop(STOP_MODE.ALLOWFADEOUT);
@@ -30,6 +29,7 @@ public partial class PlayerFsm
 
         if (_freezeTimer < 0.01f) freezeFmodInstance.start(); // kinda a hack but w/e
         _freezeTimer += Time.deltaTime;
+        if (_freezeTimer >= SwimFreezeDuration) InvokePlayerDeath();
     }
     
     
@@ -37,9 +37,9 @@ public partial class PlayerFsm
     {
         var desiredYVelocity = 25f;
         
-        if (WaterRaycast(out var swimRaycastParam))
+        if (SwimRaycast(out var swimRaycastParam))
         {
-            desiredYVelocity = Mathf.Lerp(0f, 25f, Mathf.InverseLerp(4f, -0.80f, swimRaycastParam.distance));
+            desiredYVelocity = Mathf.Lerp(25f, 0f, Mathf.InverseLerp(4f, -0.80f, swimRaycastParam.surfaceDistance));
 
             
             
@@ -50,9 +50,13 @@ public partial class PlayerFsm
             };
         }
         
+        else
+        {
+            Machine.Jump(PlayerFsm.PlayerFsmState.Fall);
+        }
+        
         YVelocity = Mathf.Lerp(YVelocity, desiredYVelocity,
             Time.deltaTime * Mathf.Lerp(1f, 20f, Mathf.InverseLerp(0, 0.45f, TimeInCurrentState())));
-        
         HandleCollisionMove(Mathf.Lerp(0.1925f, 0.0925f * 0.75f, Mathf.InverseLerp(0, 0.4f, TimeInCurrentState())));
     }
     
@@ -65,26 +69,26 @@ public partial class PlayerFsm
     
     private void SwimSurfaceOnUpdate()
     {
-        if (WaterRaycast(out var swimRaycastParam))
+        YVelocity = 0f;
+        
+        if (SwimRaycast(out var swimRaycastParam))
         {
-            Debug.DrawLine(transform.position, swimRaycastParam.point, Color.blue);
+
+
             transform.position += ComputeCollisionMove(((swimRaycastParam.point + Vector3.up * -0.80f) - transform.position) * (Time.deltaTime * 15f));
-            
+                
             if (swimRaycastParam.WaterHazardType == WaterHazardType.Type.InstantDrown)
             {
                 _momentum = Mathf.Lerp(_momentum, 0,
                     Time.deltaTime * Mathf.Lerp(2f, 10f, Mathf.InverseLerp(0, 0.5f, TimeInCurrentState())));
             };
             
-            if (swimRaycastParam.WaterHazardType == WaterHazardType.Type.Freeze)
-            {
-                InvokePlayerDeath();
-            };
         }
 
         else
         {
             Machine.Jump(PlayerFsm.PlayerFsmState.Fall);
+            return;
         }
 
         if (!PhotoManager.Singleton.IsActive()) OnPlayerWakeGenerated?.Invoke(GetRipplePosition(), Mathf.Lerp(0.075f, 0.075f, ComputeMomentumWeight()), Mathf.Lerp(0.0011f, 0.0009f, ComputeMomentumWeight()));
@@ -122,7 +126,7 @@ public partial class PlayerFsm
             });
         
         Machine.Configure(PlayerFsmState.SwimSurfaceRise)
-            .PermitIf(PlayerFsmTrigger.SwimTriggerRaycastHit, PlayerFsmState.SwimSurface, @params => IsSwimTriggerAtSurface(@params) && YVelocity < 2f)
+            .PermitIf(PlayerFsmTrigger.SwimTriggerRaycastHit, PlayerFsmState.SwimSurface, @params => IsSwimTriggerAtSurface(@params) && YVelocity > -2f)
             .SubstateOf(PlayerFsmState.Swim)
             // .PermitIf(PlayerFsmTrigger.SwimTriggerRaycastHit, PlayerFsmState.Drown, @params =>
             // {
@@ -133,7 +137,7 @@ public partial class PlayerFsm
             .OnEntry(_ =>
             {
                 if (YVelocity > -5f) return;
-                if (WaterRaycast(out var swimRaycastParam))
+                if (SwimRaycast(out var swimRaycastParam))
                 {
                     _splashParticles.transform.position = swimRaycastParam.point;
                     _splashParticles.Play();
@@ -174,20 +178,155 @@ public partial class PlayerFsm
             })
             .Permit(FsmTrigger.Timeout, PlayerFsmState.Dying);
     }
+    
+        private void FireSwimTrigger()
+    {
+        if (SwimRaycast(out var swimRaycastParam))
+        {
+            Machine.Fire(PlayerFsmTrigger.SwimTriggerRaycastHit, swimRaycastParam);
+        }
+    }
+
+    private bool SwimRaycast(out SwimRaycastParam swimRaycastParam)
+    {
+
+        swimRaycastParam = new SwimRaycastParam();
+        WaterHazardType.Type HazardHelper(Vector3 position, GameObject waterObject)
+        {
+            foreach (var dualWaterPoint in DualWaterPointRegistry.DualWaterPoints)
+            {
+                if (Vector3.Distance(position, dualWaterPoint.transform.position) < dualWaterPoint.Radius)
+                {
+                    return WaterHazardType.Type.None;
+                };
+            }
+
+            var hazard = waterObject.GetComponent<WaterHazardType>();
+            if (hazard == null)
+            {
+                return WaterHazardType.Type.None;
+            };
+            if (hazard.type == WaterHazardType.Type.InstantDrown) return WaterHazardType.Type.InstantDrown;
+            if (hazard.type == WaterHazardType.Type.Freeze) return WaterHazardType.Type.Freeze;
+
+            return WaterHazardType.Type.None;
+        }
+        
+        swimRaycastParam.WaterHazardType = WaterHazardType.Type.None;
+
+
+        if (GetWaterDepth(out var depth, out var collider))
+        {
+            swimRaycastParam.WaterHazardType = HazardHelper(transform.position, collider.gameObject);
+            swimRaycastParam.surfaceDistance = depth;
+            swimRaycastParam.point = transform.position + (transform.up * depth);
+            
+            Debug.DrawRay(swimRaycastParam.point, Vector3.up * 3f, Color.orange);
+            return true;
+        }
+
+        return false;
+    }
+
+    public float GetFreezeWeight()
+    {
+        return _freezeTimer / SwimFreezeDuration;
+    }
 
 
     private bool IsSwimTrigger(TriggerParams triggerParams)
     {
         if (triggerParams is not SwimRaycastParam SwimRaycastParam) return false;
-        var distance = SwimRaycastParam.distance;
-        return distance < 3f;
+        var distance = SwimRaycastParam.surfaceDistance;
+        return distance > 3f;
     }
     
     private bool IsSwimTriggerAtSurface(TriggerParams triggerParams)
     {
         if (triggerParams is not SwimRaycastParam SwimRaycastParam) return false;
-        var distance = SwimRaycastParam.distance;
-        return distance > 3f;
+        var distance = SwimRaycastParam.surfaceDistance;
+        return distance < 3f;
     }
-    
+
+    public bool GetWaterDepth(out float depth, out Collider collider)
+    {
+
+        var point = transform.position;
+        var upDirection = Vector3.up;
+        var radius = 3f;
+        var waterTriggerLayer = LayerMask.GetMask("Water");
+
+        depth = float.MinValue;
+
+        Collider[] overlappingColliders =
+            Physics.OverlapSphere(point, radius, waterTriggerLayer, QueryTriggerInteraction.Collide);
+
+        if (overlappingColliders.Length > 0)
+        {
+            // Filter out side-entry false positives. 
+            // An OverlapSphere can touch a side wall even if the point is above the water's surface.
+            foreach (Collider waterCollider in overlappingColliders)
+            {
+                Bounds bounds = waterCollider.bounds;
+                float pointHeight = Vector3.Dot(point, upDirection);
+                float topHeight = Vector3.Dot(bounds.max, upDirection);
+                float bottomHeight = Vector3.Dot(bounds.min, upDirection);
+
+                // If our point is vertically outside this specific collider's top or bottom, 
+                // it's a side-entry illusion—ignore it and check below.
+                if (pointHeight > topHeight || pointHeight < bottomHeight)
+                {
+                    continue;
+                }
+
+                // Genuinely inside this volume. Cast against this specific collider to find the surface.
+                Vector3 safeTopOrigin = point + (upDirection * (bounds.extents.magnitude + 10f));
+                RaycastHit hit;
+                collider = waterCollider;
+
+                if (waterCollider.Raycast(new Ray(safeTopOrigin, -upDirection), out hit, bounds.extents.magnitude * 4f))
+                {
+                    depth = Vector3.Dot(hit.point - point, upDirection);
+                    return true;
+                }
+                
+                depth = 0f; // Fallback if surface raycast is at the exact edge
+                return false;
+            }
+        }
+
+        // 2. Point is NOT inside (or it was a side-entry). Check if it is ABOVE a trigger.
+        // SphereCastAll casts a thick ray with your radius and returns all hits.
+        
+        
+        
+        
+        
+        RaycastHit[] downHits = Physics.SphereCastAll(point + (upDirection * radius), radius, -upDirection, Mathf.Infinity, waterTriggerLayer,
+            QueryTriggerInteraction.Collide);
+
+        if (downHits.Length > 0)
+        {
+            // Sort hits by distance so the closest surface immediately below is evaluated first
+            System.Array.Sort(downHits, (a, b) => a.distance.CompareTo(b.distance));
+            RaycastHit nearestHit = downHits[0];
+            collider = nearestHit.collider;
+            float distanceToSurface = Vector3.Dot(point - nearestHit.point, upDirection);
+            depth = -distanceToSurface; // Negative depth means above the trigger
+
+
+            if (Physics.Raycast(point + (upDirection.normalized), -upDirection, out var envHit, Mathf.Infinity, GetEnvironmentalLayermask(),
+                    QueryTriggerInteraction.Ignore))
+            {
+                print(envHit.distance + ", " + distanceToSurface);
+                if (envHit.distance - 1f < distanceToSurface) return false;
+            }
+            
+            return true;
+        }
+
+        collider = null;
+        return false;
+    }
+
 }

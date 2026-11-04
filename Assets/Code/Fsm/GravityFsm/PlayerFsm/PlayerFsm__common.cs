@@ -382,7 +382,7 @@ public partial class PlayerFsm
         {
             wallDistance = forwardHit.distance - back;
             
-            Debug.DrawLine(wallHitOrigin, forwardHit.point, Color.magenta, 0.5f);
+            // Debug.DrawLine(wallHitOrigin, forwardHit.point, Color.magenta, 0.5f);
         }
         else
         {
@@ -897,7 +897,6 @@ public partial class PlayerFsm
     
     private void OnPlayerSwimFootstep()
     {
-        print("test");
         FMODUnity.RuntimeManager.PlayOneShotAttached(swimFootstepFmodEvent, gameObject);
     }
 
@@ -1166,64 +1165,7 @@ public partial class PlayerFsm
         InvokePlayerDeath();
     }
 
-    private void FireSwimTrigger()
-    {
-        if (WaterRaycast(out var swimRaycastParam))
-        {
-            Machine.Fire(PlayerFsmTrigger.SwimTriggerRaycastHit, swimRaycastParam);
-        }
-    }
 
-    private bool WaterRaycast(out SwimRaycastParam swimRaycastParam)
-    {
-
-        swimRaycastParam = new SwimRaycastParam();
-        WaterHazardType.Type HazardHelper(Vector3 position, GameObject waterObject)
-        {
-            foreach (var dualWaterPoint in DualWaterPointRegistry.DualWaterPoints)
-            {
-                if (Vector3.Distance(position, dualWaterPoint.transform.position) < dualWaterPoint.Radius) return WaterHazardType.Type.None;
-            }
-
-            var hazard = waterObject.GetComponent<WaterHazardType>();
-            if (hazard == null) return WaterHazardType.Type.None;
-            if (hazard.type == WaterHazardType.Type.InstantDrown) return WaterHazardType.Type.InstantDrown;
-            if (hazard.type == WaterHazardType.Type.Freeze && _freezeTimer > SwimFreezeDuration) return WaterHazardType.Type.Freeze;
-
-            return WaterHazardType.Type.None;
-        }
-        
-        swimRaycastParam.WaterHazardType = WaterHazardType.Type.None;
-        var origin = transform.position + Vector3.up * 5f;
-        var maxDistance = 10f;
-        if (Physics.Raycast(origin, Vector3.down, out var hit, maxDistance, LayerMask.GetMask("Water"), QueryTriggerInteraction.Collide))
-        {
-            swimRaycastParam.WaterHazardType = HazardHelper(hit.point, hit.transform.gameObject);
-            swimRaycastParam.point = hit.point;
-            swimRaycastParam.obj = hit.transform.gameObject;
-            swimRaycastParam.distance = hit.distance;
-            return true;
-        };
-
-
-        var colliders = Physics.OverlapSphere(transform.position, 0.5f, LayerMask.GetMask("Water"));
-        foreach (var c in colliders)
-        {
-            swimRaycastParam.point = origin;
-            swimRaycastParam.WaterHazardType = HazardHelper(origin, c.gameObject);
-            swimRaycastParam.obj = c.gameObject;
-            swimRaycastParam.distance = 0;
-            return true;
-        }
-
-        return false;
-
-    }
-
-    public float GetFreezeWeight()
-    {
-        return _freezeTimer / SwimFreezeDuration;
-    }
 
     public bool GetNearbyCultTrial(out CultTrialFsm cultTrialFsm)
     {

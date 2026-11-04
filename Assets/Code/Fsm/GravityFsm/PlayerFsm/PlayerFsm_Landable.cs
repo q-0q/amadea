@@ -13,7 +13,7 @@ public partial class PlayerFsm
                 if (UpdraftLandableCheck()) return false;
                 if (YVelocity > 0.5f) return false;
                 if (Machine.IsInState(PlayerFsmState.SwimSurfaceRise)) return false;
-                if (WaterRaycast(out var swimRaycastParam))
+                if (SwimRaycast(out var swimRaycastParam))
                 {
                     if (IsSwimTrigger(swimRaycastParam)) return false;
                 }
@@ -27,7 +27,7 @@ public partial class PlayerFsm
                 {
                     if (UpdraftLandableCheck()) return false;
                     if (Machine.IsInState(PlayerFsmState.SwimSurfaceRise)) return false;
-                    if (WaterRaycast(out var swimRaycastParam))
+                    if (SwimRaycast(out var swimRaycastParam))
                     {
                         if (IsSwimTrigger(swimRaycastParam)) return false;
                     }
@@ -49,7 +49,7 @@ public partial class PlayerFsm
                 {
                     if (UpdraftLandableCheck()) return false;
                     if (Machine.IsInState(PlayerFsmState.SwimSurfaceRise)) return false;
-                    if (WaterRaycast(out var swimRaycastParam))
+                    if (SwimRaycast(out var swimRaycastParam))
                     {
                         if (IsSwimTrigger(swimRaycastParam)) return false;
                     }
