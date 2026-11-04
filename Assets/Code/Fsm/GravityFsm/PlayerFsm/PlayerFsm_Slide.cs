@@ -17,7 +17,7 @@ public partial class PlayerFsm
         var rotationMod = _currentFlankType == FlankType.Left ? -1f : 1f;
         var flattenedNormal = new Vector3(_currentSlideNormal.x, 0, _currentSlideNormal.z);
         var forward = Quaternion.Euler(0f, 90f * rotationMod, 0f) * flattenedNormal;
-        var lookRotation = Quaternion.LookRotation(forward, Vector3.up);
+        var lookRotation = Quaternion.LookRotation(forward, GetUpVector());
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * FlankAlignmentRotationSpeed);
         
         HandleCollisionMove(0.25f);
@@ -31,7 +31,7 @@ public partial class PlayerFsm
         var rotationMod = _currentFlankType == FlankType.Left ? -1f : 1f;
         var flattenedNormal = new Vector3(_currentSlideNormal.x, 0, _currentSlideNormal.z);
         var forward = Quaternion.Euler(0f, 90f * rotationMod, 0f) * flattenedNormal;
-        var lookRotation = Quaternion.LookRotation(forward, Vector3.up);
+        var lookRotation = Quaternion.LookRotation(forward, GetUpVector());
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * FlankAlignmentRotationSpeed);
         
         HandleCollisionMove(0.15f);
@@ -47,7 +47,7 @@ public partial class PlayerFsm
         
         var flattenedNormal = new Vector3(_currentSlideNormal.x, 0, _currentSlideNormal.z).normalized;
         
-        var lookRotation = Quaternion.LookRotation(flattenedNormal, Vector3.up);
+        var lookRotation = Quaternion.LookRotation(flattenedNormal, GetUpVector());
         Animator.SetLayerWeight(1, 0);
  
         SetAnimatorMomentum();
@@ -86,7 +86,7 @@ public partial class PlayerFsm
         
         var flattenedNormal = new Vector3(_currentSlideNormal.x, 0, _currentSlideNormal.z).normalized;
 
-        var vacuumRaycastOrigin = transform.position + Vector3.up * 1.5f;
+        var vacuumRaycastOrigin = transform.position + GetUpVector() * 1.5f;
         if (Physics.Raycast(vacuumRaycastOrigin, -flattenedNormal, out RaycastHit vacuumHit, 3f, GetEnvironmentalLayermask()))
         {
             var distance = Vector3.Distance(transform.position, vacuumHit.point);
@@ -160,7 +160,7 @@ public partial class PlayerFsm
 
                 if (@params is not RaycastHitParam raycastHitParam) return;
                 var flattenedNormal = new Vector3(raycastHitParam.Hit.normal.x, 0, raycastHitParam.Hit.normal.z);
-                var signedAngle = Vector3.SignedAngle(flattenedNormal, transform.forward, Vector3.up);
+                var signedAngle = Vector3.SignedAngle(flattenedNormal, transform.forward, GetUpVector());
                 bool flip = signedAngle > 0;
                 OnPlayerEnteredSlideLateral?.Invoke(flip);
                 _currentFlankType = flip ? FlankType.Right : FlankType.Left;
@@ -183,7 +183,7 @@ public partial class PlayerFsm
                 var rotationMod = _currentFlankType == FlankType.Left ? -1f : 1f;
                 var flattenedNormal = new Vector3(_currentSlideNormal.x, 0, _currentSlideNormal.z);
                 var forward = Quaternion.Euler(0f, 25f * rotationMod, 0f) * flattenedNormal;
-                transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
+                transform.rotation = Quaternion.LookRotation(forward, GetUpVector());
             })
             .OnExitFrom(PlayerFsmTrigger.Jump, _ =>
             {
@@ -191,7 +191,7 @@ public partial class PlayerFsm
                 var rotationMod = _currentFlankType == FlankType.Left ? -1f : 1f;
                 var flattenedNormal = new Vector3(_currentSlideNormal.x, 0, _currentSlideNormal.z);
                 var forward = Quaternion.Euler(0f, 45 * rotationMod, 0f) * flattenedNormal;
-                transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
+                transform.rotation = Quaternion.LookRotation(forward, GetUpVector());
             });
 
         Machine.Configure(PlayerFsmState.SlideDown)
@@ -285,17 +285,17 @@ public partial class PlayerFsm
             originOffset = flattenedNormal.normalized;
         }
 
-        if (Physics.Raycast(hit.point + originOffset + Vector3.up * 3f, Vector3.down, out RaycastHit recast, 6f,
+        if (Physics.Raycast(hit.point + originOffset + GetUpVector() * 3f, GetDownVector(), out RaycastHit recast, 6f,
                 GetEnvironmentalLayermask()))
         {
             ray = recast;
         }
         else return true; // <- perhaps my favorite line of code i have ever written
 
-        var val = Vector3.Angle(ray.normal, ray.transform.up) < 10f && Vector3.Angle(ray.normal, Vector3.up) < 60f;
+        var val = Vector3.Angle(ray.normal, ray.transform.up) < 10f && Vector3.Angle(ray.normal, GetUpVector()) < 60f;
         if (!val)
         {
-            Debug.DrawRay(ray.point, Vector3.up, Color.blue, 1f);
+            Debug.DrawRay(ray.point, GetUpVector(), Color.blue, 1f);
             Debug.DrawRay(ray.point, ray.transform.up, Color.red, 1f);
             Debug.DrawRay(ray.point, ray.normal, Color.yellow, 1f);
         }

@@ -1,6 +1,7 @@
 
 using System.Linq;
 using Code.Misc;
+using Unity.Mathematics;
 using UnityEngine;
 
 
@@ -11,7 +12,7 @@ public abstract partial class GravityFsm
     protected float BonusGravityModifier;
     protected float TimeInAir;
     protected float MinYVelocity = -50f;
-    protected float LastUpwardsY;
+    protected Vector3 LastUpwardsPosition;
     public float GroundForwardSlope;
     protected Vector3 GroundNormal;
     private Collider _depenetrationCollider;
@@ -20,6 +21,7 @@ public abstract partial class GravityFsm
     private float _timeOfLastGustSinOffset;
     private float _timeAtTopOfGust;
     private float _currentSlopeCastMinimumDistanceOffset;
+    private Vector3 _customUpVector;
 
     protected Vector3 _safeGroundPosition;
     protected Vector3 _firstAirPosition;
@@ -61,9 +63,9 @@ public abstract partial class GravityFsm
 
 
         
-        var sphereCastOrigin = transform.position + Vector3.up * (f * raycastLength) + forward + aerialMomentumOffset;
+        var sphereCastOrigin = transform.position + GetUpVector() * (f * raycastLength) + forward + aerialMomentumOffset;
         var sphereCastMaxDistance = raycastLength * f * 2f;
-        var sphereSpherecastDirection = -Vector3.up;
+        var sphereSpherecastDirection = -GetUpVector();
         
         // Debug.DrawRay(sphereCastOrigin, sphereSpherecastDirection * sphereCastMaxDistance, Color.magenta);
         
@@ -73,10 +75,10 @@ public abstract partial class GravityFsm
         {
 
 
-            if (Physics.Raycast(hit.point + Vector3.up * 3f, Vector3.down, out var recast, 6f,
+            if (Physics.Raycast(hit.point + GetUpVector() * 3f, GetDownVector(), out var recast, 6f,
                     GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore)) hit = recast;
             
-            var angle = Vector3.Angle(hit.GetCorrectNormalForSphere(sphereSpherecastDirection), Vector3.up);
+            var angle = Vector3.Angle(hit.GetCorrectNormalForSphere(sphereSpherecastDirection), GetUpVector());
             if (angle > 75f) return false;
             var slopeMinDistanceOffset =
                 Mathf.Lerp(0, 2f, Mathf.InverseLerp(0f, 90f, angle));
@@ -86,14 +88,14 @@ public abstract partial class GravityFsm
                 : Mathf.Lerp(_currentSlopeCastMinimumDistanceOffset, slopeMinDistanceOffset, Time.deltaTime * 5f);
             
             // if (Mathf.Abs(YVelocity) < 0.075f) return true;
-            var b = transform.position.y - hit.point.y < (minDistance * (Machine.IsInState(GravityFsmState.Grounded) ? 5f : 1f)) + slopeMinDistanceOffset;
+            var b = Vector3.Dot(transform.position - hit.point, GetUpVector()) < (minDistance * (Machine.IsInState(GravityFsmState.Grounded) ? 5f : 1f)) + slopeMinDistanceOffset;
             if (b)
             {
-                // if (Physics.Raycast(hit.point - Vector3.up, Vector3.up, 2f, GetEnvironmentalLayermask(),
+                // if (Physics.Raycast(hit.point - GetUpVector(), GetUpVector(), 2f, GetEnvironmentalLayermask(),
                 //         QueryTriggerInteraction.Ignore))
                 //     return false;
                 //
-                // Debug.DrawRay(hit.point, Vector3.up, Color.magenta, 5f);
+                // Debug.DrawRay(hit.point, GetUpVector(), Color.magenta, 5f);
                 // Debug.DrawRay(hit.point, Vector3.forward, Color.magenta, 5f);
             }
             
@@ -106,7 +108,7 @@ public abstract partial class GravityFsm
 
     protected float CurrentFallDistance()
     {
-        var diff = transform.position.y - LastUpwardsY;
+        var diff = Vector3.Dot(transform.position - LastUpwardsPosition, GetUpVector());
         return diff;
     }
 
@@ -114,7 +116,7 @@ public abstract partial class GravityFsm
     {
         YVelocity = Mathf.Max(YVelocity, MinYVelocity);
         if (YVelocity > 0 || Machine.IsInState(GravityFsmState.Grounded))
-            LastUpwardsY = transform.position.y;
+            LastUpwardsPosition = transform.position;
     }
 
 protected Vector3 ComputeCollisionMove(Vector3 desiredMove, float yModifier = 1f)
@@ -130,7 +132,7 @@ protected Vector3 ComputeCollisionMove(Vector3 desiredMove, float yModifier = 1f
     float castDistance = (CollisionMoveSphereCastDistance * GetRaycastTimeModifier()) - (radius * 0.45f) +
                          backwardsPadding;
 
-    Vector3 position = transform.position + Vector3.up *
+    Vector3 position = transform.position + GetUpVector() *
         (YVelocity > FallingCollisionMoveSphereCastHeightYVelocityThreshhold
             ? GroundCollisionMoveSphereCastHeight
             : FallingCollisionMoveSphereCastHeight);
@@ -146,7 +148,7 @@ protected Vector3 ComputeCollisionMove(Vector3 desiredMove, float yModifier = 1f
         // Full sliding along the actual slope
         Vector3 slideMax = Vector3.ProjectOnPlane(output, firstNormal);
         // Zero vertical sliding (your original wall-flattening method)
-        Vector3 slideZero = Vector3.ProjectOnPlane(output, Vector3.ProjectOnPlane(firstNormal, Vector3.up).normalized);
+        Vector3 slideZero = Vector3.ProjectOnPlane(output, Vector3.ProjectOnPlane(firstNormal, GetUpVector()).normalized);
         
         // Interpolate based on the modifier
         output = Vector3.Lerp(slideZero, slideMax, yModifier);
@@ -159,7 +161,7 @@ protected Vector3 ComputeCollisionMove(Vector3 desiredMove, float yModifier = 1f
 
             // Slide again for the second surface
             Vector3 secondSlideMax = Vector3.ProjectOnPlane(output, secondNormal);
-            Vector3 secondSlideZero = Vector3.ProjectOnPlane(output, Vector3.ProjectOnPlane(secondNormal, Vector3.up).normalized);
+            Vector3 secondSlideZero = Vector3.ProjectOnPlane(output, Vector3.ProjectOnPlane(secondNormal, GetUpVector()).normalized);
             
             output = Vector3.Lerp(secondSlideZero, secondSlideMax, yModifier);
 
@@ -178,7 +180,7 @@ protected Vector3 ComputeCollisionMove(Vector3 desiredMove, float yModifier = 1f
     {
         
         
-        var neighbors = Physics.OverlapCapsule(transform.position, transform.position + Vector3.up * 3f, 0.5f,
+        var neighbors = Physics.OverlapCapsule(transform.position, transform.position + GetUpVector() * 3f, 0.5f,
             GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore);
         foreach (var neighbor in neighbors)
         {
@@ -278,5 +280,26 @@ protected Vector3 ComputeCollisionMove(Vector3 desiredMove, float yModifier = 1f
         parentTransform = t;
         _previousParentTransformPosition = parentTransform.position;
         _previousParentRotation = parentTransform.rotation;
+    }
+
+    public Vector3 GetUpVector()
+    {
+        return _customUpVector;
+    }
+
+    public Vector3 GetDownVector()
+    {
+        return -GetUpVector();
+    }
+
+    public void SetUpVector(Vector3 v)
+    {
+        _customUpVector = v;
+    }
+
+    private void HandleUpVectorRotation()
+    {
+        transform.rotation =
+            Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transform.forward, GetUpVector()),  Time.deltaTime * 15f);
     }
 }

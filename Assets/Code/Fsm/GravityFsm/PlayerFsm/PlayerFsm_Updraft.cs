@@ -57,7 +57,7 @@ public partial class PlayerFsm
                 // var flip = _movementAnimationMirror ? 0 : 1f;
                 // Animator.SetFloat("Flip", flip);
                 PlayerManaManager.Singleton.RestoreAll();
-                LastUpwardsY = transform.position.y;
+                LastUpwardsPosition = transform.position;
                 OnPlayerEnterUpdraft?.Invoke();
                 _previousWallrunSide = FlankType.None;
                 _currentFlankType = FlankType.None;

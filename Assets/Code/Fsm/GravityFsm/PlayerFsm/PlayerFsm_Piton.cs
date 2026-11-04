@@ -7,7 +7,7 @@ public partial class PlayerFsm
 
     private void ForcePitonRotation()
     {
-        var quaternion = Quaternion.LookRotation(_currentPitonTransform.forward, Vector3.up);
+        var quaternion = Quaternion.LookRotation(_currentPitonTransform.forward, GetUpVector());
         transform.rotation = Quaternion.Slerp(transform.rotation, quaternion,
             RotationSpeed * Time.deltaTime * ForceWallRotationSpeed);
     }
@@ -15,7 +15,7 @@ public partial class PlayerFsm
     private void PitonHomingOnUpdate()
     {
         ForcePitonRotation();
-        transform.position = Vector3.Lerp(transform.position, _currentPitonTransform.position + PitonTargetOffset, Time.deltaTime * 8f);
+        transform.position = Vector3.Lerp(transform.position, _currentPitonTransform.position + GetUpVector() * -2f, Time.deltaTime * 8f);
     }
 
     private void PitonsquatOnUpdate()
@@ -44,7 +44,7 @@ public partial class PlayerFsm
                 _currentPitonTransform.GetComponent<PitonController>().Rotate = true;
                 _wallsquattedSinceLeavingGround = true;
                 YVelocity = 0f;
-                LastUpwardsY = transform.position.y;
+                LastUpwardsPosition = transform.position;
                 _currentPitonTransform.GetComponent<PitonController>().PlayLatchEvent();
                 
                 if (_currentPitonTransform != parentTransform)
@@ -74,7 +74,7 @@ public partial class PlayerFsm
             .Permit(FsmTrigger.Timeout, PlayerFsmState.PitonFlip)
             .OnEntry(_ =>
             {
-                transform.position = _currentPitonTransform.position + PitonTargetOffset;
+                transform.position = _currentPitonTransform.position + GetUpVector() * -2f;
                 _wallsquattedSinceLeavingGround = false;
                 _dashSinceLeavingGround = false;
                 _previousWallrunSide = FlankType.None;
@@ -109,7 +109,7 @@ public partial class PlayerFsm
             {
                 if (@params is not PitonParam pitonParam) return false;
                 if (Vector3.Angle(transform.forward, pitonParam.Piton.forward) >= 100f) return false;
-                var angle = Vector3.Angle(Vector3.down, pitonParam.Piton.forward);
+                var angle = Vector3.Angle(GetDownVector(), pitonParam.Piton.forward);
                 if (angle <= 45f) return false;
                 if (Machine.IsInState(PlayerFsmState.FallAfterPitonHoming) && TimeInCurrentState() < 0.5f) return false;
                 if (Machine.IsInState(PlayerFsmState.Jump) && TimeInCurrentState() < 0.1f) return false;

@@ -7,6 +7,7 @@ public abstract partial class GravityFsm
 
     public void RespectParentTransformOnUpdate()
     {
+        return;
         if (parentTransform == null) return;
 
         // Move position by the parent's movement delta
@@ -19,16 +20,17 @@ public abstract partial class GravityFsm
         // Rotate position around the parent
         Vector3 offset = transform.position - parentTransform.position;
         offset = rotationDelta * offset;
-        var rotationMove = (parentTransform.position + offset) - transform.position;
+        Vector3 rotationMove = (parentTransform.position + offset) - transform.position;
         transform.position += ComputeCollisionMove(rotationMove);
-
-        
-        // Apply only the yaw (rotation around Vector3.up), discard pitch and roll
+    
+        // Apply only the yaw (rotation around the arbitrary up vector), discarding pitch and roll
+        Vector3 up = GetUpVector();
         Vector3 forward = rotationDelta * transform.forward;
-        forward.y = 0; // Flatten to horizontal plane
+        forward = Vector3.ProjectOnPlane(forward, up); // Replaces forward.y = 0;
+    
         if (forward.sqrMagnitude > 0.0001f)
         {
-            transform.rotation = Quaternion.LookRotation(forward.normalized, Vector3.up);
+            transform.rotation = Quaternion.LookRotation(forward.normalized, up);
         }
 
         // Update previous transform state

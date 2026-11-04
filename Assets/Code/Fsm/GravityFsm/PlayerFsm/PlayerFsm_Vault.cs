@@ -72,7 +72,7 @@ public partial class PlayerFsm
                 
                 // var originYOffset = -0.1f;
                 // var originForwardOffset = -2f;
-                // var origin = transform.position + (Vector3.up * originYOffset) + (transform.forward * originForwardOffset);
+                // var origin = transform.position + (GetUpVector() * originYOffset) + (transform.forward * originForwardOffset);
                 // if (Physics.Raycast(origin, transform.forward, out var hit, 10f, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore))
                 // {
                 //     Debug.DrawLine(origin, hit.point, Color.green, 5f);

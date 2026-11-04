@@ -16,7 +16,7 @@ public partial class PlayerFsm
         {
             PlayerCinemachineFreeLook.Singleton.OnPlayerCinemachineFreeLookScript(_teleportDirection, TrialTeleportDuration - TrialTeleportStartupDuration);
 
-            _teleportCamera.transform.position = (_teleportDestination + Vector3.up * 20f) - (_teleportDirection * 20f);
+            _teleportCamera.transform.position = (_teleportDestination + GetUpVector() * 20f) - (_teleportDirection * 20f);
             _teleportCameraLookAt.position = _teleportDestination;
             _teleportCamera.Priority = 20;
         }
@@ -42,9 +42,9 @@ public partial class PlayerFsm
             {
                 isSprinting = false;
                 EndSurge();
-                LastUpwardsY = transform.position.y;
+                LastUpwardsPosition = transform.position;
                 transform.position = _teleportDestination;
-                transform.rotation = Quaternion.LookRotation(_teleportDirection, Vector3.up);
+                transform.rotation = Quaternion.LookRotation(_teleportDirection, GetUpVector());
                 _teleportParticles.transform.position = transform.position;
                 _teleportParticles.Play();
                 MakeAllRenderersVisible();

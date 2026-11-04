@@ -8,7 +8,7 @@ public partial class PlayerFsm
     //     var transformPosition = new Vector3(PlayerWeaponFsm.Singleton.transform.position.x, transform.position.y,
     //         PlayerWeaponFsm.Singleton.transform.position.z);
     //     var forward = transformPosition - transform.position;
-    //     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(forward, Vector3.up),
+    //     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(forward, GetUpVector()),
     //         Time.deltaTime * GrappleStartupRotationLerpStrength);
     //
     //     var destinationPosition = new Vector3(transform.position.x,

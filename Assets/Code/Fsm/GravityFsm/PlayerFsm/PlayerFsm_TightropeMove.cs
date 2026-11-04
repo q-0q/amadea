@@ -17,7 +17,7 @@ public partial class PlayerFsm
 
         toTarget = Vector3.Lerp(v3, toTarget, weight);
         // toTarget = new Vector3(0f, toTarget.y, 0f);
-        // var targetRotation = Quaternion.LookRotation(target.position - transform.position, Vector3.up);
+        // var targetRotation = Quaternion.LookRotation(target.position - transform.position, GetUpVector());
         // // transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
         
         
@@ -30,7 +30,7 @@ public partial class PlayerFsm
         HandleInputMomentumChange();
         SetAnimatorMomentum();
 
-        var collisionPlayerMove = ComputeCollisionMove(((target.position - Vector3.up * GravityFsmSpringCollider.Sag) - springCollider.transform.position).normalized * ComputeDesiredMove().magnitude);
+        var collisionPlayerMove = ComputeCollisionMove(((target.position - GetUpVector() * GravityFsmSpringCollider.Sag) - springCollider.transform.position).normalized * ComputeDesiredMove().magnitude);
         springCollider.transform.parent.position += collisionPlayerMove;
         var collisionAlignmentMove = ComputeCollisionMove((springCollider.tightropeController.ClosestPointOnLine(transform.position) -
                                                            transform.position) * (Time.deltaTime * 5f));

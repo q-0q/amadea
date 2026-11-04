@@ -24,7 +24,7 @@ public partial class PlayerFsm
                 FMODUnity.RuntimeManager.PlayOneShotAttached(impactFmodEvent, gameObject);
                 OnPlayerFootstep();
                 PlaySlipSound();
-                LastUpwardsY = transform.position.y;
+                LastUpwardsPosition = transform.position;
                 _momentum = HardLandRollExitMomentum;
             });
     }

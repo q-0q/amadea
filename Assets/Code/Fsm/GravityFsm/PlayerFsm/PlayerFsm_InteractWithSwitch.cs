@@ -6,7 +6,7 @@ public partial class PlayerFsm
     {
         Animator.SetLayerWeight(1, 0);
         var forward = new Vector3(walkToPositionTarget.x, transform.position.y, walkToPositionTarget.z) - transform.position;
-        var targetRotation = Quaternion.LookRotation(forward, Vector3.up);
+        var targetRotation = Quaternion.LookRotation(forward, GetUpVector());
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 1.5f);
     }
     

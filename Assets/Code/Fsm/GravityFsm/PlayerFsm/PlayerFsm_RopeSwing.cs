@@ -113,7 +113,7 @@ public partial class PlayerFsm
             })
             .OnExit(_ =>
             {
-                LastUpwardsY = transform.position.y;
+                LastUpwardsPosition = transform.position;
                 _timeSinceRopeSwing = 0;
                 currentRopeSwing.SetWorldPlayerInput(Vector3.zero);
             });

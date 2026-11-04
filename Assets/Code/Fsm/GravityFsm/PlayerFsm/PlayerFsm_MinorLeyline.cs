@@ -16,7 +16,7 @@ public partial class PlayerFsm
             .Permit(FsmTrigger.Timeout, PlayerFsmState.MinorLeylineActive)
             .OnEntry(_ =>
             {
-                Util.InvokeSphereEffect(transform.position + Vector3.up, Vector3.one * 5f, 1.5f, 1f, 0 );
+                Util.InvokeSphereEffect(transform.position + GetUpVector(), Vector3.one * 5f, 1.5f, 1f, 0 );
 
                 // _speedLinesParticlesDuration = -1f;
                 // _speedLinesParticles.Play();
@@ -44,8 +44,8 @@ public partial class PlayerFsm
             {
                 _inputBuffer.ConsumeBuffer("Jump");
                 StartCoroutine(MinorLeylineCameraCleanupCoroutine());
-                LastUpwardsY = transform.position.y;
-                Util.InvokeSphereEffect(transform.position + Vector3.up, Vector3.one * 5f, 1.5f, 1f, 0 );
+                LastUpwardsPosition = transform.position;
+                Util.InvokeSphereEffect(transform.position + GetUpVector(), Vector3.one * 5f, 1.5f, 1f, 0 );
                 isSprinting = true;
                 _timeSinceMinorLeyline = 0;
                 _minorLeylineHalo.Hide();

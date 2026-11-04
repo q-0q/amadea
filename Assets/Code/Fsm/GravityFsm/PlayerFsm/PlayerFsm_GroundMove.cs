@@ -13,7 +13,7 @@ public partial class PlayerFsm
         // var slopeMovementModifier = 1f;
         // if (GetGroundedRaycastHit(out var hit))
         // {
-        //     var angle = Vector3.Angle(hit.normal, Vector3.up);
+        //     var angle = Vector3.Angle(hit.normal, GetUpVector());
         //
         //     slopeMovementModifier = Mathf.Lerp(1f, 0.25f, Mathf.InverseLerp(30f, 70f, angle));
         // }

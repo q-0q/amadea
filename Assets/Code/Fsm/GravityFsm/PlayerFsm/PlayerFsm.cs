@@ -768,6 +768,13 @@ public partial class PlayerFsm : GravityFsm
             SaveSystem.WritePlayerInGamePosition(transform.position, "", transform.rotation.eulerAngles.y);
         }
         
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            transform.rotation = Quaternion.LookRotation(transform.up, -transform.forward);
+            SetUpVector(transform.up);
+
+        }
+        
         HandleRaycastKill();
 
         

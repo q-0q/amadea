@@ -6,7 +6,7 @@ public abstract partial class GravityFsm
     {
         if (Machine.IsInState(GravityFsmState.DontApplyYVelocity)) return;
         
-        var v3 = new Vector3(0, YVelocity * Time.deltaTime, 0);
+        var v3 = GetUpVector() * (YVelocity * Time.deltaTime);
         transform.position += v3;
         
         if (!Machine.IsInState(GravityFsmState.DontLoseYVelocity))

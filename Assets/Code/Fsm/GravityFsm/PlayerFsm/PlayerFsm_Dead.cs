@@ -125,7 +125,7 @@ public partial class PlayerFsm
                 
                 _timeSinceRespawn = 0;
                 _momentum = 0;
-                LastUpwardsY = transform.position.y;
+                LastUpwardsPosition = transform.position;
                 // _skinnedMeshRenderer.transform.DOComplete();
                 MakeAllRenderersVisible();
                 Animator.StopPlayback();

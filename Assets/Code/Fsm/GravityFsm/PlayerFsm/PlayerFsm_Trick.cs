@@ -16,7 +16,7 @@ public partial class PlayerFsm
         var speedMod = Mathf.Lerp(1f, Mathf.Lerp(1.75f, 1f, Mathf.InverseLerp(0.2f, 0.45f, TimeInCurrentState())), 
             Mathf.InverseLerp(0.1f, 0.2f, TimeInCurrentState()));
         HandleCollisionMove(speedMod, false);
-        transform.position += ComputeCollisionMove(Vector3.down * (3f * Time.deltaTime));
+        transform.position += ComputeCollisionMove(GetDownVector() * (3f * Time.deltaTime));
         HandleTurning(1f, false, 0f, false, 0.25f);
         
         
@@ -36,7 +36,7 @@ public partial class PlayerFsm
 
 
 
-        if (Physics.Raycast(transform.position + Vector3.up * 3f, Vector3.down, out var hit, 8f, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(transform.position + GetUpVector() * 3f, GetDownVector(), out var hit, 8f, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore))
         {
             if (hit.transform != parentTransform)
             {
@@ -182,7 +182,7 @@ public partial class PlayerFsm
                 _momentum = Mathf.Max(_momentum, TinsicaEntryMomentum);
                 OnPlayerFootstep();
                 YVelocity = 0;
-                LastUpwardsY = transform.position.y;
+                LastUpwardsPosition = transform.position;
                 
                 PlayerManaManager.Singleton.Consume();
             })
@@ -249,7 +249,7 @@ public partial class PlayerFsm
                 FMODUnity.RuntimeManager.PlayOneShotAttached(dashWhooshEventReference, gameObject);
                 _momentum = Mathf.Max(_momentum, TinsicaEntryMomentum);
                 
-                LastUpwardsY = transform.position.y;
+                LastUpwardsPosition = transform.position;
                 
                 PlayerManaManager.Singleton.Consume();
             })
@@ -290,7 +290,7 @@ public partial class PlayerFsm
                 FMODUnity.RuntimeManager.PlayOneShotAttached(dashWhooshEventReference, gameObject);
                 _momentum = Mathf.Max(_momentum, TinsicaEntryMomentum);
                 
-                LastUpwardsY = transform.position.y;
+                LastUpwardsPosition = transform.position;
                 
                 PlayerManaManager.Singleton.Consume();
             })

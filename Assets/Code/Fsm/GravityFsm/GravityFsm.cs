@@ -32,6 +32,7 @@ public  abstract partial class GravityFsm : Fsm
         BonusGravityModifier = 1f;
         transform.Find("DepenetrationCollider").TryGetComponent(out _depenetrationCollider);
         _timeAtTopOfGust = 0f;
+        SetUpVector(Vector3.up);
 
         InstantiateSpringCollider();
     }
@@ -62,7 +63,7 @@ public  abstract partial class GravityFsm : Fsm
         }
 
 
-        
+        HandleUpVectorRotation();
         HandleDepenetration();
         
     }

@@ -56,8 +56,12 @@ public partial class PlayerFsm
                 HandleSlipAudio();
                 
                 var rotationMod = _currentFlankType == FlankType.Left ? -1f : 1f;
-                var forward = Quaternion.Euler(0f, WallrunJumpAngle * rotationMod, 0f) * _currentFlankWallNormal;
-                transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
+                Vector3 up = GetUpVector();
+
+                // Rotate the flank wall normal around the arbitrary up vector instead of the world Y axis
+                var forward = Quaternion.AngleAxis(WallrunJumpAngle * rotationMod, up) * _currentFlankWallNormal;
+
+                transform.rotation = Quaternion.LookRotation(forward, up);
             })
             .OnExit(_ => { _previousWallrunSide = _currentFlankType; });
     }

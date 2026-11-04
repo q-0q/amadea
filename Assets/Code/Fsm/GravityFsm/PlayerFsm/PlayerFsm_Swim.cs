@@ -64,7 +64,7 @@ public partial class PlayerFsm
     private void DrownOnUpdate()
     {
         if (!_swimSurfaceRippleQueued) StartCoroutine(SwimSurfaceRippleCoroutine());
-        transform.position += Vector3.down * (Time.deltaTime * 0.5f);
+        transform.position += GetDownVector() * (Time.deltaTime * 0.5f);
     }
     
     private void SwimSurfaceOnUpdate()
@@ -75,7 +75,7 @@ public partial class PlayerFsm
         {
 
 
-            transform.position += ComputeCollisionMove(((swimRaycastParam.point + Vector3.up * -0.80f) - transform.position) * (Time.deltaTime * 15f));
+            transform.position += ComputeCollisionMove(((swimRaycastParam.point + GetUpVector() * -0.80f) - transform.position) * (Time.deltaTime * 15f));
                 
             if (swimRaycastParam.WaterHazardType == WaterHazardType.Type.InstantDrown)
             {
@@ -221,7 +221,7 @@ public partial class PlayerFsm
             swimRaycastParam.surfaceDistance = depth;
             swimRaycastParam.point = transform.position + (transform.up * depth);
             
-            Debug.DrawRay(swimRaycastParam.point, Vector3.up * 3f, Color.orange);
+            Debug.DrawRay(swimRaycastParam.point, GetUpVector() * 3f, Color.orange);
             return true;
         }
 
@@ -252,7 +252,7 @@ public partial class PlayerFsm
     {
 
         var point = transform.position;
-        var upDirection = Vector3.up;
+        var upDirection = GetUpVector();
         var radius = 3f;
         var waterTriggerLayer = LayerMask.GetMask("Water");
 

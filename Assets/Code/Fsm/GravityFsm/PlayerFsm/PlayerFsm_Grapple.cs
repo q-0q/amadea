@@ -27,7 +27,7 @@ public partial class PlayerFsm
         //         var forward = transformPosition - transform.position;
         //         transform.rotation =
         //             Quaternion.LookRotation(forward,
-        //                 Vector3.up);
+        //                 GetUpVector());
         //         // ReplaceAnimatorTrigger("Dash");
         //         OnPlayerGrappleStateEntered?.Invoke();
         //     })

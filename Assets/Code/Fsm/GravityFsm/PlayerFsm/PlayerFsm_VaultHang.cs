@@ -27,7 +27,7 @@ public partial class PlayerFsm
             {
                 if (YVelocity < -10f) FMODUnity.RuntimeManager.PlayOneShotAttached(hardlandEventReference, gameObject);
                 _arrivedAtLedge = false;
-                LastUpwardsY = transform.position.y;
+                LastUpwardsPosition = transform.position;
                 isSprinting = false;
                 EndSurge();
                 if (!UpdateLedgePosition(FaceHighLedgeHeight + GetCurrentDashRaycastHeightOffset())) UpdateLedgePosition(FaceLedgeHeight);

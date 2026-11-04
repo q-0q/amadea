@@ -11,7 +11,7 @@ public partial class PlayerFsm
             .PermitIf(PlayerFsmTrigger.FaceLedge, PlayerFsmState.MediumVaultHang, _ =>
             {
                 if (Machine.IsInState(PlayerFsmState.Updraft) && TimeInCurrentState() < 0.5f) return false;
-                if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out var hit, 5f, GetEnvironmentalLayermask()))
+                if (Physics.Raycast(transform.position + GetUpVector(), GetDownVector(), out var hit, 5f, GetEnvironmentalLayermask()))
                 {
                     var deltaY = hit.point.y - transform.position.y;
                     if (deltaY > -2f) return false;

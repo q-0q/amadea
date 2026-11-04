@@ -85,7 +85,7 @@ public partial class PlayerFsm
     private CinemachineVirtualCamera _teleportCamera;
     private Transform _teleportCameraLookAt;
     private Transform _currentPitonTransform;
-    private static readonly Vector3 PitonTargetOffset = Vector3.up * -2f;
+    // private static readonly Vector3 PitonTargetOffset = GetUpVector() * -2f;
     public RopeSwing currentRopeSwing;
     private float _timeSinceRopeSwing;
     private CinemachineVirtualCamera _surgeStartupCamera;
@@ -354,18 +354,40 @@ public partial class PlayerFsm
     
     private void MoveYOntoLedge(float yOffset, float lerpStrength)
     {
-        var newY = lerpStrength < 0 ? _currentLedgePosition.y : Mathf.Lerp(transform.position.y, _currentLedgePosition.y + yOffset, Time.deltaTime * lerpStrength);
-        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+        Vector3 up = GetUpVector(); // Or your custom up variable
+
+// 1. Measure current and target heights along the arbitrary up vector
+        float currentHeight = Vector3.Dot(transform.position, up);
+        float targetHeight = Vector3.Dot(_currentLedgePosition, up) + yOffset;
+        float snapHeight = Vector3.Dot(_currentLedgePosition, up); // Equivalent to the original _currentLedgePosition.y
+
+// 2. Apply the conditional lerp along the custom up axis
+        float newHeight = lerpStrength < 0 
+            ? snapHeight 
+            : Mathf.Lerp(currentHeight, targetHeight, Time.deltaTime * lerpStrength);
+
+// 3. Rebuild the position, updating only along the custom up axis
+        Vector3 positionOnPlane = transform.position - (up * currentHeight);
+        transform.position = positionOnPlane + (up * newHeight);
     }
     
     private void MoveYOntoLedgeLinear(float yOffset, float speed)
     {
-        var desiredY = _currentLedgePosition.y + yOffset;
-        var delta = speed * Time.deltaTime;
-        var newY = transform.position.y > desiredY
-            ? Mathf.Max(desiredY, transform.position.y - delta)
-            : Mathf.Min(desiredY, transform.position.y + delta);
-        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+        Vector3 up = GetUpVector(); // Or your custom up variable
+
+        // 1. Measure current and desired heights along the arbitrary up vector
+        float currentHeight = Vector3.Dot(transform.position, up);
+        float desiredHeight = Vector3.Dot(_currentLedgePosition, up) + yOffset;
+
+        // 2. Perform the step calculation
+        float delta = speed * Time.deltaTime;
+        float newHeight = currentHeight > desiredHeight
+            ? Mathf.Max(desiredHeight, currentHeight - delta)
+            : Mathf.Min(desiredHeight, currentHeight + delta);
+
+        // 3. Rebuild the position, updating only along the custom up axis
+        Vector3 positionOnPlane = transform.position - (up * currentHeight);
+        transform.position = positionOnPlane + (up * newHeight);
     }
 
     private bool UpdateLedgePosition(float ledgeHeight, bool upwardsOnly = false)
@@ -377,7 +399,7 @@ public partial class PlayerFsm
         
         var wallDistance = 5f;
         var back = 1f;
-        var wallHitOrigin = transform.position + (Vector3.up * 0.25f) - (transform.forward * back);
+        var wallHitOrigin = transform.position + (GetUpVector() * 0.25f) - (transform.forward * back);
         if (Physics.Raycast(wallHitOrigin, transform.forward, out var forwardHit, 5f + back, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore))
         {
             wallDistance = forwardHit.distance - back;
@@ -392,11 +414,11 @@ public partial class PlayerFsm
         }
         
         var forwardOffset = wallDistance + 1f;
-        var downwardRaycastOrigin = transform.position + (Vector3.up * (ledgeHeight + UpdateLedgePositionEpsilon)) + transform.forward *
+        var downwardRaycastOrigin = transform.position + (GetUpVector() * (ledgeHeight + UpdateLedgePositionEpsilon)) + transform.forward *
             (forwardOffset);
-        Debug.DrawLine(downwardRaycastOrigin, downwardRaycastOrigin - (Vector3.up * (ledgeHeight + UpdateLedgePositionEpsilon)), Color.green);
+        Debug.DrawLine(downwardRaycastOrigin, downwardRaycastOrigin - (GetUpVector() * (ledgeHeight + UpdateLedgePositionEpsilon)), Color.green);
 
-        if (!Physics.Raycast(downwardRaycastOrigin, -Vector3.up, out var hit,
+        if (!Physics.Raycast(downwardRaycastOrigin, -GetUpVector(), out var hit,
                 (ledgeHeight + UpdateLedgePositionEpsilon) * GetRaycastTimeModifier(), GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore)) return false;
 
         // if (slope > 60f) return false;
@@ -414,10 +436,16 @@ public partial class PlayerFsm
     private void HandleFlankAlignment()
     {
         if (_currentFlankType == FlankType.None) return; 
+
         var rotationMod = _currentFlankType == FlankType.Left ? -1f : 1f;
-        var forward = Quaternion.Euler(0f, 90f * rotationMod, 0f) * _currentFlankWallNormal;
+        Vector3 up = GetUpVector();
+
+        // Rotate the wall normal around the arbitrary up vector instead of the world Y axis
+        var forward = Quaternion.AngleAxis(90f * rotationMod, up) * _currentFlankWallNormal;
+    
         Debug.DrawRay(transform.position, forward, Color.yellow);
-        var lookRotation = Quaternion.LookRotation(forward, Vector3.up);
+    
+        var lookRotation = Quaternion.LookRotation(forward, up);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * FlankAlignmentRotationSpeed);
     }
 
@@ -440,7 +468,7 @@ public partial class PlayerFsm
     private void HandleTurningCore(float multiplier, float momentumDecayMultiplier, Vector3 direction, bool ignoreTurnAnimationLayer = false, float animationTurnModifier = 1f)
     {
         float momentumWeight = ComputeMomentumWeight();
-        var angle = Vector3.SignedAngle(direction.normalized, transform.forward.normalized, Vector3.up);
+        var angle = Vector3.SignedAngle(direction.normalized, transform.forward.normalized, GetUpVector());
         
         if (!ignoreTurnAnimationLayer)
         {
@@ -477,7 +505,7 @@ public partial class PlayerFsm
         _momentum = Mathf.Max(0, _momentum - (MomentumLossRate * Time.deltaTime *
                                               Mathf.Abs(momentumDesiredTurnAmount) * momentumWeight * MomentumTurnLoss * momentumDecayMultiplier * sprintLoss));
         
-        var quaternion = Quaternion.LookRotation(direction.normalized, Vector3.up);
+        var quaternion = Quaternion.LookRotation(direction.normalized, GetUpVector());
         
         // var lowMomentumRotationMod = _momentum < LowMomentumThreshhold ? LowMomentumRotationMod : 1f;
         var lowMomentumRotationMod = Mathf.Lerp(LowMomentumRotationMod, 1f,
@@ -496,7 +524,7 @@ public partial class PlayerFsm
             var grounded = Machine.IsInState(GravityFsmState.Grounded);
             
             var lowMomentumMomentumGainMod = _momentum < LowMomentumThreshhold ? LowMomentumMomentumGainMod : 1f;
-            // var superSteepComponent = Mathf.InverseLerp(50f, 55f, Vector3.Angle(GroundNormal, Vector3.up));
+            // var superSteepComponent = Mathf.InverseLerp(50f, 55f, Vector3.Angle(GroundNormal, GetUpVector()));
             var superSteepComponent = 0f;
             var weight = (Mathf.Max(Mathf.InverseLerp(110f, 140f, GroundForwardSlope), superSteepComponent));
             var slopeMaxMomentumMod = Mathf.Lerp(1f, GroundSlopeMaximumMomentumModifier,
@@ -539,8 +567,20 @@ public partial class PlayerFsm
     
     public Vector3 GetInputMovementVector3()
     {
+
+        var customUp = GetUpVector();
+        
         var v2 = GetInputMovementVector2();
-        return Quaternion.Euler(0, _camera.transform.rotation.eulerAngles.y, 0) * new Vector3(v2.x, 0, v2.y);
+    
+        // 1. Get the camera's forward vector and project it onto the plane perpendicular to the custom up vector
+        Vector3 cameraForward = _camera.transform.forward;
+        Vector3 forward = Vector3.ProjectOnPlane(cameraForward, customUp).normalized;
+    
+        // 2. Calculate the corresponding right vector based on the custom up and projected forward
+        Vector3 right = Vector3.Cross(customUp, forward).normalized;
+    
+        // 3. Combine the input axes with the new direction vectors
+        return (right * v2.x + forward * v2.y);
     }
     
     public Vector3 GetMouseVector3()
@@ -739,7 +779,7 @@ public partial class PlayerFsm
 
             // // Mirror the input vector across the forward's perpendicular plane
             // // First, get the right vector (90° rotation from forward)
-            // Vector3 right = Vector3.Cross(Vector3.up, forwardFlat).normalized;
+            // Vector3 right = Vector3.Cross(GetUpVector(), forwardFlat).normalized;
             //
             // // Project input onto the forward-right basis
             // float f = Vector3.Dot(inputFlat, forwardFlat);
@@ -764,9 +804,9 @@ public partial class PlayerFsm
         var raycastLength = GroundedRaycastLength * GetRaycastTimeModifier();
         var forward = transform.forward * (GroundedRaycastForwardOffset * GetRaycastTimeModifier());
         Gizmos.color = Color.blue;
-        var transformPosition = transform.position + Vector3.up * (2f * raycastLength) + forward;
+        var transformPosition = transform.position + GetUpVector() * (2f * raycastLength) + forward;
         Gizmos.DrawSphere(transformPosition, 0.35f);
-        Gizmos.DrawSphere(transformPosition - Vector3.up * raycastLength * 4f, 0.35f);
+        Gizmos.DrawSphere(transformPosition - GetUpVector() * raycastLength * 4f, 0.35f);
         
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(_safeGroundPosition, 0.35f);
@@ -957,7 +997,7 @@ public partial class PlayerFsm
         if (_currentComboLength >= MaxComboLength)
         {
             var spherePrefab = Resources.Load("Prefab/Fsm/SphereEffect") as GameObject;
-            var spherePosition = transform.position + Vector3.up;
+            var spherePosition = transform.position + GetUpVector();
             var sphereObject = Instantiate(spherePrefab, spherePosition,
                 Quaternion.identity, null);
             sphereObject.GetComponent<SphereEffect>().SetConfig(Vector3.one * 2f, 1.25f, 0.8f, -1f);
@@ -1104,7 +1144,7 @@ public partial class PlayerFsm
     private void SnapToGround()
     {
         ReplaceAnimatorTrigger("GroundMove");
-        if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out RaycastHit hit,20f, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(transform.position + GetUpVector(), GetDownVector(), out RaycastHit hit,20f, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore))
         {
             transform.position = hit.point;
         }
@@ -1158,9 +1198,9 @@ public partial class PlayerFsm
     {
         if (Machine.IsInState(PlayerFsmState.Updraft)) return;
         if (CurrentFallDistance() > -50f) return;
-        var origin = transform.position + Vector3.up * 30f;
-        if (Physics.SphereCast(origin, 15f, Vector3.down, out _, 130f, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore)) return;
-        if (Physics.SphereCast(origin, 15f, Vector3.down, out _, 130f, LayerMask.GetMask("Water"), QueryTriggerInteraction.Collide)) return;
+        var origin = transform.position + GetUpVector() * 30f;
+        if (Physics.SphereCast(origin, 15f, GetDownVector(), out _, 130f, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore)) return;
+        if (Physics.SphereCast(origin, 15f, GetDownVector(), out _, 130f, LayerMask.GetMask("Water"), QueryTriggerInteraction.Collide)) return;
         if (TimeInCurrentState() < 1f) return;
         InvokePlayerDeath();
     }
@@ -1322,12 +1362,12 @@ public partial class PlayerFsm
         // todo: dont set safe ground position on moving platforms?.PermitIf(PlayerFsmTrigger.Dash, PlayerFsmState.Dashsquat, @params => CanDash(@params) && TimeInCurrentState() > 0.1f); // microfall dash prevention hack
         for (int i = 0; i < rayCount; i++)
         {
-            var origin = transform.position + Vector3.up * originHeight + Quaternion.Euler(0, 360f * ((float)i
+            var origin = transform.position + GetUpVector() * originHeight + Quaternion.Euler(0, 360f * ((float)i
                 / rayCount), 0) * (Vector3.forward * originRadius);
             
-            if (!Physics.Raycast(origin, Vector3.down, out var hit, maxDistance, Fsm.GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore)) return;
+            if (!Physics.Raycast(origin, GetDownVector(), out var hit, maxDistance, Fsm.GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore)) return;
             if (hit.transform.TryGetComponent(out PlayerDeathGround _)) return;
-            Debug.DrawRay(origin, Vector3.down * maxDistance, Color.red);
+            Debug.DrawRay(origin, GetDownVector() * maxDistance, Color.red);
         }
 
         _safeGroundPosition = transform.position;

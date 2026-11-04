@@ -20,7 +20,7 @@ public partial class PlayerFsm
                 _previousWallrunSide = FlankType.None;
                 _currentFlankType = FlankType.None;
                 currentRopeSwing = null;
-                LastUpwardsY = transform.position.y;
+                LastUpwardsPosition = transform.position;
                 OnPlayerFootstep();
                 PlaySlipSound();
                 DeathGroundImmuneOneshotHandler();
