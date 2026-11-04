@@ -36,7 +36,7 @@ public class GlyphController : MonoBehaviour
                 
                 mapSplineId = 0,
                 mapSplineStartT = 0f,
-                mapSplineEndT = 0.1f,
+                mapSplineEndT = 0.3f,
                 contributeToCount = false
             } 
         },
@@ -49,8 +49,8 @@ public class GlyphController : MonoBehaviour
                 loreDialogue = new List<string>() { "Signal here is drawn directly from source, making this the inception of the entire system.", "...As such, this node is a potential point of failure for entire network. Uptime is critical.", "Hardware health of this station should be monitored especially closely." },
                 
                 mapSplineId = 0,
-                mapSplineStartT = 0.1f,
-                mapSplineEndT = 0.2f
+                mapSplineStartT = 0.3f,
+                mapSplineEndT = 0.6f
             } 
         },
         
@@ -61,31 +61,67 @@ public class GlyphController : MonoBehaviour
                 loreDialogue = new List<string>() { "01 propagates signal into and through the master chambers.", "Signal density has to be within a very specific range to avoid hardware interference where the line passes indoors.", "That increased workload means this machine may require more regular defrags." },
                 
                 mapSplineId = 0,
-                mapSplineStartT = 0.2f,
-                mapSplineEndT = 0.3f
-            } 
-        },
-        
-        { "icy-canals-0", new TerminalData()
-            {
-                displayId = "02",
-                previousNode = "tutorial-1",
-                writeAdditionalKeys = new List<string>() { "icy-canals-0-split"},
-                loreDialogue = new List<string>() { "The Steppe's natural aquifers feed the coolant systems of the relay hub and its inner chambers.", "Additionally, the unusual mineral content of the water has been found to actually increase signal conductivity.", "The line to Ouro Station thus uses relatively low power, despite the distance and altitude gain." },
-                mapSplineId = 0,
-                mapSplineStartT = 0.4f,
+                mapSplineStartT = 0.6f,
                 mapSplineEndT = 0.9f
             } 
         },
         
-        { "icy-canals-0-split", new TerminalData()
+        { "icy-canals", new TerminalData()
             {
                 displayId = "02",
-                previousNode = "icy-canals-0",
+                previousNode = "tutorial-1",
+                writeAdditionalKeys = new List<string>() { "icy-canals-split-0", "icy-canals-split-1", "icy-canals-split-2", "icy-canals-split-3"},
+                loreDialogue = new List<string>() { "The Steppe's natural aquifers feed the coolant systems of the relay hub and its inner chambers.", "Additionally, the unusual mineral content of the water has been found to actually increase signal conductivity.", "The line to Ouro Station thus uses relatively low power, despite the distance and altitude gain." },
+                mapSplineId = 0,
+                mapSplineStartT = 0.9f,
+                mapSplineEndT = 1f
+            } 
+        },
+        
+        { "icy-canals-split-0", new TerminalData()
+            {
+                displayId = "02",
+                previousNode = "icy-canals",
                 loreDialogue = new List<string>() {  },
-                mapSplineId = 3,
+                mapSplineId = 4,
                 mapSplineStartT = 0f,
-                mapSplineEndT = 0.1f,
+                mapSplineEndT = 0.8f,
+                contributeToCount = false
+            } 
+        },
+        
+        { "icy-canals-split-1", new TerminalData()
+            {
+                displayId = "02",
+                previousNode = "icy-canals",
+                loreDialogue = new List<string>() {  },
+                mapSplineId = 1,
+                mapSplineStartT = 0f,
+                mapSplineEndT = 1f,
+                contributeToCount = false
+            } 
+        },
+        
+        { "icy-canals-split-2", new TerminalData()
+            {
+                displayId = "02",
+                previousNode = "icy-canals-split-1",
+                loreDialogue = new List<string>() {  },
+                mapSplineId = 2,
+                mapSplineStartT = 0f,
+                mapSplineEndT = 0.6f,
+                contributeToCount = false
+            } 
+        },
+        
+        { "icy-canals-split-3", new TerminalData()
+            {
+                displayId = "02",
+                previousNode = "icy-canals-split-1",
+                loreDialogue = new List<string>() {  },
+                mapSplineId = 6,
+                mapSplineStartT = 0f,
+                mapSplineEndT = 1f,
                 contributeToCount = false
             } 
         },
@@ -93,10 +129,10 @@ public class GlyphController : MonoBehaviour
         { "ouro", new TerminalData()
             {
                 displayId = "03",
-                previousNode = "icy-canals-0",
+                previousNode = "icy-canals-split-0",
                 loreDialogue = new List<string>() { "Ouro Station is the only solar intake for the Mountain's lower regions.", "Light captured by Ouro Station feeds hardlight systems via the leyline network.", "In case of hardlight failures, Ouro Station's leyline connection and its internal core stability should both be monitored." },
-                mapSplineId = 0,
-                mapSplineStartT = 0.9f,
+                mapSplineId = 4,
+                mapSplineStartT = 0.8f,
                 mapSplineEndT = 1f,
                 contributeToCount = true,
                 isEndCap = true
@@ -107,11 +143,10 @@ public class GlyphController : MonoBehaviour
         { "float1", new TerminalData()
             {
                 displayId = "04",
-                previousNode = "icy-canals-0-split",
-                // loreDialogue = new List<string>() { "Ouro Station is the only solar intake for the Mountain's lower regions.", "Light captured by Ouro Station feeds hardlight systems via the leyline network.", "In case of hardlight failures, Ouro Station's leyline connection and its internal core stability should both be monitored." },
-                mapSplineId = 3,
-                mapSplineStartT = 0.1f,
-                mapSplineEndT = 0.4f,
+                previousNode = "icy-canals-split-1",
+                mapSplineId = 2,
+                mapSplineStartT = 0.6f,
+                mapSplineEndT = 1f,
                 contributeToCount = true,
                 isEndCap = false
                 
@@ -189,6 +224,10 @@ public class GlyphController : MonoBehaviour
         _splines.Add(s.Find("2").gameObject);
         _splines.Add(s.Find("3").gameObject);
         _splines.Add(s.Find("4").gameObject);
+        _splines.Add(s.Find("5").gameObject);
+        _splines.Add(s.Find("6").gameObject);
+        _splines.Add(s.Find("7").gameObject);
+        _splines.Add(s.Find("8").gameObject);
         // ...
 
         

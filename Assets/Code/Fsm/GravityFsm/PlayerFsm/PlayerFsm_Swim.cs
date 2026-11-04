@@ -67,6 +67,7 @@ public partial class PlayerFsm
     {
         if (WaterRaycast(out var swimRaycastParam))
         {
+            Debug.DrawLine(transform.position, swimRaycastParam.point, Color.blue);
             transform.position += ComputeCollisionMove(((swimRaycastParam.point + Vector3.up * -0.80f) - transform.position) * (Time.deltaTime * 15f));
             
             if (swimRaycastParam.WaterHazardType == WaterHazardType.Type.InstantDrown)
@@ -79,6 +80,11 @@ public partial class PlayerFsm
             {
                 InvokePlayerDeath();
             };
+        }
+
+        else
+        {
+            Machine.Jump(PlayerFsm.PlayerFsmState.Fall);
         }
 
         if (!PhotoManager.Singleton.IsActive()) OnPlayerWakeGenerated?.Invoke(GetRipplePosition(), Mathf.Lerp(0.075f, 0.075f, ComputeMomentumWeight()), Mathf.Lerp(0.0011f, 0.0009f, ComputeMomentumWeight()));

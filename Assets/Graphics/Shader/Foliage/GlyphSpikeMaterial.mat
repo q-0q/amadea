@@ -55,15 +55,19 @@ Material:
     - _HueRotation: 0
     - _MaximumRotation: 0
     - _MaximumTranslation: 0
+    - _NormalBlend: 0
+    - _NormalWeight: 1
     - _PlayerCameraFlatDistance: 16
     - _QueueControl: 1
     - _QueueOffset: 0
     - _Radius: 20
     - _RadiusExponent: 4
+    - _Reflection: 0.5
     - _Saturation: 1
     - _ScreenSpaceReflection: 1
     - _Smoothness: 0
     - _SnowStrength: 0
+    - _UseTexture: 1
     - _WindScale: 0.25
     - _WindSpeed: 10
     - _WindStrength: 0.1
