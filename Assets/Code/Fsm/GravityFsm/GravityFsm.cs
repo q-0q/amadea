@@ -63,7 +63,7 @@ public  abstract partial class GravityFsm : Fsm
         }
 
 
-        HandleUpVectorRotation();
+        // HandleUpVectorRotation();
         HandleDepenetration();
         
     }

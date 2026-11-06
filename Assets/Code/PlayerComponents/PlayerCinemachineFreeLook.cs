@@ -113,6 +113,7 @@ public class PlayerCinemachineFreeLook : MonoBehaviour
         TestCutsceneFsm.OnIntroCutsceneGondolaTeleported += OnWarp;
         PlayerFsm.OnPlayerTeleported += OnWarp;
         PlayerFsm.OnPositionSetFromSave += OnSetFromSave;
+        GravityGun.OnGravityGunUsed += OnGravityGun;
     }
 
     private void OnSetFromSave()
@@ -130,6 +131,7 @@ public class PlayerCinemachineFreeLook : MonoBehaviour
         TestCutsceneFsm.OnIntroCutsceneGondolaTeleported -= OnWarp;
         PlayerFsm.OnPlayerTeleported -= OnWarp;
         PlayerFsm.OnPositionSetFromSave -= OnSetFromSave;
+        GravityGun.OnGravityGunUsed -= OnGravityGun;
     }
     
     private void OnMetaSaveDataUpdated(MetaSaveSystem.MetaSaveData metaSaveData)
@@ -227,7 +229,11 @@ public class PlayerCinemachineFreeLook : MonoBehaviour
     {
         _freeLook.m_XAxis.Value = xValue;
         _freeLook.m_YAxis.Value = yValue;
+    }
 
+    public void OnGravityGun()
+    {
+        // _freeLook.m_YAxis.Value = 0.7f;
     }
 
     public CinemachineFreeLook GetFreeLook()

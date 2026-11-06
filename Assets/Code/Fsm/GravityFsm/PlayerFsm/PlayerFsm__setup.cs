@@ -64,6 +64,7 @@ public partial class PlayerFsm
         TerminalNodeInteractConfigure();
         MinorLeylineConfigure();
         TrickConfigure();
+        GravityGunConfigure();
     }
 
     public override void SetupStateMaps()
@@ -101,6 +102,7 @@ public partial class PlayerFsm
         StateMapConfig.Duration.Add(PlayerFsmState.Dead, 0.7f);
         StateMapConfig.Duration.Add(PlayerFsmState.Respawn, 0.85f);
         StateMapConfig.Duration.Add(PlayerFsmState.Updraft, UpdraftDuration + 10f);
+        StateMapConfig.Duration.Add(PlayerFsmState.GravityGunTravel, 0.75f);
         
         StateMapConfig.Duration.Add(PlayerFsmState.FallAfterSlideLateral, 0.25f);
         StateMapConfig.Duration.Add(PlayerFsmState.StepStart, 0.075f);

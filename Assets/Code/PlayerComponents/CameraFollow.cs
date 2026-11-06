@@ -22,6 +22,8 @@ public class CameraFollow : MonoBehaviour
     private CinemachineFreeLook _freeLook;
     
     private Vector3 _nonCutsceneLocation;
+    
+    private bool _isGravityGunCoroutineActive;
 
     private void Start()
     {
@@ -32,6 +34,7 @@ public class CameraFollow : MonoBehaviour
         Shader.SetGlobalVector("_CameraFollowWorldPosition", transform.position);
         _brain = Camera.main.GetComponent<CinemachineBrain>();
         _freeLook = PlayerCinemachineFreeLook.Singleton.GetFreeLook();
+        _isGravityGunCoroutineActive = false;
     }
 
     private void OnTriggerStay(Collider other)
@@ -53,8 +56,28 @@ public class CameraFollow : MonoBehaviour
         PlayerFsm.OnPlayerRespawn += OnRespawn;
         CutsceneManager.OnOverwriteCameraFollowEnded += OnShaderPositionReset;
         PlayerFsm.OnPlayerUpdateFinished += OnPlayerUpdateFinished;
+        GravityGun.OnGravityGunUsed += OnGravityGun;
     }
-    
+
+    private void OnGravityGun()
+    {
+
+        StartCoroutine(Coroutine());
+        
+        IEnumerator Coroutine()
+        {
+            _isGravityGunCoroutineActive = true;
+            var t = 0f;
+            var d = 1.25f;
+            while (t < d)
+            {
+                t += Time.deltaTime;
+                yield return null;
+            }
+            _isGravityGunCoroutineActive = false;
+        }
+    }
+
     private void OnRespawn()
     {
         transform.position = PlayerFsm.Singleton.transform.position;
@@ -67,6 +90,7 @@ public class CameraFollow : MonoBehaviour
         PlayerFsm.OnPlayerRespawn -= OnRespawn;
         CutsceneManager.OnOverwriteCameraFollowEnded -= OnShaderPositionReset;
         PlayerFsm.OnPlayerUpdateFinished -= OnPlayerUpdateFinished;
+        GravityGun.OnGravityGunUsed -= OnGravityGun;
     }
 
     private void OnWarp(Vector3 delta)
@@ -77,9 +101,15 @@ public class CameraFollow : MonoBehaviour
     
 private void OnPlayerUpdateFinished()
 {
+    
     Vector3 up = PlayerFsm.Singleton.GetUpVector();
 
-    if (CutsceneManager.Singleton.IsCutsceneOverwriteCameraFollowShaderPosition(out var t) && _freeLook.gameObject != _brain.ActiveVirtualCamera.VirtualCameraGameObject)
+    if (_isGravityGunCoroutineActive)
+    {
+        var currentShaderValue = Shader.GetGlobalVector("_CameraFollowWorldPosition");
+        Shader.SetGlobalVector("_CameraFollowWorldPosition", Vector3.Lerp(currentShaderValue, transform.position, Time.deltaTime * 2.5f));
+    }
+    else if (CutsceneManager.Singleton.IsCutsceneOverwriteCameraFollowShaderPosition(out var t) && _freeLook.gameObject != _brain.ActiveVirtualCamera.VirtualCameraGameObject)
     {
         Shader.SetGlobalVector("_CameraFollowWorldPosition", t == null ? Camera.main.transform.position : t.position);
     }
@@ -95,11 +125,11 @@ private void OnPlayerUpdateFinished()
         float currentShaderHeight = Vector3.Dot(currentShaderValue, up);
         float targetShaderHeight = Vector3.Dot(transform.position, up);
         float newShaderHeight = Mathf.Lerp(currentShaderHeight, targetShaderHeight, Time.deltaTime * shaderPositionYLerpSpeed);
-
+    
         Vector3 currentShaderPlane = new Vector3(currentShaderValue.x, currentShaderValue.y, currentShaderValue.z) - up * currentShaderHeight;
         Vector3 targetShaderPlane = transform.position - up * targetShaderHeight;
         Vector3 newShaderPlane = Vector3.Lerp(currentShaderPlane, targetShaderPlane, Time.deltaTime * shaderPositionXZLerpSpeed);
-
+    
         Shader.SetGlobalVector("_CameraFollowWorldPosition", newShaderPlane + up * newShaderHeight);
     }
 
@@ -147,6 +177,11 @@ private void OnPlayerUpdateFinished()
         newYOffset += slopeOffset;
     }
     
+    if (_isGravityGunCoroutineActive)
+    {
+        newYOffset = -2f;
+    }
+
     yLerp = Mathf.Lerp(yLerp, yLerp * 10f, Mathf.InverseLerp(-5f, -15f, playerYVelocity));
     _currentYOffset = Mathf.Lerp(_currentYOffset, newYOffset, Time.deltaTime * 2f);
     
@@ -170,7 +205,7 @@ private void OnPlayerUpdateFinished()
     // Keep rotation aligned with the custom up vector
     Vector3 forward = Vector3.ProjectOnPlane(Vector3.forward, up);
     if (forward.sqrMagnitude < 0.0001f) forward = Vector3.ProjectOnPlane(transform.forward, up);
-    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(forward.normalized, up), Time.deltaTime * 1f);
+    transform.up = Vector3.Lerp(transform.up, up, Time.deltaTime * 5f);
 
     var highestPriorityZone = HighestPriorityZoneAtPosition(PlayerFsm.Singleton.transform.position);
     OnCameraFollowTriggerStay?.Invoke(highestPriorityZone);

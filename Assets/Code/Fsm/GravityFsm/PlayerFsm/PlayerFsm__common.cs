@@ -319,6 +319,7 @@ public partial class PlayerFsm
     private CinemachineImpulseSource _impulse;
     private float _timeSinceSkipsquatExited;
     public static event Action OnPlayerDeathGroundImmune;
+    public Vector3 GravityGunDestination;
 
 
     private bool IsHitValidFlank(RaycastHit hit, bool left)

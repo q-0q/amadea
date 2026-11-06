@@ -21119,22 +21119,22 @@ PrefabInstance:
     - target: {fileID: 1375888755202182287, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.data[0].Rotation.value.w
-      value: 0.6436914
+      value: 0.6436532
       objectReference: {fileID: 0}
     - target: {fileID: 1375888755202182287, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.data[0].Rotation.value.x
-      value: -0.6436915
+      value: -0.64365333
       objectReference: {fileID: 0}
     - target: {fileID: 1375888755202182287, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.data[0].Rotation.value.y
-      value: 0.29267964
+      value: 0.2927635
       objectReference: {fileID: 0}
     - target: {fileID: 1375888755202182287, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.data[0].Rotation.value.z
-      value: -0.29267964
+      value: -0.2927635
       objectReference: {fileID: 0}
     - target: {fileID: 1402950863068252359, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
@@ -23705,6 +23705,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.data[5].Rotation.value.z
       value: -0.6586741
+      objectReference: {fileID: 0}
+    - target: {fileID: 8696767978703816902, guid: 7ca548f80e0954fd7b1e7beda817b941,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8699945810769143770, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}

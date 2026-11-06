@@ -37,6 +37,7 @@ public partial class PlayerFsm
         var lookAt = GetLookAtTransform();
         
         var rotationTarget = lookAt.position - transform.position;
+        rotationTarget = Vector3.ProjectOnPlane(rotationTarget, GetUpVector());
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotationTarget + transform.forward * 0.01f, transform.up), Time.deltaTime * 10f);
     }
 

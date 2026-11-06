@@ -27,7 +27,7 @@ public partial class PlayerFsm
     {
         var lookAt = currentInteractable.transform;
         var rotationTarget = lookAt.position - transform.position;
-        rotationTarget = new Vector3(rotationTarget.x, 0f, rotationTarget.z);
+        rotationTarget = Vector3.ProjectOnPlane(rotationTarget, GetUpVector());
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(rotationTarget, GetUpVector()), Time.deltaTime * 10f);
     }
 
@@ -84,6 +84,7 @@ public partial class PlayerFsm
             .SubstateOf(PlayerFsmState.FaceCurrentInteractable)
             .OnEntry(_ =>
             {
+                Animator.SetLayerWeight(1, 0f);
                 if (currentInteractable != null) currentInteractable.TriggerHardInteraction();
             });
     }

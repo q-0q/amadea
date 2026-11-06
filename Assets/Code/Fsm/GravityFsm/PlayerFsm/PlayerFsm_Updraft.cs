@@ -11,7 +11,7 @@ public partial class PlayerFsm
         
         var bobOffset = Mathf.Lerp(5, -5f, Mathf.InverseLerp(-1f, 1f, Mathf.Sin(Time.time * 2.5f)));
 
-        float targetYVelocity = _playerInput.actions["Jump"].IsPressed() ? 25f : -30f;
+        float targetYVelocity = _playerInput.actions["Jump"].IsPressed() || true ? 25f : -30f;
         targetYVelocity = Mathf.Lerp(targetYVelocity, -30f,
             Mathf.InverseLerp(UpdraftDuration - 2f, UpdraftDuration, TimeInCurrentState()));
         

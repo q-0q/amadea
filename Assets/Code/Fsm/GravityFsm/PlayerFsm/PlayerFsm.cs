@@ -158,6 +158,8 @@ public partial class PlayerFsm : GravityFsm
         public static int WalkToGenericInteractable;
         public static int FaceCurrentInteractable;
 
+        public static int GravityGunTravel;
+
 
 
     }
@@ -751,6 +753,11 @@ public partial class PlayerFsm : GravityFsm
             DolphinDOnUpdate();
         }
 
+        if (Machine.IsInState(PlayerFsmState.GravityGunTravel))
+        {
+            GravityGunTravelOnUpdate();
+        }
+
 
         if (Machine.IsInState(PlayerFsmState.GroundMove))
         {
@@ -768,12 +775,12 @@ public partial class PlayerFsm : GravityFsm
             SaveSystem.WritePlayerInGamePosition(transform.position, "", transform.rotation.eulerAngles.y);
         }
         
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            transform.rotation = Quaternion.LookRotation(transform.up, -transform.forward);
-            SetUpVector(transform.up);
-
-        }
+        // if (Input.GetKeyDown(KeyCode.K))
+        // {
+        //     transform.rotation = Quaternion.LookRotation(transform.up, -transform.forward);
+        //     SetUpVector(transform.up);
+        //
+        // }
         
         HandleRaycastKill();
 

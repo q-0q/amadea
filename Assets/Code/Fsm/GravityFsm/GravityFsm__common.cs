@@ -294,12 +294,13 @@ protected Vector3 ComputeCollisionMove(Vector3 desiredMove, float yModifier = 1f
 
     public void SetUpVector(Vector3 v)
     {
+        transform.up = v;
         _customUpVector = v;
     }
 
     private void HandleUpVectorRotation()
     {
-        transform.rotation =
-            Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transform.forward, GetUpVector()),  Time.deltaTime * 15f);
+        // transform.rotation =
+        //     Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transform.forward, GetUpVector()),  Time.deltaTime * 15f);
     }
 }
