@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FMOD.Studio;
 using UnityEngine;
 
 public class Elevator : MonoBehaviour
@@ -20,12 +21,15 @@ public class Elevator : MonoBehaviour
 
     public List<string> upPositionIds;
 
+    private EventInstance _ambientInstance;
+
 
     private void Awake()
     {
         baseInteractable = BaseConsole.GetComponentInChildren<Interactable>();
         platformInteractable = PlatformConsole.GetComponentInChildren<Interactable>();
         loweredPlatformPosition = PlatformParent.position;
+        _ambientInstance = FMODUnity.RuntimeManager.CreateInstance("event:/ElevatorAmbient");
         
         BaseConsole.SetActive(false);
         PlatformConsole.SetActive(true);
@@ -56,6 +60,7 @@ public class Elevator : MonoBehaviour
     {
         baseInteractable.OnInteracted -= OnBaseInteracted;
         platformInteractable.OnInteracted -= OnPlatformInteracted;
+        _ambientInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
     
     
@@ -66,6 +71,9 @@ public class Elevator : MonoBehaviour
         PlatformConsole.SetActive(false);
         rising = true;
         falling = false;
+        
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_ambientInstance, PlatformParent.gameObject);
+        _ambientInstance.start();
     }
 
     private void OnBaseInteracted()
@@ -75,6 +83,9 @@ public class Elevator : MonoBehaviour
         
         rising = false;
         falling = true;
+        
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_ambientInstance, PlatformParent.gameObject);
+        _ambientInstance.start();
     }
 
     // Update is called once per frame
@@ -83,11 +94,21 @@ public class Elevator : MonoBehaviour
         if (!rising && !falling) return;
         var destination = rising ? loweredPlatformPosition + Vector3.up * maximumHeight : loweredPlatformPosition;
         var delta = PlatformParent.position - destination;
-        var speed = Mathf.Lerp(0f, MaximumVelocity, Mathf.InverseLerp(0f, 5f, delta.magnitude));
+        var speed = Mathf.Lerp(0f, MaximumVelocity, Mathf.InverseLerp(0f, 2f, delta.magnitude));
         
         var newPos = Vector3.MoveTowards(PlatformParent.position, destination, Time.deltaTime * speed);
+        if (delta.magnitude < 5f)
+        {
+            if (rising || falling)
+            {
+                _ambientInstance.stop(STOP_MODE.ALLOWFADEOUT);
+                
+            }; 
+        }
         if (delta.magnitude < 0.05f)
         {
+            
+            if (rising || falling) FMODUnity.RuntimeManager.PlayOneShotAttached("event:/ElevatorArrive", PlatformParent.gameObject);
             rising = false;
             falling = false;
             PlatformParent.position = destination;

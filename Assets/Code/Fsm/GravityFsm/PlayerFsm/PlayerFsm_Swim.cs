@@ -238,14 +238,14 @@ public partial class PlayerFsm
     {
         if (triggerParams is not SwimRaycastParam SwimRaycastParam) return false;
         var distance = SwimRaycastParam.surfaceDistance;
-        return distance > 3f;
+        return distance > 1f;
     }
     
     private bool IsSwimTriggerAtSurface(TriggerParams triggerParams)
     {
         if (triggerParams is not SwimRaycastParam SwimRaycastParam) return false;
         var distance = SwimRaycastParam.surfaceDistance;
-        return distance < 3f;
+        return distance < 1f;
     }
 
     public bool GetWaterDepth(out float depth, out Collider collider)

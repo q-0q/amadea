@@ -1596,6 +1596,55 @@ Transform:
   - {fileID: 573688556}
   m_Father: {fileID: 2046984710}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &97788081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 97788082}
+  - component: {fileID: 97788083}
+  m_Layer: 0
+  m_Name: CPL (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &97788082
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97788081}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 283.76, y: 36.3, z: 40.92}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1975711701}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &97788083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97788081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6afe0ab094f14d2dacfb803ede6ee220, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CustomPointLight
+  Color: {r: 0, g: 0.36078432, b: 1, a: 0}
+  distanceLerpMin: 5
+  distanceLerpMax: 50
+  distanceLerpPower: 0.5
+  preventDistanceCulling: 1
 --- !u!1 &111673808
 GameObject:
   m_ObjectHideFlags: 0
@@ -5526,6 +5575,80 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8e055830f1de477882a94dffd3ad2f1, type: 3}
+--- !u!1001 &582597108
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1106234080}
+    m_Modifications:
+    - target: {fileID: 8324820271649847205, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_Name
+      value: OuroLargeSupport (34)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -297
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 77
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -266.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f77a3cb6679904fc698df699f67fca15, type: 3}
+--- !u!4 &582597109 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+    type: 3}
+  m_PrefabInstance: {fileID: 582597108}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &586674270
 GameObject:
   m_ObjectHideFlags: 0
@@ -8638,6 +8761,80 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1007129389}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1012480384
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1106234080}
+    m_Modifications:
+    - target: {fileID: 8324820271649847205, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_Name
+      value: OuroLargeSupport (35)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -268.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 77
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -266.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f77a3cb6679904fc698df699f67fca15, type: 3}
+--- !u!4 &1012480385 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+    type: 3}
+  m_PrefabInstance: {fileID: 1012480384}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1014621969
 GameObject:
   m_ObjectHideFlags: 0
@@ -8778,13 +8975,40 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
+      propertyPath: DialogueName
+      value: 'Information Kiosk: Gyros'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].texts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
       propertyPath: dialogues.Array.data[1].texts.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
+      propertyPath: dialogues.Array.data[0].resetDialogueIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
       propertyPath: 'dialogues.Array.data[0].texts.Array.data[0]'
-      value: 'Ouro Station: information about <color=red>Gyros</color>.'
+      value: Some parts of Ouro Station make use of Gyros, which are levitating pieces
+        of mass that can be rotated omnidirectionally.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[1]'
+      value: Regular rotations can help to stabilize volatile hardware. Some Lattices
+        may have Gyros installed in them.
       objectReference: {fileID: 0}
     - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
@@ -8798,10 +9022,30 @@ PrefabInstance:
       value: Regular rotations can help to stabilize volatile hardware. Some Lattices
         may have Gyros installed in them.
       objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].advanceDialogueIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4560894215602923865, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: DialogueName
+      value: 'Information Kiosk: Solar Exhaust'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].texts.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
@@ -8810,8 +9054,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
+      propertyPath: dialogues.Array.data[0].resetDialogueIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
       propertyPath: 'dialogues.Array.data[0].texts.Array.data[0]'
-      value: 'Ouro Station: information about <color=red>Solar Exhaust</color>.'
+      value: Due to variations in workload and components, certain Hardlight Lattices
+        may produce Solar Exhaust as a byproduct.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[1]'
+      value: Once these Lattices are operational, Solar Exhaust will be emitted by
+        projection ports, which may crystallize into photovoltaic artifacts.
       objectReference: {fileID: 0}
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
@@ -8830,6 +9086,11 @@ PrefabInstance:
       propertyPath: 'dialogues.Array.data[1].texts.Array.data[2]'
       value: Light Exhaust artifacts are unpredictable. Caution is advised in their
         proximity.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].advanceDialogueIndex
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9570,6 +9831,80 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1077691918}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1080344180
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1106234080}
+    m_Modifications:
+    - target: {fileID: 8324820271649847205, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_Name
+      value: OuroLargeSupport (32)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -297
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 77
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -293.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f77a3cb6679904fc698df699f67fca15, type: 3}
+--- !u!4 &1080344181 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+    type: 3}
+  m_PrefabInstance: {fileID: 1080344180}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1088756962
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10041,6 +10376,10 @@ Transform:
   - {fileID: 68310541}
   - {fileID: 24709442}
   - {fileID: 2093788830}
+  - {fileID: 1080344181}
+  - {fileID: 1210229122}
+  - {fileID: 582597109}
+  - {fileID: 1012480385}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1111714853
@@ -10805,6 +11144,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4548335598939810948, guid: 7d30d2cc9e7f642b1b3c3c4e3ca2165f,
     type: 3}
   m_PrefabInstance: {fileID: 1202603276}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1210229121
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1106234080}
+    m_Modifications:
+    - target: {fileID: 8324820271649847205, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_Name
+      value: OuroLargeSupport (33)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -268.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 77
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -293.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f77a3cb6679904fc698df699f67fca15, type: 3}
+--- !u!4 &1210229122 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8931715769064111173, guid: f77a3cb6679904fc698df699f67fca15,
+    type: 3}
+  m_PrefabInstance: {fileID: 1210229121}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1220117392
 GameObject:
@@ -13528,13 +13941,14 @@ MonoBehaviour:
       a fortune!
     - ...
     - ...Oh right. I said I would give you something for helping me, didn't I?
-    - Erm... here. Take this?
+    - Of course. There is nothing in this world more sacred than a transactional
+      relationship. Take this!
     advanceDialogueIndex: 1
     resetDialogueIndex: 0
     canvasDelayOffset: 0
   - texts:
-    - That there bandana is a noble symbol of the privateering life. I do NOT bestow
-      it upon you lightly!
+    - That there pauldron is a noble symbol of the privateer's way of life. I do
+      NOT bestow it upon you lightly!
     - Wear it with pride!
     - Or don't. I honestly don't care!
     advanceDialogueIndex: 1
@@ -20118,6 +20532,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 833975346347233648, guid: 7ca548f80e0954fd7b1e7beda817b941,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 986079203539962984, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_Intensity
@@ -20157,6 +20576,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.000000039341952
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126013244206111311, guid: 7ca548f80e0954fd7b1e7beda817b941,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1295049107365427042, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
@@ -20221,7 +20645,7 @@ PrefabInstance:
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 131.63
       objectReference: {fileID: 0}
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
@@ -20713,6 +21137,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2668223030709866733, guid: 7ca548f80e0954fd7b1e7beda817b941,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2682440998623868798, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -21168,6 +21597,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -38.08751
       objectReference: {fileID: 0}
+    - target: {fileID: 5189988573058660654, guid: 7ca548f80e0954fd7b1e7beda817b941,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5319489160896975724, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.data[1].Position.y
@@ -21442,6 +21876,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6028231064976002685, guid: 7ca548f80e0954fd7b1e7beda817b941,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6038012085533191903, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
@@ -21863,6 +22302,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7834235780680507848, guid: 7ca548f80e0954fd7b1e7beda817b941,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8102452668407260546, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -22037,6 +22481,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.data[3].Rotation.value.z
       value: -0.31035867
+      objectReference: {fileID: 0}
+    - target: {fileID: 8466640569878687982, guid: 7ca548f80e0954fd7b1e7beda817b941,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8509326867950349199, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
@@ -22228,6 +22677,11 @@ PrefabInstance:
       propertyPath: m_Splines.Array.data[0].m_Knots.Array.data[5].Rotation.value.z
       value: -0.6586741
       objectReference: {fileID: 0}
+    - target: {fileID: 8696767978703816902, guid: 7ca548f80e0954fd7b1e7beda817b941,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8699945810769143770, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -22247,6 +22701,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8933556712294892466, guid: 7ca548f80e0954fd7b1e7beda817b941,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9004800657262591341, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
@@ -26402,6 +26861,7 @@ Transform:
   m_Children:
   - {fileID: 1428098111}
   - {fileID: 216170608}
+  - {fileID: 97788082}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1976685267
@@ -27606,13 +28066,46 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
+      propertyPath: DialogueName
+      value: 'Information Kiosk: Calibration Drones'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].texts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
       propertyPath: dialogues.Array.data[1].texts.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
+      propertyPath: dialogues.Array.data[0].resetDialogueIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
       propertyPath: 'dialogues.Array.data[0].texts.Array.data[0]'
-      value: 'Ouro Station: information about <color=red>Calibration Drones</color>.'
+      value: Calibration Drones are Station administrative tools capable of recalibrating
+        Hardlight Lattices.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[1]'
+      value: The Drones emit an ultra-low-frequency pulse that is capable of resolving
+        Lattice nodes that are in error states.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[2]'
+      value: By resolving all nodes, the Drone can recalibrate the entire Hardlight
+        Lattice.
       objectReference: {fileID: 0}
     - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
@@ -27632,6 +28125,26 @@ PrefabInstance:
       value: By resolving all nodes, the Drone can recalibrate the entire Hardlight
         Lattice.
       objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].advanceDialogueIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: DialogueName
+      value: 'Information Kiosk: Hardlight Lattices'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].texts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
       propertyPath: dialogues.Array.data[1].texts.Array.size
@@ -27639,8 +28152,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
+      propertyPath: dialogues.Array.data[0].resetDialogueIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
       propertyPath: 'dialogues.Array.data[0].texts.Array.data[0]'
-      value: 'Ouro Station: information about <color=red>Hardlight Lattices</color>.'
+      value: Hardlight Lattices are the fundamental photovoltaic production units
+        of Ouro Station's hardlight supply chain.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[1]'
+      value: Lattices subject raw incoming light to a series of reflectance inversions,
+        converting it into a form that is usable by hardlight systems.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[2]'
+      value: Hardlight Lattices must be carefully calibrated to ensure the inversion
+        passes are precise.
       objectReference: {fileID: 0}
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
@@ -27659,6 +28190,11 @@ PrefabInstance:
       propertyPath: 'dialogues.Array.data[1].texts.Array.data[2]'
       value: Hardlight Lattices must be carefully calibrated to ensure the inversion
         passes are precise.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].advanceDialogueIndex
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28947,13 +29483,40 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
+      propertyPath: DialogueName
+      value: 'Information Kiosk: Hardlight Cores'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].texts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
       propertyPath: dialogues.Array.data[1].texts.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
+      propertyPath: dialogues.Array.data[0].resetDialogueIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
       propertyPath: 'dialogues.Array.data[0].texts.Array.data[0]'
-      value: 'Ouro Station: information about <color=red>Hardlight Cores</color>.'
+      value: Ouro Station's most critical piece of hardware is its Hardlight Core,
+        which consolidates the output of the entire Station into a single stream.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[1]'
+      value: The Hardlight Core is dependent on Hardlight Lattices. Disruptions in
+        the Lattices subsequently will interrupt the Core's hardlight production.
       objectReference: {fileID: 0}
     - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
@@ -28967,10 +29530,25 @@ PrefabInstance:
       value: The Hardlight Core is dependent on Hardlight Lattices. Disruptions in
         the Lattices subsequently will interrupt the Core's hardlight production.
       objectReference: {fileID: 0}
+    - target: {fileID: 4231613405445098863, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].advanceDialogueIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: DialogueName
+      value: 'Information Kiosk: Ouro Station'
+      objectReference: {fileID: 0}
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
       propertyPath: dialogues.Array.size
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].texts.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
@@ -28981,6 +29559,11 @@ PrefabInstance:
         type: 3}
       propertyPath: dialogues.Array.data[2].texts.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].resetDialogueIndex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
@@ -28995,7 +29578,21 @@ PrefabInstance:
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
       propertyPath: 'dialogues.Array.data[0].texts.Array.data[0]'
-      value: 'Ouro Station: information about <color=red>Ouro Station</color>.'
+      value: Welcome to Ouro Station. This facility is the world's principal solar
+        intake, supplying energy and hardlight functionality to various systems across
+        the Mountain.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[1]'
+      value: Ouro Station's hardlight output supports the operation of Hardlight
+        Bridges, which connect disparate regions of the Mountain.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[2]'
+      value: The Station thus plays a critical role in keeping the upper Mountain
+        regions accessible from the lower Steppe.
       objectReference: {fileID: 0}
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}
@@ -29020,6 +29617,11 @@ PrefabInstance:
         type: 3}
       propertyPath: 'dialogues.Array.data[2].texts.Array.data[0]'
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].advanceDialogueIndex
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7469352857668880163, guid: 468af67931aaa4fbb84a1e621067c322,
         type: 3}

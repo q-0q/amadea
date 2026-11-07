@@ -121,7 +121,7 @@ public class PlayerManaIndicator : MonoBehaviour
         }
         else
         {
-            var a = 1f - Mathf.InverseLerp(_maxManaTime + 0.6f, _maxManaTime + 0.7f, Time.time);
+            var a = 1f - Mathf.InverseLerp(_maxManaTime + 0.3f, _maxManaTime + 0.4f, Time.time);
             _hullRenderer.material.SetFloat("_Alpha", a);
             _indicatorRenderer.material.SetFloat("_Alpha", a);
         }

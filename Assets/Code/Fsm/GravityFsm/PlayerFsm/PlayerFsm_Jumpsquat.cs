@@ -15,7 +15,7 @@ public partial class PlayerFsm
                 OnPlayerFootstep();
                 
                 PlaySlipSound();
-                if (!Machine.IsInState(PlayerFsmState.WallrunJumpsquat)) PlayerManaManager.Singleton.RestoreAll();
+                // if (!Machine.IsInState(PlayerFsmState.WallrunJumpsquat)) PlayerManaManager.Singleton.RestoreAll();
 
             })
             .OnExitFrom(FsmTrigger.Timeout, _ =>

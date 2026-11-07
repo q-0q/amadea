@@ -11315,8 +11315,8 @@ MonoBehaviour:
     - ...How does one confront the <color=#ffb2ca>Visia</color> that bind the golden
       gate?
     - ...What a question.
-    - 'The answer: continue the path you have already chosen. Push yourself to the
-      ends of the world. Seek high and low. Be tested.'
+    - Continue the path you have already chosen. Push yourself to the ends of the
+      world. Seek high and low. Be tested.
     - Fate has a way of finding itself, in the end...
     advanceDialogueIndex: 0
     resetDialogueIndex: 0
@@ -11928,7 +11928,7 @@ Transform:
   m_GameObject: {fileID: 906352285}
   serializedVersion: 2
   m_LocalRotation: {x: 0.001620035, y: -0.99668384, z: -0.0019144645, w: 0.08133339}
-  m_LocalPosition: {x: 576.1, y: -1.2, z: 869.3}
+  m_LocalPosition: {x: 576.1, y: -12.7, z: 869.3}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -13646,17 +13646,17 @@ PrefabInstance:
     - target: {fileID: 9205110751473149727, guid: 999c54c2553d1403199c0cf689b5ab87,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 581.39246
+      value: 580.6
       objectReference: {fileID: 0}
     - target: {fileID: 9205110751473149727, guid: 999c54c2553d1403199c0cf689b5ab87,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 52.42113
+      value: 39.5
       objectReference: {fileID: 0}
     - target: {fileID: 9205110751473149727, guid: 999c54c2553d1403199c0cf689b5ab87,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 900.8341
+      value: 899.9
       objectReference: {fileID: 0}
     - target: {fileID: 9205110751473149727, guid: 999c54c2553d1403199c0cf689b5ab87,
         type: 3}
@@ -14328,7 +14328,7 @@ Transform:
   m_GameObject: {fileID: 1096634934}
   serializedVersion: 2
   m_LocalRotation: {x: -0.0016007555, y: -0.99997133, z: 0.0016128005, w: -0.0072203493}
-  m_LocalPosition: {x: 514.6, y: -111.2, z: 867.5}
+  m_LocalPosition: {x: 514.6, y: -99.5, z: 867.5}
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -22652,8 +22652,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
         type: 3}
+      propertyPath: dialogues.Array.data[0].texts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
+        type: 3}
       propertyPath: 'dialogues.Array.data[0].texts.Array.data[0]'
-      value: Green is not next to blue.
+      value: Visia Mana, Dream of Logic.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[1]'
+      value: Reason was set to follow deduction. Through assembly of abstraction,
+        the world is made limitless.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[2]'
+      value: <i>(Second Law of the Holy Chromatic, green is not next to blue.)</i>
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -33461,8 +33477,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
         type: 3}
+      propertyPath: dialogues.Array.data[0].texts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
+        type: 3}
       propertyPath: 'dialogues.Array.data[0].texts.Array.data[0]'
-      value: Blue lies adjacent to red.
+      value: Visia Pin, Dream of Life.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[1]'
+      value: The world was made to osberve itself.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[2]'
+      value: <i>(Third Law of the Holy Chromatic, blue lies adjacent to red.)</i>
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -34365,7 +34396,7 @@ PrefabInstance:
     - target: {fileID: 9205110751473149727, guid: 999c54c2553d1403199c0cf689b5ab87,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -34.26
+      value: -23.3
       objectReference: {fileID: 0}
     - target: {fileID: 9205110751473149727, guid: 999c54c2553d1403199c0cf689b5ab87,
         type: 3}
@@ -34847,6 +34878,27 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LargeTextTablet
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
+        type: 3}
+      propertyPath: dialogues.Array.data[0].texts.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[0]'
+      value: Visia Weryx, Dream of Stone.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[1]'
+      value: Fire churns in the heart of the Mountain. The blood of the land is set
+        to boil.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9037162940378883555, guid: 930ebc46bda574f84ad966f2887f6c7c,
+        type: 3}
+      propertyPath: 'dialogues.Array.data[0].texts.Array.data[2]'
+      value: <i>(First Law of the Holy Chromatic, red and purple surround the rest.)</i>
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

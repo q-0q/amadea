@@ -22835,7 +22835,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: found
+  m_text: new item found
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -26383,7 +26383,7 @@ MonoBehaviour:
   padInteract: {fileID: 21300000, guid: e22d248613c1c494b86dc3251fdfbbfb, type: 3}
   padInventory: {fileID: 21300000, guid: 7a79d647e638648638bb607b06fdaa17, type: 3}
   padMap: {fileID: 21300000, guid: 11dff937775d74bb29f1f2e8d869b9fa, type: 3}
-  padTrick: {fileID: 21300000, guid: 13d99d9a89c904af7bd55bf6d1a66e5e, type: 3}
+  padTrick: {fileID: 21300000, guid: 34b720d40f9a441efa2168972ad3a264, type: 3}
   padCamera: {fileID: 21300000, guid: 50b1f11e715734454918ab9e2c8bc0e5, type: 3}
 --- !u!114 &6387064752787119597
 MonoBehaviour:

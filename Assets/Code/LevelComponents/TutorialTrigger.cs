@@ -16,9 +16,12 @@ public class TutorialTrigger : MonoBehaviour
     public string playerHideState = "";
     private int playerHideStateInt = -1;
     private bool active = false;
+    private const float SoundCooldown = 7f;
+    private float _soundTimer;
 
     private void Start()
     {
+        _soundTimer = 100f;
         FieldInfo field = typeof(PlayerFsm.PlayerFsmState).GetField(
             playerHideState,
             BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
@@ -37,12 +40,15 @@ public class TutorialTrigger : MonoBehaviour
             TutorialCanvas.Singleton.HideTutorialText();
             active = false;
         }
+
+        _soundTimer += Time.deltaTime;
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (PlayerFsm.Singleton.Machine.IsInState(playerHideStateInt)) return;
-        TutorialCanvas.Singleton.ShowTutorialText(text, action);
+        TutorialCanvas.Singleton.ShowTutorialText(text, action, _soundTimer > SoundCooldown);
+        _soundTimer = 0f;
         active = true;
     }
 

@@ -55,14 +55,14 @@ public class TutorialCanvas : MonoBehaviour
         _open = false;
     }
 
-    public void ShowTutorialText(string text, string action)
+    public void ShowTutorialText(string text, string action, bool sound = true)
     {
         if (CutsceneManager.Singleton.IsCutsceneTutorialCanvasHidden()) return;
         
         
         this.action = action;
         Image.gameObject.SetActive(action != "");
-        if (!_open)
+        if (!_open && sound)
         {
             FMODUnity.RuntimeManager.PlayOneShotAttached(
                 FMODUnity.RuntimeManager.PathToEventReference("event:/TutorialPrompt"), gameObject);

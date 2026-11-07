@@ -193,7 +193,7 @@ public static class KeyItemRegistry
             description = "A Y-shaped, petrified branch of an old, strange tree.\n\nWhen the split ends are held in both hands, the branch appears to point itself towards some unknown destination.",
             MeshGameObject = Resources.Load("Prefab/KeyItems/UrnFragment") as GameObject,
             Sprite = null,
-            GetUseDescription = () => "Not implemented yet!",
+            GetUseDescription = () => "Reveals nearby fruit pieces (not implemented yet)",
             GetCanUse = () => false,
             onUse = () =>
             {
@@ -265,11 +265,11 @@ public static class KeyItemRegistry
         
         KeyItemRegistrations.Add("Bandana", new KeyItemRegistration()
         {
-            displayName = "Bandana",
-            description = "A coarsely spun cotton kerchief, popularly worn by merchants and privateers.\n\nGiven by Makepeace Marlow for helping him salvage old tech in Ouro Station.",
+            displayName = "Pauldron",
+            description = "A sturdy piece of leather shoulder armor, popularly worn by merchants and privateers.\n\nGiven by Makepeace Marlow for helping him salvage old tech in Ouro Station.",
             MeshGameObject = Resources.Load("Prefab/KeyItems/UrnFragment") as GameObject,
             Sprite = null,
-            GetUseDescription = () => "Puts on the bandana.",
+            GetUseDescription = () => "Equips the pauldron (not implemented yet)",
             GetCanUse = () => false,
             onUse = () =>
             {

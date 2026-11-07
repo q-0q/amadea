@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,11 +18,13 @@ public class PlayerManaManager : MonoBehaviour
 
     public static event Action OnPlayerMaxMana;
     public static event Action OnPlayerConsumedMana;
+    private bool _isRestoring;
 
     private void Awake()
     {
         Singleton = this;
         _flipHolder = transform.Find("FlipHolder");
+        _isRestoring = false;
     }
 
     public int GetCurrentAvailableMana()
@@ -90,6 +93,7 @@ public class PlayerManaManager : MonoBehaviour
     public void Consume()
     {
         if (_currentMana < 1) return;
+        _isRestoring = false;
         OnPlayerConsumedMana?.Invoke();
         _manaIndicators[_currentMana - 1].Consume();
         _replenishTimer = 0f;
@@ -127,12 +131,26 @@ public class PlayerManaManager : MonoBehaviour
     {
         if (PlayerFsm.Singleton.GetIsTinsicaCoyoteStatus()) return;
         if (_currentMana == _maxMana) return;
-        
-        foreach (var indicator in _manaIndicators)
+        if (_isRestoring) return;
+
+        StartCoroutine(Coroutine());
+        IEnumerator Coroutine()
         {
-            indicator.Replenish();
+            _isRestoring = true;
+
+            for (int i = _currentMana; i < _maxMana; i++)
+            {
+                if (!_isRestoring) yield break;
+                _manaIndicators[i].Replenish();
+                _currentMana++;
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            if (!_isRestoring) yield break;
             _currentMana = _maxMana;
             OnPlayerMaxMana?.Invoke();
+            _isRestoring = false;
         }
+
     }
 }

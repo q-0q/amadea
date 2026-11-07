@@ -19345,22 +19345,22 @@ PrefabInstance:
     - target: {fileID: 1055033216548522361, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9549338
       objectReference: {fileID: 0}
     - target: {fileID: 1055033216548522361, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.29681906
       objectReference: {fileID: 0}
     - target: {fileID: 1055033216548522361, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.000000057662117
       objectReference: {fileID: 0}
     - target: {fileID: 1055033216548522361, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.000000039341952
       objectReference: {fileID: 0}
     - target: {fileID: 1126013244206111311, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
@@ -19500,7 +19500,7 @@ PrefabInstance:
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 131.63
       objectReference: {fileID: 0}
     - target: {fileID: 1582768944829749915, guid: 7ca548f80e0954fd7b1e7beda817b941,
         type: 3}
@@ -26526,14 +26526,12 @@ MonoBehaviour:
     - '<<// :: SPEECH SYNTHESIS HASH f92c69d0dcd5287367ced9b5d3d679792b2fdca408292e'
     - Runner. I am only able to contact you sparingly. I will keep communication
       brief.
-    - 'Know this: the Mountain is deeply layered in technological systems originating
-      from various eras, all of them long past.'
-    - Land and machine are deeply intertwined, saturating one another. To master
-      one, you must master the other.
-    - And to master the Mountain... is to understand between machine and the Mountain
-      is no difference at all.
-    - You are looking at a Hardlight Bridge. If it was active, you could cross chasm
-      into the valley, on to the Summit.
+    - 'Know this: the land is deeply layered in technologies originating from various
+      eras, all of them long past.'
+    - Mountain and machine are deeply intertwined in a symbiosis. To master one is
+      to master the other.
+    - You are looking at a Hardlight Bridge. If it was active, you could cross the
+      chasm into the valley, on to the Summit.
     - To access the <color=#6EEDFF>Terminals</color> at higher elevation, you must
       find a way to enable the Steppe's Hardlight runtime.
     - This is all of the information I can share with you. Goodbye.
@@ -28481,7 +28479,7 @@ PrefabInstance:
     - target: {fileID: 9181575843607422606, guid: 688fb49c496a24378a8803ec5b6f68e6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 128.19
+      value: 128.4
       objectReference: {fileID: 0}
     - target: {fileID: 9181575843607422606, guid: 688fb49c496a24378a8803ec5b6f68e6,
         type: 3}
@@ -28491,7 +28489,7 @@ PrefabInstance:
     - target: {fileID: 9181575843607422606, guid: 688fb49c496a24378a8803ec5b6f68e6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 346.55
+      value: 343.6
       objectReference: {fileID: 0}
     - target: {fileID: 9181575843607422606, guid: 688fb49c496a24378a8803ec5b6f68e6,
         type: 3}
