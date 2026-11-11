@@ -343,7 +343,7 @@ public class KeyItem : MonoBehaviour
             while (t < d)
             {
                 var w = Util.SmoothLerp01(t / d);
-                transform.position = Util.LerpWithArc(start, end, w, 1f);
+                transform.position = Util.LerpWithArc(start, end, w, 1f, Vector3.up);
                 // _meshTransform.localPosition = Vector3.Lerp(_meshTransform.localPosition, Vector3.zero, w);
                 _particleSystem.transform.position = transform.position;
                 t += Time.deltaTime;

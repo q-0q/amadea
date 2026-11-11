@@ -125,7 +125,7 @@ public class Mote : MonoBehaviour
             {
                 var w = Util.SmoothLerp01(t / d);
 
-                _curvedStarRenderer.transform.position = Util.LerpWithArc(start, PlayerFsm.Singleton.transform.position + Vector3.up * 2f, w, 2f);
+                _curvedStarRenderer.transform.position = Util.LerpWithArc(start, PlayerFsm.Singleton.transform.position + Vector3.up * 2f, w, 2f, Vector3.up);
                 t += Time.deltaTime;
                 yield return null;
             }

@@ -59,7 +59,7 @@ public partial class CrabGuardFsm
             while (t < d)
             {
                 var w = t / d;
-                transform.position = Util.LerpWithArc(origin, destination, w, 4f);
+                transform.position = Util.LerpWithArc(origin, destination, w, 4f, Vector3.up);
                 t += Time.deltaTime;
                 yield return null;
             }

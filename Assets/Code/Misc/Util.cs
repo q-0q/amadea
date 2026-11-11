@@ -27,7 +27,7 @@ namespace Code.Misc
             return t * t * (3f - 2f * t);
         }
         
-        public static Vector3 LerpWithArc(Vector3 start, Vector3 end, float t, float height)
+        public static Vector3 LerpWithArc(Vector3 start, Vector3 end, float t, float height, Vector3 arcDirection)
         {
             // Clamp t for safety
             t = Mathf.Clamp01(t);
@@ -39,7 +39,7 @@ namespace Code.Misc
             float arc = 4f * height * t * (1f - t);
 
             // Apply arc in the world-up direction
-            position += Vector3.up * arc;
+            position += arcDirection * arc;
 
             return position;
         }
