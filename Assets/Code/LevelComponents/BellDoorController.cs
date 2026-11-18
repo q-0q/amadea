@@ -17,7 +17,6 @@ public class BellDoorController : MonoBehaviour
     
     private float _playerLookAwayTimer;
     private const float LookawayTime = 0.75f;
-    public int bellRequirement = 2;
 
     private List<GameObject> _lightObjects;
 
@@ -48,7 +47,8 @@ public class BellDoorController : MonoBehaviour
         var lightPrefab = Resources.Load("Prefab/BellDoorLight") as GameObject;
         var lightHolder = transform.Find("LightHolder");
         _lightObjects = new List<GameObject>();
-        
+
+        var bellRequirement = 3;
         for (int i = 0; i < bellRequirement; i++)
         {
             var angle = lightPlacementSeparationAngle * (i - (bellRequirement - 1) * 0.5f);
@@ -86,19 +86,19 @@ public class BellDoorController : MonoBehaviour
 
     private void UpdatePlayerBellStatus()
     {
-        var playerBellCount = SaveSystem.LoadCachedSaveData().bellCount;
+        
+        var playerBellCount = 0;
+        if (SaveSystem.GetPersistentEventCompleted(BellController.FirstBellEvent)) playerBellCount++;
+        if (SaveSystem.GetPersistentEventCompleted(BellController.SecondBellEvent)) playerBellCount++;
+        if (SaveSystem.GetPersistentEventCompleted(BellController.ThirdBellEvent)) playerBellCount++;
+        
         for (int i = 0; i < _lightObjects.Count; i++)
         {
             var weight = i < playerBellCount ? 1f : 0f;
             _lightObjects[i].transform.Find("Mesh").Find("Tetra").GetComponent<Renderer>().material.SetFloat("_Weight", weight);
             _lightObjects[i].transform.Find("Mesh").Find("Halo").GetComponent<Renderer>().material.SetFloat("_Weight", weight);
         }
-
-        if (playerBellCount >= bellRequirement)
-        {
-            _interactable.SetEnabled(true);
-            _readyInstance.start();
-        }
+        
     }
 
     // Update is called once per frame
@@ -137,7 +137,6 @@ public class BellDoorController : MonoBehaviour
         _interactable.SetEnabled(false);
         
         if (!DontWritePersistentEvent) SaveSystem.WritePersistentEvent(persistentEvent);
-        SaveSystem.ReduceBellCount(bellRequirement);
 
         StartCoroutine(Coroutine());
         IEnumerator Coroutine()

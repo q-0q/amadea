@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using FMOD.Studio;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using Util = Code.Misc.Util;
 
 public class Talisman : MonoBehaviour
@@ -19,6 +20,10 @@ public class Talisman : MonoBehaviour
     private CustomPointLight _light;
 
     private bool _collected;
+
+    private EventInstance _ambientInstance;
+
+    private Vector3 _previousPosition;
     
     public void MoveToDestination()
     {
@@ -57,7 +62,16 @@ public class Talisman : MonoBehaviour
         OrbitAroundAxis( PlayerFsm.Singleton.transform.position, PlayerFsm.Singleton.GetUpVector(), 3f, 10f, 100f);
     }
 
-// Add this field to your MonoBehaviour class to track the rotation continuously
+    private void LateUpdate()
+    {
+        var delta = _previousPosition - transform.position;
+        var speed = delta.magnitude / Time.deltaTime;
+
+        _ambientInstance.setParameterByName("Speed", Mathf.InverseLerp(0f, 35f, speed));
+        _previousPosition = transform.position;
+    }
+
+    // Add this field to your MonoBehaviour class to track the rotation continuously
     private float currentAngle = 0f;
 
     public void OrbitAroundAxis(Vector3 center, Vector3 axis, float radius, float lerpSpeed, float orbitSpeed)
@@ -92,6 +106,11 @@ public class Talisman : MonoBehaviour
         _triggerProxy = GetComponentInChildren<TriggerProxy>();
         _collected = false;
         _light = GetComponentInChildren<CustomPointLight>();
+
+        _ambientInstance = FMODUnity.RuntimeManager.CreateInstance("event:/TalismanAmbience");
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(_ambientInstance, gameObject);
+        _ambientInstance.start();
+        _ambientInstance.setTimelinePosition(Random.Range(0, 1500));
     }
 
     private void OnEnable()
@@ -114,6 +133,7 @@ public class Talisman : MonoBehaviour
     {
         SaveSystem.WritePersistentEvent(GetPersistentEvent());
         Util.InvokeSphereEffect(transform.position - Vector3.up, Vector3.one * 6f, 1.25f, 0.8f, -0.5f);
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/TalismanSpawn", gameObject);
         MakeCollected();
     }
 
@@ -123,6 +143,8 @@ public class Talisman : MonoBehaviour
         _triggerProxy.OnTriggerProxyStay -= OnTrigger;
         BellController.OnTalismanRing -= OnTalismanRing;
         BellController.OnTalismanRingComplete -= OnTalismanRingComplete;
+        
+        _ambientInstance.stop(STOP_MODE.ALLOWFADEOUT);
     }
 
     private void OnTalismanMove(BellController obj)
