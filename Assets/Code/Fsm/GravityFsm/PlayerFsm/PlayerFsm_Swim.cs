@@ -136,9 +136,14 @@ public partial class PlayerFsm
             // }, 2)
             .OnEntry(_ =>
             {
-                if (YVelocity > -5f) return;
+                if (YVelocity > -5f)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShotAttached(splashFmodEvent, gameObject);
+                    return;
+                };
                 if (SwimRaycast(out var swimRaycastParam))
                 {
+                    _splashParticles.transform.up = GetUpVector();
                     _splashParticles.transform.position = swimRaycastParam.point;
                     _splashParticles.Play();
                     FMODUnity.RuntimeManager.PlayOneShotAttached(splashFmodEvent, _splashParticles.gameObject);
@@ -189,7 +194,7 @@ public partial class PlayerFsm
 
     private bool SwimRaycast(out SwimRaycastParam swimRaycastParam)
     {
-
+        
         swimRaycastParam = new SwimRaycastParam();
         WaterHazardType.Type HazardHelper(Vector3 position, GameObject waterObject)
         {
@@ -224,6 +229,10 @@ public partial class PlayerFsm
             Debug.DrawRay(swimRaycastParam.point, GetUpVector() * 3f, Color.orange);
             return true;
         }
+        else
+        {
+            Debug.DrawRay(transform.position + GetUpVector() * 3f, GetUpVector() * 6f, Color.purple);
+        }
 
         return false;
     }
@@ -249,84 +258,146 @@ public partial class PlayerFsm
     }
 
     public bool GetWaterDepth(out float depth, out Collider collider)
+{
+    var point = transform.position;
+    var upDirection = GetUpVector().normalized;
+    var radius = 1.5f;
+    var waterTriggerLayer = LayerMask.GetMask("Water");
+
+    depth = float.MinValue;
+    collider = null;
+
+    Collider[] overlappingColliders =
+        Physics.OverlapSphere(point, radius, waterTriggerLayer, QueryTriggerInteraction.Collide);
+
+    if (overlappingColliders.Length > 0)
     {
-
-        var point = transform.position;
-        var upDirection = GetUpVector();
-        var radius = 3f;
-        var waterTriggerLayer = LayerMask.GetMask("Water");
-
-        depth = float.MinValue;
-
-        Collider[] overlappingColliders =
-            Physics.OverlapSphere(point, radius, waterTriggerLayer, QueryTriggerInteraction.Collide);
-
-        if (overlappingColliders.Length > 0)
+        foreach (Collider waterCollider in overlappingColliders)
         {
-            // Filter out side-entry false positives. 
-            // An OverlapSphere can touch a side wall even if the point is above the water's surface.
-            foreach (Collider waterCollider in overlappingColliders)
+            // 1. Get accurate height range along the custom upDirection (fixes world-space AABB bounds bug)
+            GetColliderHeightRange(waterCollider, upDirection, out float minHeight, out float maxHeight);
+            float pointHeight = Vector3.Dot(point, upDirection);
+
+            // If our point is vertically outside this specific collider's top or bottom along upDirection, ignore it.
+            if (pointHeight > maxHeight || pointHeight < minHeight)
             {
-                Bounds bounds = waterCollider.bounds;
-                float pointHeight = Vector3.Dot(point, upDirection);
-                float topHeight = Vector3.Dot(bounds.max, upDirection);
-                float bottomHeight = Vector3.Dot(bounds.min, upDirection);
-
-                // If our point is vertically outside this specific collider's top or bottom, 
-                // it's a side-entry illusion—ignore it and check below.
-                if (pointHeight > topHeight || pointHeight < bottomHeight)
-                {
-                    continue;
-                }
-
-                // Genuinely inside this volume. Cast against this specific collider to find the surface.
-                Vector3 safeTopOrigin = point + (upDirection * (bounds.extents.magnitude + 10f));
-                RaycastHit hit;
-                collider = waterCollider;
-
-                if (waterCollider.Raycast(new Ray(safeTopOrigin, -upDirection), out hit, bounds.extents.magnitude * 4f))
-                {
-                    depth = Vector3.Dot(hit.point - point, upDirection);
-                    return true;
-                }
-                
-                depth = 0f; // Fallback if surface raycast is at the exact edge
-                return false;
+                continue;
             }
-        }
 
-        // 2. Point is NOT inside (or it was a side-entry). Check if it is ABOVE a trigger.
-        // SphereCastAll casts a thick ray with your radius and returns all hits.
-        
-        
-        
-        
-        
-        RaycastHit[] downHits = Physics.SphereCastAll(point + (upDirection * radius), radius, -upDirection, Mathf.Infinity, waterTriggerLayer,
-            QueryTriggerInteraction.Collide);
+            collider = waterCollider;
+            Vector3 colCenter = waterCollider.bounds.center;
+            float hCenter = Vector3.Dot(colCenter, upDirection);
+            
+            // 2. Cast down from safely above the collider along -upDirection to find the exact surface
+            Vector3 safeTopOrigin = colCenter + upDirection * ((maxHeight - hCenter) + 5f);
+            float rayDistance = (maxHeight - minHeight) + 10f;
+            RaycastHit hit;
 
-        if (downHits.Length > 0)
-        {
-            // Sort hits by distance so the closest surface immediately below is evaluated first
-            System.Array.Sort(downHits, (a, b) => a.distance.CompareTo(b.distance));
-            RaycastHit nearestHit = downHits[0];
-            collider = nearestHit.collider;
-            float distanceToSurface = Vector3.Dot(point - nearestHit.point, upDirection);
-            depth = -distanceToSurface; // Negative depth means above the trigger
-
-
-            if (Physics.Raycast(point + (upDirection.normalized), -upDirection, out var envHit, Mathf.Infinity, GetEnvironmentalLayermask(),
-                    QueryTriggerInteraction.Ignore))
+            if (waterCollider.Raycast(new Ray(safeTopOrigin, -upDirection), out hit, rayDistance))
             {
-                print(envHit.distance + ", " + distanceToSurface);
-                if (envHit.distance - 1f < distanceToSurface) return false;
+                depth = Vector3.Dot(hit.point - point, upDirection);
+                return true;
             }
             
+            // Fallback if surface raycast misses at the exact edge: calculate depth relative to maxHeight
+            depth = maxHeight - pointHeight;
             return true;
         }
-
-        collider = null;
-        return false;
     }
+
+    // 3. Point is NOT inside. Check if it is ABOVE a trigger using SphereCast along -upDirection.
+    RaycastHit[] downHits = Physics.SphereCastAll(
+        point + (upDirection * radius), 
+        radius, 
+        -upDirection, 
+        Mathf.Infinity, 
+        waterTriggerLayer,
+        QueryTriggerInteraction.Collide
+    );
+
+    if (downHits.Length > 0)
+    {
+        System.Array.Sort(downHits, (a, b) => a.distance.CompareTo(b.distance));
+        RaycastHit nearestHit = downHits[0];
+        collider = nearestHit.collider;
+        float distanceToSurface = Vector3.Dot(point - nearestHit.point, upDirection);
+        depth = -distanceToSurface; // Negative depth means above the trigger
+
+        if (Physics.Raycast(point + upDirection, -upDirection, out var envHit, Mathf.Infinity, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore))
+        {
+            if (envHit.distance - 1f < distanceToSurface) return false;
+        }
+        
+        return true;
+    }
+
+    return false;
+}
+
+private void GetColliderHeightRange(Collider col, Vector3 upDir, out float minHeight, out float maxHeight)
+{
+    minHeight = float.MaxValue;
+    maxHeight = float.MinValue;
+
+    if (col is BoxCollider box)
+    {
+        Vector3 ext = box.size * 0.5f;
+        for (int x = -1; x <= 1; x += 2)
+        {
+            for (int y = -1; y <= 1; y += 2)
+            {
+                for (int z = -1; z <= 1; z += 2)
+                {
+                    Vector3 localPt = new Vector3(ext.x * x, ext.y * y, ext.z * z);
+                    Vector3 worldPt = box.transform.TransformPoint(localPt + box.center);
+                    float h = Vector3.Dot(worldPt, upDir);
+                    if (h < minHeight) minHeight = h;
+                    if (h > maxHeight) maxHeight = h;
+                }
+            }
+        }
+    }
+    else if (col is SphereCollider sphere)
+    {
+        float centerH = Vector3.Dot(sphere.transform.TransformPoint(sphere.center), upDir);
+        minHeight = centerH - sphere.radius;
+        maxHeight = centerH + sphere.radius;
+    }
+    else if (col is CapsuleCollider capsule)
+    {
+        Vector3 localDir = Vector3.zero;
+        localDir[capsule.direction] = 1f;
+        float halfHeight = capsule.height * 0.5f;
+        Vector3 p1 = capsule.center + localDir * (halfHeight - capsule.radius);
+        Vector3 p2 = capsule.center - localDir * (halfHeight - capsule.radius);
+        Vector3 w1 = capsule.transform.TransformPoint(p1);
+        Vector3 w2 = capsule.transform.TransformPoint(p2);
+        
+        float h1 = Vector3.Dot(w1, upDir);
+        float h2 = Vector3.Dot(w2, upDir);
+        minHeight = Mathf.Min(h1, h2) - capsule.radius;
+        maxHeight = Mathf.Max(h1, h2) + capsule.radius;
+    }
+    else
+    {
+        // Fallback for MeshColliders: project world AABB bounds corners onto upDir
+        Bounds b = col.bounds;
+        Vector3 center = b.center;
+        Vector3 ext = b.extents;
+        for (int x = -1; x <= 1; x += 2)
+        {
+            for (int y = -1; y <= 1; y += 2)
+            {
+                for (int z = -1; z <= 1; z += 2)
+                {
+                    Vector3 corner = center + new Vector3(ext.x * x, ext.y * y, ext.z * z);
+                    float h = Vector3.Dot(corner, upDir);
+                    if (h < minHeight) minHeight = h;
+                    if (h > maxHeight) maxHeight = h;
+                }
+            }
+        }
+    }
+}
 
 }

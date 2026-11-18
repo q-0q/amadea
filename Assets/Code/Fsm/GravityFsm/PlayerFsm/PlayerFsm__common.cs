@@ -965,6 +965,14 @@ public partial class PlayerFsm
     private void UpdateShaderGlobals()
     {
         Shader.SetGlobalVector("_PlayerWorldPosition", transform.position);
+        Shader.SetGlobalVector("_PlayerUpVector", GetUpVector());
+        
+        Vector3 tangent = Vector3.Cross(GetUpVector(), Vector3.forward);
+        if (tangent.sqrMagnitude < 0.0001f)
+        {
+            tangent = Vector3.Cross(GetUpVector(), Vector3.up);
+        }
+        Shader.SetGlobalVector("_PlayerForwardVector", tangent);
 
         var shaderGrounded = Shader.GetGlobalFloat("_PlayerGrounded");
         shaderGrounded += Time.deltaTime * 5f * (Machine.IsInState(PlayerFsmState.DisplaceFoliage) ? 2f : -0.5f);

@@ -782,7 +782,7 @@ public partial class PlayerFsm : GravityFsm
         //
         // }
         
-        HandleRaycastKill();
+        // HandleRaycastKill();
 
         
 

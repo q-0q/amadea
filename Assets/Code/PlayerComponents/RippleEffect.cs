@@ -12,12 +12,12 @@ public static class DualWaterPointRegistry
 public class RippleEffect : MonoBehaviour
 {
     [Header("Ripple Settings")]
-    public int textureSize = 512;
-    [Range(0.9f, 0.995f)] public float damping = 0.98f;
-    public float speed = 0.4f;
+    public int textureSize = 2048;
+    public float damping = 0.99f;
+    public float speed = 0.5f;
     
     [Header("Wake Settings")]
-    public float wakeDecaySpeed = 2.0f; // Higher = faster fade
+    public float wakeDecaySpeed = 9f; // Higher = faster fade
     
     
     [Header("Resources")]
@@ -28,7 +28,7 @@ public class RippleEffect : MonoBehaviour
     
     [Header("Movement Settings")]
     public Transform playerTransform;
-    public float worldSize = 20f;
+    public float worldSize = 100f;
     private Vector3 lastPlayerPos;
     private Material offsetMat;
 
@@ -190,20 +190,38 @@ public class RippleEffect : MonoBehaviour
             Graphics.Blit(buffer, rt); 
         }
     
-    void ApplyWorldShift()
-    {
-        Vector3 delta = playerTransform.position - lastPlayerPos;
-        if (delta.sqrMagnitude < 0.0001f) return;
+        void ApplyWorldShift()
+        {
+            Vector3 delta = playerTransform.position - lastPlayerPos;
+            if (delta.sqrMagnitude < 0.0001f) return;
 
-        Vector2 uvOffset = new Vector2(delta.x / worldSize, delta.z / worldSize);
-        offsetMat.SetVector("_Offset", uvOffset);
+            // 1. Normalize the arbitrary up vector
+            Vector3 up = PlayerFsm.Singleton.GetUpVector().normalized;
 
-        ShiftTexture(currRT, tempRT);
-        ShiftTexture(prevRT, tempRT);
-        ShiftTexture(wakeRT, wakeTempRT); // Use wakeTempRT for the wake shift
+            // 2. Derive two orthogonal axes (Tangent and Bitangent) on the plane
+            // We use Vector3.forward as a reference, with a fallback if 'up' is parallel to it
+            Vector3 tangent = Vector3.Cross(up, Vector3.forward);
+            if (tangent.sqrMagnitude < 0.0001f)
+            {
+                tangent = Vector3.Cross(up, Vector3.up);
+            }
+            tangent.Normalize();
+    
+            Vector3 bitangent = Vector3.Cross(up, tangent);
 
-        lastPlayerPos = playerTransform.position;
-    }
+            // 3. Project the 3D movement delta onto the plane's 2D axes
+            float u = Vector3.Dot(delta, tangent);
+            float v = Vector3.Dot(delta, bitangent);
+
+            Vector2 uvOffset = new Vector2(u / worldSize, v / worldSize);
+            offsetMat.SetVector("_Offset", uvOffset);
+
+            ShiftTexture(currRT, tempRT);
+            ShiftTexture(prevRT, tempRT);
+            ShiftTexture(wakeRT, wakeTempRT);
+
+            lastPlayerPos = playerTransform.position;
+        }
 
     void ShiftTexture(RenderTexture rt)
     {
