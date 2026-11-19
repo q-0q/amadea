@@ -14,12 +14,14 @@ public partial class PlayerFsm
             .PermitIf(FsmTrigger.Timeout, PlayerFsmState.StepEnd, _ => _momentum < IdleMomentumThreshold, 1)
             // .PermitIf(FsmTrigger.Timeout, PlayerFsmState.Slide,
                 // _ => parentTransform.gameObject.layer == LayerMask.NameToLayer("ForceSlide"), 2)
-            .OnEntry(_ =>
+            .OnEntry(@params =>
             {
                 Animator.SetLayerWeight(1, 0);
                 FMODUnity.RuntimeManager.PlayOneShotAttached(landFmodEvent, gameObject);
                 PlaySlipSound();
                 OnPlayerFootstep();
+                
+                if (@params is RaycastHitParam raycastHitParam) SetParentTransform(raycastHitParam.Hit.transform);
             })
             .OnEntryFrom(GravityFsmTrigger.StartFrameGrounded, @params =>
             {

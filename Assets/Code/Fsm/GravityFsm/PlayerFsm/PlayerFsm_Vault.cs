@@ -28,7 +28,7 @@ public partial class PlayerFsm
             .SubstateOf(GravityFsmState.RespectParentTransform)
             // .Permit(GravityFsmTrigger.StartFrameGrounded, PlayerFsmState.Landsquat)
             .PermitIf(FsmTrigger.Timeout, PlayerFsmState.Jumpsquat, _ => _inputBuffer.IsBuffered("Jump"), 1)
-            .OnEntry(_ =>
+            .OnEntry(@params =>
             {
                 _movementAnimationMirror = !_movementAnimationMirror;
                 var flip = _movementAnimationMirror ? 0 : 1f;
@@ -48,6 +48,11 @@ public partial class PlayerFsm
                 OnPlayerFootstep();
                 
                 IncrementCombo();
+
+                if (@params is RaycastHitParam raycastHitParam)
+                {
+                    SetParentTransform(raycastHitParam.Hit.transform);
+                }
             })
             .OnExit(_ =>
             {
@@ -59,8 +64,14 @@ public partial class PlayerFsm
             // .PermitIf(FsmTrigger.Timeout, PlayerFsmState.Skip, _ => _inputBuffer.IsBuffered("Jump", 0.25f), 2)
             // .SubstateOf(PlayerFsmState.DolphinUsable)
             .SubstateOf(PlayerFsmState.Vault)
-            .OnEntry(_ =>
+            .OnEntry(@params =>
             {
+                
+                if (@params is RaycastHitParam raycastHitParam)
+                {
+                    SetParentTransform(raycastHitParam.Hit.transform);
+                }
+                
                 DeathGroundImmuneOneshotHandler();
                 // _currentLedgePosition = transform.position;
             })

@@ -106,6 +106,7 @@ public partial class PlayerFsm
     public static event Action OnPlayerUpdateFinished;
     public static event Action<string> OnPlayerTrickTrailStartRequested;
     public static event Action<string> OnPlayerTrickTrailEndRequested;
+    public static event Action<Vector3> OnPlayerParentTransformMoved;
 
     private const float SwimSurfaceRippleTimer = 0.08f;
     private bool _swimSurfaceRippleQueued = false;
@@ -355,6 +356,8 @@ public partial class PlayerFsm
     
     private void MoveYOntoLedge(float yOffset, float lerpStrength)
     {
+        // return;
+        
         Vector3 up = GetUpVector(); // Or your custom up variable
 
 // 1. Measure current and target heights along the arbitrary up vector
@@ -863,16 +866,10 @@ public partial class PlayerFsm
     }
     
 
-    protected override void OnParentTransformChanged(Transform t)
+    protected override void OnParentTransformChanged()
     {
-        if (t != null)
-        {
-            t.TryGetComponent(out PlayerSlipperyIndicator tractionIndicator);
-            _isParentSlippery = tractionIndicator != null;
-        }
-
-        OnPlayerParentTransformChanged?.Invoke(t, _momentum, YVelocity);
-        base.OnParentTransformChanged(t);
+        OnPlayerParentTransformChanged?.Invoke(parentTransform, _momentum, YVelocity);
+        base.OnParentTransformChanged();
     }
     
     
@@ -1152,7 +1149,6 @@ public partial class PlayerFsm
 
     private void SnapToGround()
     {
-        ReplaceAnimatorTrigger("GroundMove");
         if (Physics.Raycast(transform.position + GetUpVector(), GetDownVector(), out RaycastHit hit,20f, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore))
         {
             transform.position = hit.point;
@@ -1573,5 +1569,18 @@ public partial class PlayerFsm
                 if (deathGround != null) FMODUnity.RuntimeManager.PlayOneShotAttached("event:/DeathGroundImmune", PlayerFsm.Singleton.gameObject);
             }
         }
+    }
+
+
+    protected override void OnParentTransformMoved(Transform t, Vector3 positionDelta, Quaternion rotationDelta)
+    {
+        base.OnParentTransformMoved(t, positionDelta, rotationDelta);
+        
+        if(t == null) return;
+        if(parentTransform == null) return;
+        if (!parentTransform.IsChildOf(t) && t != parentTransform) return;
+        _currentLedgePosition += positionDelta;
+        
+        OnPlayerParentTransformMoved?.Invoke(positionDelta);
     }
 }

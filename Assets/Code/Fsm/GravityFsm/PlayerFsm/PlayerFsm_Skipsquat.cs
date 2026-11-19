@@ -13,7 +13,7 @@ public partial class PlayerFsm
             // .SubstateOf(PlayerFsmState.TinsicaUsable)
             // .PermitIf(PlayerFsmTrigger.FaceLedge, PlayerFsmState.Vault, _ => true)
             .Permit(FsmTrigger.Timeout, PlayerFsmState.Skip)
-            .OnEntry(_ =>
+            .OnEntry(@params =>
             {
                 _wallsquattedSinceLeavingGround = false;
                 _dashSinceLeavingGround = false;
@@ -23,6 +23,11 @@ public partial class PlayerFsm
                 LastUpwardsPosition = transform.position;
                 OnPlayerFootstep();
                 PlaySlipSound();
+                
+                if (@params is RaycastHitParam raycastHitParam)
+                {
+                    SetParentTransform(raycastHitParam.Hit.transform);
+                }
                 DeathGroundImmuneOneshotHandler();
             })
             .OnExit(_ =>

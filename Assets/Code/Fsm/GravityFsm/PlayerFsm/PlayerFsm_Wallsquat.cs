@@ -24,7 +24,7 @@ public partial class PlayerFsm
                 _ => TimeInCurrentState() > WallstepMinimumDuration, 1)
             .Permit(FsmTrigger.Timeout, PlayerFsmState.Fall)
 
-            .OnEntry(_ =>
+            .OnEntry(@params =>
             {
                 isSprinting = false;
                 EndSurge();
@@ -35,6 +35,11 @@ public partial class PlayerFsm
                 PlaySlipSound();
                 FMODUnity.RuntimeManager.PlayOneShotAttached(landFmodEvent, gameObject);
                 _momentum = 12f;
+
+                if (@params is RaycastHitParam raycastHitParam)
+                {
+                    SetParentTransform(raycastHitParam.Hit.transform);
+                }
             })
             .OnExit(_ =>
             {

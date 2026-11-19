@@ -23,6 +23,8 @@ public class Elevator : MonoBehaviour
 
     private EventInstance _ambientInstance;
 
+    public static event Action<Transform, Vector3, Quaternion> OnMoved; 
+
 
     private void Awake()
     {
@@ -95,6 +97,8 @@ public class Elevator : MonoBehaviour
         var destination = rising ? loweredPlatformPosition + Vector3.up * maximumHeight : loweredPlatformPosition;
         var delta = PlatformParent.position - destination;
         var speed = Mathf.Lerp(0f, MaximumVelocity, Mathf.InverseLerp(0f, 2f, delta.magnitude));
+
+        var startPosition = PlatformParent.position;
         
         var newPos = Vector3.MoveTowards(PlatformParent.position, destination, Time.deltaTime * speed);
         if (delta.magnitude < 5f)
@@ -117,6 +121,8 @@ public class Elevator : MonoBehaviour
         {
             PlatformParent.position = newPos;
         }
+        
+        OnMoved?.Invoke(PlatformParent, PlatformParent.position - startPosition, Quaternion.identity);
     }
 
     private void OnDrawGizmos()

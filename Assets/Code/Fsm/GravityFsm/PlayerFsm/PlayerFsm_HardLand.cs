@@ -15,7 +15,7 @@ public partial class PlayerFsm
         Machine.Configure(PlayerFsmState.HardLand)
             .SubstateOf(GravityFsmState.Grounded)
             .Permit(FsmTrigger.Timeout, PlayerFsmState.GroundMove)
-            .OnEntry(_ =>
+            .OnEntry(@params =>
             {
                 isSprinting = false;
                 EndSurge();
@@ -24,6 +24,11 @@ public partial class PlayerFsm
                 OnPlayerFootstep();
                 PlaySlipSound();
                 _momentum = HardLandExitMomentum;
+
+                if (@params is RaycastHitParam raycastHitParam)
+                {
+                    SetParentTransform(raycastHitParam.Hit.transform);
+                }
             });
 
         Machine.Configure(PlayerFsmState.CutsceneHardLand)

@@ -155,7 +155,7 @@ public partial class TestCutsceneFsm
                 var delta = gondolaDestination - gondola.transform.position;
                 PlayerFsm.Singleton.transform.position += delta;
                 gondola.transform.position = gondolaDestination;
-                PlayerFsm.Singleton.ForceParentTransformSync();
+                // PlayerFsm.Singleton.ForceParentTransformSync();
                 OnIntroCutsceneGondolaTeleported?.Invoke(delta);
                 
                 

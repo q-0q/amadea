@@ -341,6 +341,7 @@ public partial class PlayerFsm : GravityFsm
 
         SaveSystem.UpdateScreenshot(0.3f);
         SetPositionFromSaveData();
+        ReplaceAnimatorTrigger("GroundMove");
         SnapToGround();
         StartCoroutine(SurgeTrailCoroutine());
         StartCoroutine(BridgeTrailCoroutine());
@@ -359,7 +360,8 @@ public partial class PlayerFsm : GravityFsm
     {
         if (HitstopOnUpdate()) return;
         
-        
+        base.OnUpdate();
+
 
 
         var isCutscenePlayerDisabled = CutsceneManager.Singleton.IsCutscenePlayerDisabled();
@@ -415,7 +417,8 @@ public partial class PlayerFsm : GravityFsm
         {
             GroundMoveOnUpdate();
         }
-
+        
+        
         if ((Machine.IsInState(PlayerFsmState.Grounded)) && !Machine.IsInState(PlayerFsmState.Wallrun) && !Machine.IsInState(PlayerFsmState.Tinsica) && !Machine.IsInState(PlayerFsmState.WallrunJumpsquat) && !Machine.IsInState(PlayerFsmState.Skipsquat) && !Machine.IsInState(PlayerFsmState.LandsquatAfterDash) && !
                 ((Machine.IsInState(PlayerFsmState.HardLandRoll) || Machine.IsInState(PlayerFsmState.HardLand)) && TimeInCurrentState() < 0.2f) && _timeSinceTinsicaExited > CoyoteTime)
         {
@@ -789,7 +792,6 @@ public partial class PlayerFsm : GravityFsm
         // HandleSlopeTimer();
          HandleKiEffects();
         
-        base.OnUpdate();
         
         _previousPositionDeltaNoTimescale = (transform.position - previousPosition) / Time.deltaTime;
         
@@ -823,8 +825,9 @@ public partial class PlayerFsm : GravityFsm
         // to prevent this from happening
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         PlayerContactCollider.OnPlayerContactHitboxCollision += OnContactHitboxCollide;
         MetaSaveSystem.OnMetaSaveDataUpdated += ApplyMetaSaveData;
         PlayerFootTracker.OnPlayerFootstep += OnPlayerFootstep;
@@ -853,8 +856,9 @@ public partial class PlayerFsm : GravityFsm
         floatAmbientInstance.start();
     }
     
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         PlayerContactCollider.OnPlayerContactHitboxCollision -= OnContactHitboxCollide;
         MetaSaveSystem.OnMetaSaveDataUpdated -= ApplyMetaSaveData;
         PlayerFootTracker.OnPlayerFootstep -= OnPlayerFootstep;

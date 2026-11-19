@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -41,32 +42,42 @@ public  abstract partial class GravityFsm : Fsm
     {
         base.OnUpdate();
         
-                
+
+        
         if (Machine.IsInState(GravityFsmState.RespectParentTransform))
         {
             RespectParentTransformOnUpdate();
         }
         else
         {
-            parentTransform = null;
-        }
-        
-        
-        if (Machine.IsInState(GravityFsmState.Aerial))
-        {
-            AerialOnUpdate();
+            SetParentTransform(null);
         }
         
         if (Machine.IsInState(GravityFsmState.Grounded))
         {
             GroundedOnUpdate();
         }
-
-
-        // HandleUpVectorRotation();
-        HandleDepenetration();
         
+        if (Machine.IsInState(GravityFsmState.Aerial))
+        {
+            AerialOnUpdate();
+        }
+        
+        HandleDepenetration();
     }
 
 
+
+
+    protected virtual void OnEnable()
+    {
+        MovingPlatform.OnMoved += OnParentTransformMoved;
+        Elevator.OnMoved += OnParentTransformMoved;
+    }
+
+    protected virtual void OnDisable()
+    {
+        MovingPlatform.OnMoved -= OnParentTransformMoved;
+        Elevator.OnMoved -= OnParentTransformMoved;
+    }
 }

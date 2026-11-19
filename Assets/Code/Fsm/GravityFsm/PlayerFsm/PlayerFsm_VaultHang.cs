@@ -23,7 +23,7 @@ public partial class PlayerFsm
             .SubstateOf(GravityFsmState.RespectParentTransform)
             // .Permit(PlayerFsmTrigger.VaultHangFarFromLedge, PlayerFsmState.Fall)
             .Permit(FsmTrigger.Timeout, PlayerFsmState.SlowVaultFinish)
-            .OnEntry(_ =>
+            .OnEntry(@params =>
             {
                 if (YVelocity < -10f) FMODUnity.RuntimeManager.PlayOneShotAttached(hardlandEventReference, gameObject);
                 _arrivedAtLedge = false;
@@ -32,6 +32,10 @@ public partial class PlayerFsm
                 EndSurge();
                 if (!UpdateLedgePosition(FaceHighLedgeHeight + GetCurrentDashRaycastHeightOffset())) UpdateLedgePosition(FaceLedgeHeight);
 
+                if (@params is RaycastHitParam raycastHitParam)
+                {
+                    SetParentTransform(raycastHitParam.Hit.transform);
+                }
             })
             .OnExit(_ =>
             {

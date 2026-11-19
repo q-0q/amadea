@@ -18,7 +18,7 @@ public partial class PlayerFsm
             .Permit(GravityFsmTrigger.StartFrameAerial, PlayerFsmState.Fall)
             .SubstateOf(PlayerFsmState.TinsicaUsable)
             .PermitIf(GravityFsmTrigger.StartFrameAerial, PlayerFsmState.Jumpsquat, _ => _inputBuffer.IsBuffered("Jump"), 1)
-            .OnEntry(_ =>
+            .OnEntry(@params =>
             {
                 FMODUnity.RuntimeManager.PlayOneShotAttached(hardlandEventReference, gameObject);
                 FMODUnity.RuntimeManager.PlayOneShotAttached(impactFmodEvent, gameObject);
@@ -26,6 +26,11 @@ public partial class PlayerFsm
                 PlaySlipSound();
                 LastUpwardsPosition = transform.position;
                 _momentum = HardLandRollExitMomentum;
+                
+                if (@params is RaycastHitParam raycastHitParam)
+                {
+                    SetParentTransform(raycastHitParam.Hit.transform);
+                }
             });
     }
 }

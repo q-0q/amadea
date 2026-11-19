@@ -57,6 +57,12 @@ public class CameraFollow : MonoBehaviour
         CutsceneManager.OnOverwriteCameraFollowEnded += OnShaderPositionReset;
         PlayerFsm.OnPlayerUpdateFinished += OnPlayerUpdateFinished;
         GravityGun.OnGravityGunUsed += OnGravityGun;
+        PlayerFsm.OnPlayerParentTransformMoved += OnParentMoved;
+    }
+
+    private void OnParentMoved(Vector3 positionDelta)
+    {
+        transform.position += positionDelta;
     }
 
     private void OnGravityGun()
@@ -91,6 +97,7 @@ public class CameraFollow : MonoBehaviour
         CutsceneManager.OnOverwriteCameraFollowEnded -= OnShaderPositionReset;
         PlayerFsm.OnPlayerUpdateFinished -= OnPlayerUpdateFinished;
         GravityGun.OnGravityGunUsed -= OnGravityGun;
+        PlayerFsm.OnPlayerParentTransformMoved -= OnParentMoved;
     }
 
     private void OnWarp(Vector3 delta)

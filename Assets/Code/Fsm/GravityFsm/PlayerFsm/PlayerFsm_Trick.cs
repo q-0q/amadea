@@ -38,18 +38,11 @@ public partial class PlayerFsm
 
         if (Physics.Raycast(transform.position + GetUpVector() * 3f, GetDownVector(), out var hit, 8f, GetEnvironmentalLayermask(), QueryTriggerInteraction.Ignore))
         {
-            if (hit.transform != parentTransform)
-            {
-                parentTransform = hit.transform;
-                _previousParentTransformPosition = parentTransform.position;
-                _previousParentRotation = parentTransform.rotation;
-                OnParentTransformChanged(parentTransform);
-            }
+            SetParentTransform(hit.transform);
         }
         else
         {
-            parentTransform = null;
-            OnParentTransformChanged(parentTransform);
+            SetParentTransform(null);
         }
 
 

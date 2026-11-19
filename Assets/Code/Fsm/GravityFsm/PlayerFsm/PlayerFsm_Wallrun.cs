@@ -6,13 +6,7 @@ public partial class PlayerFsm
     {
         
 
-        if (_currentWallrunTransform != parentTransform)
-        {
-            parentTransform = _currentWallrunTransform;
-            _previousParentTransformPosition = parentTransform.position;
-            _previousParentRotation = parentTransform.rotation;
-            OnParentTransformChanged(parentTransform);
-        }
+        SetParentTransform(_currentWallrunTransform);
         
         
         SetAnimatorMomentum();

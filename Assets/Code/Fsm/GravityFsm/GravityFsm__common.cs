@@ -27,8 +27,6 @@ public abstract partial class GravityFsm
     protected Vector3 _firstAirPosition;
 
     public Transform parentTransform;
-    protected Vector3 _previousParentTransformPosition;
-    protected Quaternion _previousParentRotation;
     public GravityFsmSpringCollider springCollider;
     protected Vector3 aerialMomentumOffset;
 
@@ -265,21 +263,13 @@ protected Vector3 ComputeCollisionMove(Vector3 desiredMove, float yModifier = 1f
         this.springCollider.SetOwner(this);
     }
 
-    protected virtual void OnParentTransformChanged(Transform t)
+    protected virtual void OnParentTransformChanged()
     {
     }
 
     public float GetYVelocity()
     {
         return YVelocity;
-    }
-
-    public void SetParentTransform(Transform t)
-    {
-        if (t != parentTransform) OnParentTransformChanged(parentTransform);
-        parentTransform = t;
-        _previousParentTransformPosition = parentTransform.position;
-        _previousParentRotation = parentTransform.rotation;
     }
 
     public Vector3 GetUpVector()
@@ -298,9 +288,40 @@ protected Vector3 ComputeCollisionMove(Vector3 desiredMove, float yModifier = 1f
         _customUpVector = v;
     }
 
-    private void HandleUpVectorRotation()
+    
+    protected virtual void OnParentTransformMoved(Transform t, Vector3 positionDelta, Quaternion rotationDelta)
     {
-        // transform.rotation =
-        //     Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transform.forward, GetUpVector()),  Time.deltaTime * 15f);
+        if(t == null) return;
+        if(parentTransform == null) return;
+        if (!parentTransform.IsChildOf(t) && t != parentTransform) return;
+        
+        transform.position += ComputeCollisionMove(positionDelta);
+        
+        Vector3 offset = transform.position - parentTransform.position;
+        offset = rotationDelta * offset;
+        Vector3 rotationMove = (parentTransform.position + offset) - transform.position;
+        transform.position += ComputeCollisionMove(rotationMove);
+        
+        // Apply only the yaw (rotation around the arbitrary up vector), discarding pitch and roll
+        Vector3 up = GetUpVector();
+        Vector3 forward = rotationDelta * transform.forward;
+        forward = Vector3.ProjectOnPlane(forward, up); // Replaces forward.y = 0;
+        
+        if (forward.sqrMagnitude > 0.0001f)
+        {
+            transform.rotation = Quaternion.LookRotation(forward.normalized, up);
+        }
+        
+        
+    }
+
+    public void SetParentTransform(Transform t)
+    {
+        if (parentTransform != t)
+        {
+            print("set parent: " + (t == null ? "null" : t.name));
+            parentTransform = t;
+            OnParentTransformChanged();
+        }
     }
 }

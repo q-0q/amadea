@@ -31,6 +31,8 @@ public class MovingPlatform : MonoBehaviour
     private float _previousFrameTime;
     // -------------
 
+    public static event Action<Transform, Vector3, Quaternion> OnMoved;
+
     public void JumpToEnd()
     {
         transitionTime = cycleDuration;
@@ -60,6 +62,9 @@ public class MovingPlatform : MonoBehaviour
     {
         if (HitstopManager.Singleton.IsHitstopActive()) return;
         if (cycleDuration <= 0f) return;
+
+        var startPosition = transform.position;
+        var startRotation = transform.rotation;
 
         if (_powerConnector is null)
         {
@@ -93,6 +98,10 @@ public class MovingPlatform : MonoBehaviour
             ApplyLerpedMotion(t);
             UpdateStoneGrindParameter(t);
         }
+
+        var positionDelta = transform.position - startPosition;
+        var rotationDelta = transform.rotation * Quaternion.Inverse(startRotation);
+        OnMoved?.Invoke(transform, positionDelta, rotationDelta);
     }
 
     // --- Added ---

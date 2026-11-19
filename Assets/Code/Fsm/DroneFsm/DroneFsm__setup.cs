@@ -25,6 +25,7 @@ public partial class DroneFsm
             .Permit(DroneFsmTrigger.LatticeCompleted, DroneFsmState.Storing)
             .OnEntry(_ =>
             {
+                print("deploying");
                 _bobClock = 0f;
                 IsAnyDroneActive = true;
                 _previousTargetPosition = GetTargetFollowPosition();
@@ -43,6 +44,7 @@ public partial class DroneFsm
             .Permit(DroneFsmTrigger.Pulse, DroneFsmState.Pulsing)
             .OnEntry(_ =>
             {
+                print("ready");
                 // _lights.SetActive(true);
             });
         
@@ -80,6 +82,7 @@ public partial class DroneFsm
     public override void SetupStateMaps()
     {
         base.SetupStateMaps();
+        // StateMapConfig.Duration.Add(DroneFsmState.Deploying, 1f);
         
         
     }

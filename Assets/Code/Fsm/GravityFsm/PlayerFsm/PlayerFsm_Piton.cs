@@ -46,14 +46,7 @@ public partial class PlayerFsm
                 YVelocity = 0f;
                 LastUpwardsPosition = transform.position;
                 _currentPitonTransform.GetComponent<PitonController>().PlayLatchEvent();
-                
-                if (_currentPitonTransform != parentTransform)
-                {
-                    parentTransform = _currentPitonTransform;
-                    _previousParentTransformPosition = parentTransform.position;
-                    _previousParentRotation = parentTransform.rotation;
-                    OnParentTransformChanged(parentTransform);
-                }
+                SetParentTransform(_currentPitonTransform);
             } )
             .OnExit(_ =>
             {
